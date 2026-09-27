@@ -71,7 +71,7 @@ public class EventsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.eventBackButton).setOnClickListener(v -> finish());
+        findViewById(R.id.eventBackButton).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -85,7 +85,12 @@ public class EventsActivity extends AppCompatActivity {
         new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Leave Page")
                 .setMessage("Are you sure you want to leave this page?")
-                .setPositiveButton("Yes", (dialog, which) -> finish())
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                })
                 .setNegativeButton("No", null)
                 .show();
     }

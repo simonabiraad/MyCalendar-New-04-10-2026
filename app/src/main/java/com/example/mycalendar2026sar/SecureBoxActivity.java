@@ -251,7 +251,12 @@ public class SecureBoxActivity extends AppCompatActivity {
                     new AlertDialog.Builder(SecureBoxActivity.this, R.style.CustomAlertDialogTheme)
                             .setTitle("Leave Page")
                             .setMessage("Are you sure you want to leave this page?")
-                            .setPositiveButton("Yes", (dialog, which) -> finish())
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                Intent intent = new Intent(SecureBoxActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                finish();
+                            })
                             .setNegativeButton("No", null)
                             .show();
                 }
@@ -275,7 +280,7 @@ public class SecureBoxActivity extends AppCompatActivity {
             if (isSelectionMode) {
                 exitSelectionMode();
             } else {
-                finish();
+                getOnBackPressedDispatcher().onBackPressed();
             }
         });
         findViewById(R.id.saveStickyNoteButton).setOnClickListener(v -> saveNote());

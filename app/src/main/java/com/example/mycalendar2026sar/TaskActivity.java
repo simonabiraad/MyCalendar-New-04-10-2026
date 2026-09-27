@@ -182,7 +182,12 @@ public class TaskActivity extends AppCompatActivity {
                 new AlertDialog.Builder(TaskActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Leave Page")
                         .setMessage("Are you sure you want to leave this page?")
-                        .setPositiveButton("Yes", (dialog, which) -> finish())
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            Intent intent = new Intent(TaskActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
+                            finish();
+                        })
                         .setNegativeButton("No", null)
                         .show();
             }
@@ -194,7 +199,7 @@ public class TaskActivity extends AppCompatActivity {
         layoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(layoutManager);
 
-        findViewById(R.id.taskBackButton).setOnClickListener(v -> finish());
+        findViewById(R.id.taskBackButton).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         findViewById(R.id.voiceTaskButton).setOnClickListener(v -> startVoiceRecognition());
         findViewById(R.id.addTaskButton).setOnClickListener(v -> addTask());
 
