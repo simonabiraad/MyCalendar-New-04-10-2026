@@ -108,6 +108,7 @@ int drawable ic_menu_category_color 0x0
 int drawable ic_menu_color 0x0
 int drawable ic_menu_color_palette 0x0
 int drawable ic_menu_crop_color 0x0
+int drawable ic_menu_dark_mode 0x0
 int drawable ic_menu_edit_color 0x0
 int drawable ic_menu_exit_color 0x0
 int drawable ic_menu_font_color 0x0
@@ -531,6 +532,7 @@ int id menuBackupData 0x0
 int id menuChangeColors 0x0
 int id menuChangeFont 0x0
 int id menuChangePassword 0x0
+int id menuDarkMode 0x0
 int id menuDimmer 0x0
 int id menuEvents 0x0
 int id menuExit 0x0
@@ -545,7 +547,6 @@ int id menuSecureBox 0x0
 int id menuSettings 0x0
 int id menuSortDateAsc 0x0
 int id menuSortDateDesc 0x0
-int id menuThemes 0x0
 int id menuToggleQuickBar 0x0
 int id menu_address 0x0
 int id menu_asc_container 0x0
@@ -745,6 +746,7 @@ int id summaryTabsContainer 0x0
 int id summaryToolbar 0x0
 int id switchAllDay 0x0
 int id switchDarkMode 0x0
+int id switchDarkModeMenu 0x0
 int id switchDenom 0x0
 int id switch_asc 0x0
 int id switch_desc 0x0

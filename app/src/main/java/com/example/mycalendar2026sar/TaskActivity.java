@@ -179,10 +179,10 @@ public class TaskActivity extends AppCompatActivity {
                     exitSelectionMode();
                     return;
                 }
-                new AlertDialog.Builder(TaskActivity.this, R.style.CustomAlertDialogTheme)
+                AlertDialog dialog = new AlertDialog.Builder(TaskActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Leave Page")
                         .setMessage("Are you sure you want to leave this page?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setPositiveButton("Yes", (d, which) -> {
                             Intent intent = new Intent(TaskActivity.this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             startActivity(intent);
@@ -190,6 +190,7 @@ public class TaskActivity extends AppCompatActivity {
                         })
                         .setNegativeButton("No", null)
                         .show();
+                ThemeManager.styleDialogButtons(dialog, TaskActivity.this);
             }
         });
 

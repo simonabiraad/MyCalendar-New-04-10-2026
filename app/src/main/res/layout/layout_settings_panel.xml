@@ -163,9 +163,9 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Themes -->
+    <!-- Dark Mode -->
     <LinearLayout
-        android:id="@+id/menuThemes"
+        android:id="@+id/menuDarkMode"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
         android:background="?attr/selectableItemBackground"
@@ -176,18 +176,23 @@
         <ImageView
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:contentDescription="@string/action_themes"
-            android:src="@drawable/ic_menu_color_palette" />
+            android:contentDescription="Dark Mode"
+            android:src="@drawable/ic_menu_dark_mode" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="12dp"
-            android:text="@string/action_themes"
+            android:text="Dark Mode"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="none" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchDarkModeMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- Change Colors -->

@@ -521,7 +521,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.menuChangePassword).setOnClickListener(v -> { hideCustomMenu(); showChangePasswordDialog(); });
         findViewById(R.id.menuNotificationSettings).setOnClickListener(v -> { hideCustomMenu(); openNotificationSettings(); });
         findViewById(R.id.menuToggleQuickBar).setOnClickListener(v -> { hideCustomMenu(); toggleQuickNoteBar(); });
-        findViewById(R.id.menuThemes).setOnClickListener(v -> { hideCustomMenu(); showThemeOptionsDialog(); });
+        
+        androidx.appcompat.widget.SwitchCompat switchDarkModeMenu = findViewById(R.id.switchDarkModeMenu);
+        if (switchDarkModeMenu != null) {
+            switchDarkModeMenu.setOnCheckedChangeListener(null);
+            switchDarkModeMenu.setChecked(ThemeManager.isDarkMode(this));
+            switchDarkModeMenu.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                hideCustomMenu();
+                ThemeManager.setDarkMode(MainActivity.this, isChecked, MainActivity.this);
+            });
+        }
+        View menuDarkMode = findViewById(R.id.menuDarkMode);
+        if (menuDarkMode != null) {
+            menuDarkMode.setOnClickListener(v -> {
+                if (switchDarkModeMenu != null) {
+                    switchDarkModeMenu.toggle();
+                }
+            });
+        }
+
         findViewById(R.id.menuChangeColors).setOnClickListener(v -> { hideCustomMenu(); showChangeColorsDialog(); });
         findViewById(R.id.menuChangeFont).setOnClickListener(v -> { hideCustomMenu(); showFontDialog(); });
         findViewById(R.id.menuBackupData).setOnClickListener(v -> { hideCustomMenu(); showBackupDataDialog(); });
@@ -2530,60 +2548,11 @@ public class MainActivity extends AppCompatActivity {
         container.setOrientation(LinearLayout.VERTICAL);
         container.setPadding(32, 24, 32, 16);
 
-        // Dark Mode Toggle Row
-        LinearLayout toggleRow = new LinearLayout(this);
-        toggleRow.setOrientation(LinearLayout.HORIZONTAL);
-        toggleRow.setGravity(android.view.Gravity.CENTER_VERTICAL);
-        toggleRow.setPadding(0, 8, 0, 16);
-
-        LinearLayout textCol = new LinearLayout(this);
-        textCol.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams lpCol = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-        textCol.setLayoutParams(lpCol);
-
-        TextView darkTitle = new TextView(this);
-        darkTitle.setText("Dark Mode");
-        darkTitle.setTextSize(16);
-        darkTitle.setTypeface(null, android.graphics.Typeface.BOLD);
-        darkTitle.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_primary));
-
-        TextView darkSub = new TextView(this);
-        darkSub.setText(ThemeManager.isDarkMode(this) ? "Currently ON (Dark Theme)" : "Currently OFF (Light Theme)");
-        darkSub.setTextSize(12);
-        darkSub.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_secondary));
-
-        textCol.addView(darkTitle);
-        textCol.addView(darkSub);
-
-        androidx.appcompat.widget.SwitchCompat darkModeSwitch = new androidx.appcompat.widget.SwitchCompat(this);
-        darkModeSwitch.setChecked(ThemeManager.isDarkMode(this));
-        darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            darkSub.setText(isChecked ? "Currently ON (Dark Theme)" : "Currently OFF (Light Theme)");
-            ThemeManager.setDarkMode(MainActivity.this, isChecked, MainActivity.this);
-        });
-
-        toggleRow.addView(textCol);
-        toggleRow.addView(darkModeSwitch);
-        container.addView(toggleRow);
-
-        // Divider
-        View divider = new View(this);
-        divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
-        divider.setBackgroundColor(androidx.core.content.ContextCompat.getColor(this, R.color.divider_color));
-        container.addView(divider);
-
         // Color Options
         String[] options = {
                 "Main Theme (Buttons/Title)",
-                "Active Note Text",
-                "Finished Note Text",
                 "Archive Folder Color",
                 "Deleted Folder Color",
-                "Secure Box: Personal Category",
-                "Secure Box: Password Category",
-                "Secure Box: Family Category",
-                "Secure Box: Work Category",
-                "Secure Box: Others Category",
                 "App Background Color",
                 "Reset All Colors"
         };
@@ -2610,15 +2579,24 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, which, id) -> {
             dialog.dismiss();
-            if (which == 11) {
+            if (which == options.length - 1) {
                 resetColors();
             } else {
-                showColorPicker(which);
+                int category;
+                switch (which) {
+                    case 0: category = 0; break;  // Main Theme (Buttons/Title)
+                    case 1: category = 3; break;  // Archive Folder Color
+                    case 2: category = 4; break;  // Deleted Folder Color
+                    case 3: category = 10; break; // App Background Color
+                    default: return;
+                }
+                showColorPicker(category);
             }
         });
 
         container.addView(listView);
         dialog.show();
+        ThemeManager.styleDialogButtons(dialog, this);
     }
 
     private void showColorPicker(int category) {

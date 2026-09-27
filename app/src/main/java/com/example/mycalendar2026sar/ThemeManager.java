@@ -3,7 +3,9 @@ package com.example.mycalendar2026sar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Button;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
@@ -32,6 +34,32 @@ public class ThemeManager {
         if (context == null) return;
         SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
         colorPrefs.edit().putInt(KEY_MAIN_THEME, color).apply();
+    }
+
+    /**
+     * Styles the Positive, Negative, and Neutral buttons of an AlertDialog
+     * to match the current Main Theme accent color.
+     */
+    public static void styleDialogButtons(AlertDialog dialog, Context context) {
+        if (dialog == null || context == null) return;
+        int accent = getMainAccentColor(context);
+        Button pos = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        if (pos != null) pos.setTextColor(accent);
+        Button neg = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        if (neg != null) neg.setTextColor(accent);
+        Button neu = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        if (neu != null) neu.setTextColor(accent);
+    }
+
+    public static void styleDialogButtons(android.app.AlertDialog dialog, Context context) {
+        if (dialog == null || context == null) return;
+        int accent = getMainAccentColor(context);
+        Button pos = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+        if (pos != null) pos.setTextColor(accent);
+        Button neg = dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+        if (neg != null) neg.setTextColor(accent);
+        Button neu = dialog.getButton(android.app.AlertDialog.BUTTON_NEUTRAL);
+        if (neu != null) neu.setTextColor(accent);
     }
 
     /**

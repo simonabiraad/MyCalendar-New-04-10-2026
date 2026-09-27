@@ -248,10 +248,10 @@ public class SecureBoxActivity extends AppCompatActivity {
                 if (isSelectionMode) {
                     exitSelectionMode();
                 } else {
-                    new AlertDialog.Builder(SecureBoxActivity.this, R.style.CustomAlertDialogTheme)
+                    AlertDialog dialog = new AlertDialog.Builder(SecureBoxActivity.this, R.style.CustomAlertDialogTheme)
                             .setTitle("Leave Page")
                             .setMessage("Are you sure you want to leave this page?")
-                            .setPositiveButton("Yes", (dialog, which) -> {
+                            .setPositiveButton("Yes", (d, which) -> {
                                 Intent intent = new Intent(SecureBoxActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
@@ -259,6 +259,7 @@ public class SecureBoxActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("No", null)
                             .show();
+                    ThemeManager.styleDialogButtons(dialog, SecureBoxActivity.this);
                 }
             }
         });

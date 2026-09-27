@@ -559,10 +559,10 @@ public class ExpensesActivity extends AppCompatActivity {
                     refreshTransactionsList();
                 } else {
                     // Already in Summary Mode: Show confirmation dialog
-                    new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
+                    androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
                             .setTitle("Leave Expenses")
                             .setMessage("Do you want to leave Expenses?")
-                            .setPositiveButton("Yes", (dialog, which) -> {
+                            .setPositiveButton("Yes", (d, which) -> {
                                 // Redirect to SAR Calendar (MainActivity)
                                 Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -571,6 +571,7 @@ public class ExpensesActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("No", null)
                             .show();
+                    ThemeManager.styleDialogButtons(dialog, ExpensesActivity.this);
                 }
             }
         });

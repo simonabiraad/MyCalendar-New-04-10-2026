@@ -109,6 +109,7 @@ drawable ic_menu_category_color
 drawable ic_menu_color
 drawable ic_menu_color_palette
 drawable ic_menu_crop_color
+drawable ic_menu_dark_mode
 drawable ic_menu_edit_color
 drawable ic_menu_exit_color
 drawable ic_menu_font_color
@@ -532,6 +533,7 @@ id menuBackupData
 id menuChangeColors
 id menuChangeFont
 id menuChangePassword
+id menuDarkMode
 id menuDimmer
 id menuEvents
 id menuExit
@@ -546,7 +548,6 @@ id menuSecureBox
 id menuSettings
 id menuSortDateAsc
 id menuSortDateDesc
-id menuThemes
 id menuToggleQuickBar
 id menu_address
 id menu_asc_container
@@ -746,6 +747,7 @@ id summaryTabsContainer
 id summaryToolbar
 id switchAllDay
 id switchDarkMode
+id switchDarkModeMenu
 id switchDenom
 id switch_asc
 id switch_desc

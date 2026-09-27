@@ -82,10 +82,10 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void showLeaveConfirmation() {
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Leave Page")
                 .setMessage("Are you sure you want to leave this page?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setPositiveButton("Yes", (d, which) -> {
                     Intent intent = new Intent(EventsActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
@@ -93,6 +93,7 @@ public class EventsActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+        ThemeManager.styleDialogButtons(dialog, this);
     }
 
     @Override
