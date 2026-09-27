@@ -2557,8 +2557,15 @@ public class MainActivity extends AppCompatActivity {
                 "Reset All Colors"
         };
 
+        TextView titleView = new TextView(this);
+        titleView.setText("Change Colors & Theme");
+        titleView.setTextSize(20);
+        titleView.setTypeface(null, android.graphics.Typeface.BOLD);
+        titleView.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.white));
+        titleView.setPadding(48, 40, 48, 12);
+
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("Change Colors & Theme")
+                .setCustomTitle(titleView)
                 .setView(container)
                 .setNegativeButton("Close", null)
                 .create();

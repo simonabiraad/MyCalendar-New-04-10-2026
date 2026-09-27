@@ -334,7 +334,8 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private void loadCategories() {
         categoryList.clear();
-        categoryList.add(new CategoryItem("all_notes", "All Notes", Color.GRAY));
+        int allNotesColor = colorPrefs.getInt("color_sb_all_notes", Color.GRAY);
+        categoryList.add(new CategoryItem("all_notes", "All Notes", allNotesColor));
         if (categoryPrefs.getAll().isEmpty()) {
             categoryPrefs.edit().putString("cats_order", "personal_notes,password_notes,family_notes,work_notes,others_notes").apply();
         }
@@ -369,6 +370,7 @@ public class SecureBoxActivity extends AppCompatActivity {
     private void loadNotes(String key) {
         noteList.clear();
         if (key.equals("all_notes")) {
+            int allNotesColor = categoryList.isEmpty() ? Color.GRAY : categoryList.get(0).color;
             for (CategoryItem cat : categoryList) {
                 if (cat.key.equals("all_notes")) continue;
                 // Skip protected categories in "All Notes" view
@@ -376,7 +378,7 @@ public class SecureBoxActivity extends AppCompatActivity {
                 
                 String s = securePrefs.getString(cat.key, "");
                 if (!s.isEmpty()) {
-                    for (String str : s.split(SEPARATOR)) if (!str.trim().isEmpty()) noteList.add(new NoteItem(cat.key, str, cat.color));
+                    for (String str : s.split(SEPARATOR)) if (!str.trim().isEmpty()) noteList.add(new NoteItem(cat.key, str, allNotesColor));
                 }
             }
         } else {
@@ -474,7 +476,7 @@ public class SecureBoxActivity extends AppCompatActivity {
         @Override public void onBindViewHolder(@NonNull VH h, int pos) {
             Button b = (Button) h.itemView;
             b.setAllCaps(false);
-            b.setTextColor(Color.WHITE);
+            b.setTextColor(Color.BLACK);
             applyFontSettings(b, 14);
 
             CategoryItem itm = categoryList.get(pos);
