@@ -93,7 +93,28 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         loadAllEvents();
+    }
+
+    private void applyColors() {
+        if (getWindow() != null) {
+            getWindow().setStatusBarColor(android.graphics.Color.BLACK);
+        }
+        int accent = ThemeManager.getMainAccentColor(this);
+        TextView titleTv = findViewById(R.id.eventsTitleText);
+        if (titleTv != null) {
+            titleTv.setTextColor(accent);
+        }
+        android.widget.ImageView titleIcon = findViewById(R.id.eventsTitleIcon);
+        if (titleIcon != null) {
+            titleIcon.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        android.widget.ImageButton addBtn = findViewById(R.id.addEventHeaderButton);
+        if (addBtn != null) {
+            addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navEventButton);
     }
 
     private void loadAllEvents() {
@@ -182,7 +203,8 @@ public class EventsActivity extends AppCompatActivity {
                     holder.dayOfWeekPill.setText(dayPillSdf.format(date));
                     
                     // Set pill color cyclically
-                    int[] pillColors = {0xFF4CAF50, 0xFF2196F3, 0xFFFF9800, 0xFFE91E63};
+                    int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
+                    int[] pillColors = {accent, 0xFF2196F3, 0xFFFF9800, 0xFFE91E63};
                     if (holder.dayOfWeekPill.getBackground() != null) {
                         holder.dayOfWeekPill.getBackground().setTint(pillColors[position % pillColors.length]);
                     }
@@ -254,7 +276,7 @@ public class EventsActivity extends AppCompatActivity {
                 }
 
                 // Priority Logic for line color
-                int priorityColor = Color.GREEN;
+                int priorityColor = ThemeManager.getMainAccentColor(holder.itemView.getContext());
                 if ("High".equalsIgnoreCase(event.getPriority())) priorityColor = Color.RED;
                 else if ("Medium".equalsIgnoreCase(event.getPriority())) priorityColor = Color.YELLOW;
 

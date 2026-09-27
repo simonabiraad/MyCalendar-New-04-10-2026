@@ -501,8 +501,10 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             AllTxItem item = items.get(position);
+            int accent = ThemeManager.getMainAccentColor(TransactionsAllAccountsActivity.this);
             if (holder instanceof HeaderViewHolder) {
                 ((HeaderViewHolder) holder).text.setText(item.headerDate);
+                ((HeaderViewHolder) holder).text.setTextColor(accent);
             } else {
                 RowViewHolder row = (RowViewHolder) holder;
                 Transaction t = item.transaction;
@@ -510,8 +512,7 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
                 row.time.setText(DateFormat.format("hh:mm a", t.getTimestamp()));
                 row.account.setText(t.getAccount() != null ? t.getAccount() : "---");
                 row.amount.setText(String.format(Locale.US, "%,.2f %s", t.getAmount(), t.getCurrency()));
-                row.amount.setTextColor(ContextCompat.getColor(TransactionsAllAccountsActivity.this,
-                        t.isCashIn() ? R.color.income_green : R.color.expense_red));
+                row.amount.setTextColor(t.isCashIn() ? accent : ContextCompat.getColor(TransactionsAllAccountsActivity.this, R.color.expense_red));
             }
         }
 

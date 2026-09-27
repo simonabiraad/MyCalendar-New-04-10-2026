@@ -318,7 +318,7 @@ public class RatesActivity extends AppCompatActivity {
     }
 
     private void updateBottomNavTextColors(Button activeBtn) {
-        int activeColor = Color.parseColor("#4CAF50");
+        int activeColor = ThemeManager.getMainAccentColor(this);
         int inactiveColor = Color.WHITE;
 
         if (navConvert != null) navConvert.setTextColor(navConvert == activeBtn ? activeColor : inactiveColor);
@@ -590,7 +590,22 @@ public class RatesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         updateLocationPermissionStatus();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+
+        View backBtn = findViewById(R.id.ratesBackButton);
+        if (backBtn == null) backBtn = findViewById(R.id.backButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+
+        if (btnSaveRate != null) {
+            btnSaveRate.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
     }
 
     @Override
@@ -919,13 +934,21 @@ public class RatesActivity extends AppCompatActivity {
     private void updatePeriodSelectionUi() {
         TextView[] buttons = {btn1D, btn5D, btn1M, btn6M, btn1Y, btnMax};
         String[] codes = {"1D", "5D", "1M", "6M", "1Y", "MAX"};
+        int accent = ThemeManager.getMainAccentColor(this);
 
         for (int i = 0; i < buttons.length; i++) {
             TextView btn = buttons[i];
             if (btn == null) continue;
             boolean isSelected = codes[i].equalsIgnoreCase(selectedPeriod);
-            btn.setBackgroundResource(isSelected ? R.drawable.bg_period_active : R.drawable.bg_period_inactive);
-            btn.setTextColor(isSelected ? Color.WHITE : Color.parseColor("#8E8E93"));
+            if (isSelected) {
+                btn.setBackgroundResource(R.drawable.bg_period_active);
+                btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+                btn.setTextColor(Color.WHITE);
+            } else {
+                btn.setBackgroundResource(R.drawable.bg_period_inactive);
+                btn.setBackgroundTintList(null);
+                btn.setTextColor(Color.parseColor("#8E8E93"));
+            }
         }
     }
 
@@ -1119,20 +1142,23 @@ public class RatesActivity extends AppCompatActivity {
         double endValue = entries.get(entries.size() - 1).getY();
         double changePct = ((endValue - startValue) / startValue) * 100.0;
 
+        int accentColor = ThemeManager.getMainAccentColor(this);
+
         if (txtRateChange != null) {
             if (changePct >= 0) {
                 txtRateChange.setText(String.format(Locale.US, "+%.2f%%", changePct));
                 txtRateChange.setBackgroundResource(R.drawable.bg_pill_green);
+                txtRateChange.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
             } else {
                 txtRateChange.setText(String.format(Locale.US, "%.2f%%", changePct));
                 txtRateChange.setBackgroundResource(R.drawable.bg_pill_red);
+                txtRateChange.setBackgroundTintList(null);
             }
         }
-
         LineDataSet dataSet = new LineDataSet(entries, "Exchange Rate");
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet.setCubicIntensity(0.15f);
-        dataSet.setColor(Color.parseColor("#4CAF50"));
+        dataSet.setColor(accentColor);
         dataSet.setLineWidth(2.5f);
         dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);
@@ -1140,9 +1166,10 @@ public class RatesActivity extends AppCompatActivity {
         dataSet.setHighLightColor(Color.WHITE);
 
         dataSet.setDrawFilled(true);
+        int fillAlpha = (accentColor & 0x00FFFFFF) | 0x66000000;
         GradientDrawable gradient = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{Color.parseColor("#664CAF50"), Color.TRANSPARENT}
+                new int[]{fillAlpha, Color.TRANSPARENT}
         );
         dataSet.setFillDrawable(gradient);
 

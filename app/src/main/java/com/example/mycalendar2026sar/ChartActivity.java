@@ -83,26 +83,48 @@ public class ChartActivity extends AppCompatActivity {
         setupCharts();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        ImageButton backButton = findViewById(R.id.chartBackButton);
+        if (backButton != null) {
+            backButton.setImageTintList(ColorStateList.valueOf(accent));
+        }
+        selectPeriod(selectedPeriodDays);
+    }
+
     private void selectPeriod(int days) {
         selectedPeriodDays = days;
+        int accent = ThemeManager.getMainAccentColor(this);
         
         // Reset button UI
         int inactiveText = Color.parseColor("#888888");
         btnToday.setBackgroundResource(0);
+        btnToday.setBackgroundTintList(null);
         btnToday.setTextColor(inactiveText);
         btn7Days.setBackgroundResource(0);
+        btn7Days.setBackgroundTintList(null);
         btn7Days.setTextColor(inactiveText);
         btn30Days.setBackgroundResource(0);
+        btn30Days.setBackgroundTintList(null);
         btn30Days.setTextColor(inactiveText);
 
         if (days == 1) {
             btnToday.setBackgroundResource(R.drawable.bg_period_selected);
+            btnToday.setBackgroundTintList(ColorStateList.valueOf(accent));
             btnToday.setTextColor(Color.BLACK);
         } else if (days == 7) {
             btn7Days.setBackgroundResource(R.drawable.bg_period_selected);
+            btn7Days.setBackgroundTintList(ColorStateList.valueOf(accent));
             btn7Days.setTextColor(Color.BLACK);
         } else if (days == 30) {
             btn30Days.setBackgroundResource(R.drawable.bg_period_selected);
+            btn30Days.setBackgroundTintList(ColorStateList.valueOf(accent));
             btn30Days.setTextColor(Color.BLACK);
         }
 

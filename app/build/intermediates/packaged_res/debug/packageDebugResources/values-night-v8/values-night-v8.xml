@@ -15,11 +15,11 @@
     <color name="gray">#888888</color>
     <color name="green">#4CAF50</color>
     <color name="honey">#FFC30B</color>
-    <color name="hunter_green">#355E3B</color>
-    <color name="income_green">#4CD964</color>
+    <color name="hunter_green">#2E7D32</color>
+    <color name="income_green">#4CAF50</color>
     <color name="input_bg">#222222</color>
     <color name="light_brown">#D2B48C</color>
-    <color name="light_green">#8BC34A</color>
+    <color name="light_green">#4CAF50</color>
     <color name="light_orange">#FFCC80</color>
     <color name="nav_bg">#000000</color>
     <color name="orange">#FF9800</color>
@@ -62,7 +62,7 @@
         <item name="colorSecondaryVariant">@color/light_green</item>
         <item name="colorOnSecondary">@color/black</item>
         
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/black</item>
 
         <item name="android:listPreferredItemPaddingStart">8dp</item>
         <item name="android:listPreferredItemPaddingEnd">8dp</item>

@@ -72,6 +72,7 @@
 
             <!-- Main Container with Green Border -->
             <LinearLayout
+                android:id="@+id/mainCalcBorderContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/cash_calc_border"

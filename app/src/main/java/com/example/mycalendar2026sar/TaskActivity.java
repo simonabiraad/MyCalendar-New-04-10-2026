@@ -213,6 +213,34 @@ public class TaskActivity extends AppCompatActivity {
         }
 
         setupDragAndDrop();
+        applyColors();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        TextView titleTv = findViewById(R.id.taskTitle);
+        if (titleTv != null) {
+            titleTv.setTextColor(accent);
+        }
+        android.widget.ImageView titleIcon = findViewById(R.id.taskTitleIcon);
+        if (titleIcon != null) {
+            titleIcon.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        android.widget.ImageButton addBtn = findViewById(R.id.addTaskButton);
+        if (addBtn != null) {
+            addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        android.widget.ImageButton voiceBtn = findViewById(R.id.voiceTaskButton);
+        if (voiceBtn != null) {
+            voiceBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navTaskButton);
     }
 
     private void showTaskMenu(View v) {

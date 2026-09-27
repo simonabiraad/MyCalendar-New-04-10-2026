@@ -141,15 +141,30 @@ public class ReportAllActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+        refresh();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        View backBtn = findViewById(R.id.reportBackButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(ColorStateList.valueOf(accent));
+        }
+    }
+
     private void updateButtonStyles() {
-        int active = ContextCompat.getColor(this, R.color.light_green);
+        int active = ThemeManager.getMainAccentColor(this);
         int inactive = ContextCompat.getColor(this, R.color.gray);
         monthButton.setBackgroundTintList(ColorStateList.valueOf(currentPeriod == PERIOD_MONTH ? active : inactive));
         yearButton.setBackgroundTintList(ColorStateList.valueOf(currentPeriod == PERIOD_YEAR ? active : inactive));
         allButton.setBackgroundTintList(ColorStateList.valueOf(currentPeriod == PERIOD_ALL ? active : inactive));
 
         int expenseColor = ContextCompat.getColor(this, R.color.expense_red);
-        int incomeColor = ContextCompat.getColor(this, R.color.income_green);
+        int incomeColor = ThemeManager.getMainAccentColor(this);
         expenseToggle.setBackgroundTintList(ColorStateList.valueOf(showExpenses ? expenseColor : inactive));
         incomeToggle.setBackgroundTintList(ColorStateList.valueOf(!showExpenses ? incomeColor : inactive));
     }
@@ -213,8 +228,8 @@ public class ReportAllActivity extends AppCompatActivity {
             holder.barFill.requestLayout();
             holder.barEmpty.requestLayout();
 
-            int barColor = ContextCompat.getColor(holder.itemView.getContext(),
-                    isExpense ? R.color.expense_red : R.color.income_green);
+            int barColor = isExpense ? ContextCompat.getColor(holder.itemView.getContext(), R.color.expense_red)
+                    : ThemeManager.getMainAccentColor(holder.itemView.getContext());
             holder.barFill.setBackgroundColor(barColor);
         }
 

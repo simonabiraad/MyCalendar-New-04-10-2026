@@ -18,7 +18,7 @@ public class BottomNavigationHelper {
         if (homeBtn == null) return;
 
         int unselectedColor = ContextCompat.getColor(activity, R.color.text_primary);
-        int activeGreen = ContextCompat.getColor(activity, R.color.light_green);
+        int activeAccent = ThemeManager.getMainAccentColor(activity);
 
         homeBtn.setTextColor(unselectedColor);
         eventBtn.setTextColor(unselectedColor);
@@ -26,12 +26,12 @@ public class BottomNavigationHelper {
         secureBtn.setTextColor(unselectedColor);
         expensesBtn.setTextColor(unselectedColor);
 
-        // Set active to green
-        if (activeTabId == R.id.navHomeButton) homeBtn.setTextColor(activeGreen);
-        else if (activeTabId == R.id.navEventButton) eventBtn.setTextColor(activeGreen);
-        else if (activeTabId == R.id.navTaskButton) taskBtn.setTextColor(activeGreen);
-        else if (activeTabId == R.id.navSecureBoxButton) secureBtn.setTextColor(activeGreen);
-        else if (activeTabId == R.id.navExpensesButton) expensesBtn.setTextColor(activeGreen);
+        // Set active tab color to selected Main Theme accent color
+        if (activeTabId == R.id.navHomeButton) homeBtn.setTextColor(activeAccent);
+        else if (activeTabId == R.id.navEventButton) eventBtn.setTextColor(activeAccent);
+        else if (activeTabId == R.id.navTaskButton) taskBtn.setTextColor(activeAccent);
+        else if (activeTabId == R.id.navSecureBoxButton) secureBtn.setTextColor(activeAccent);
+        else if (activeTabId == R.id.navExpensesButton) expensesBtn.setTextColor(activeAccent);
 
         homeBtn.setOnClickListener(v -> {
             if (!(activity instanceof MainActivity)) {

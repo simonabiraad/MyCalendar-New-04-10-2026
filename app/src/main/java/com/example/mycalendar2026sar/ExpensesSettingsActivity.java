@@ -51,6 +51,25 @@ public class ExpensesSettingsActivity extends AppCompatActivity {
         lockSwitch.setOnCheckedChangeListener(this::onLockSwitchChanged);
 
         findViewById(R.id.clearDataRow).setOnClickListener(v -> confirmClearData());
+        applyColors();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        android.view.View backBtn = findViewById(R.id.settingsBackButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        if (lockSwitch != null) {
+            lockSwitch.setThumbTintList(android.content.res.ColorStateList.valueOf(accent));
+            lockSwitch.setTrackTintList(android.content.res.ColorStateList.valueOf((accent & 0x00FFFFFF) | 0x66000000));
+        }
     }
 
     private void refreshSwitchState() {

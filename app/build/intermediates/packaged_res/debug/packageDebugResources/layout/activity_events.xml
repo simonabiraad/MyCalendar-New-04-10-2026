@@ -33,6 +33,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/eventsTitleIcon"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="6dp"
@@ -40,6 +41,7 @@
                 android:src="@drawable/ic_menu_calendar_color" />
 
             <TextView
+                android:id="@+id/eventsTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/action_event"

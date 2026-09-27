@@ -93,10 +93,23 @@ public class SummaryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         loadData();
     }
 
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        View backBtn = findViewById(R.id.summaryBackButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(ColorStateList.valueOf(accent));
+        }
+        if (footerCashIn != null) {
+            footerCashIn.setTextColor(accent);
+        }
+    }
+
     private void loadData() {
+        applyColors();
         updateFilterUI();
 
         List<Account> accounts = BalanceManager.loadAccounts(this);
@@ -175,7 +188,9 @@ public class SummaryActivity extends AppCompatActivity {
         footerCashOut.setText(String.format(Locale.US, "%,.2f", globalOut));
         double globalBalance = globalIn - globalOut;
         footerBalance.setText(String.format(Locale.US, "%,.2f", globalBalance));
-        footerBalance.setTextColor(globalBalance >= 0 ? ContextCompat.getColor(this, R.color.light_green) : ContextCompat.getColor(this, R.color.expense_red));
+        int accent = ThemeManager.getMainAccentColor(this);
+        footerCashIn.setTextColor(accent);
+        footerBalance.setTextColor(globalBalance >= 0 ? accent : ContextCompat.getColor(this, R.color.expense_red));
 
         List<AccountSummaryItem> displayList = new ArrayList<>();
         for (Map.Entry<String, double[]> entry : accountTotals.entrySet()) {
@@ -265,12 +280,14 @@ public class SummaryActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             AccountSummaryItem s = summaries.get(position);
+            int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
             holder.name.setText(s.name);
             holder.in.setText(String.format(Locale.US, "%,.2f", s.in));
+            holder.in.setTextColor(accent);
             holder.out.setText(String.format(Locale.US, "%,.2f", s.out));
             double balance = s.in - s.out;
             holder.balance.setText(String.format(Locale.US, "%,.2f", balance));
-            holder.balance.setTextColor(balance >= 0 ? ContextCompat.getColor(holder.itemView.getContext(), R.color.light_green) : ContextCompat.getColor(holder.itemView.getContext(), R.color.expense_red));
+            holder.balance.setTextColor(balance >= 0 ? accent : ContextCompat.getColor(holder.itemView.getContext(), R.color.expense_red));
 
             holder.itemView.setOnClickListener(v -> listener.onAccountClick(s.name));
         }

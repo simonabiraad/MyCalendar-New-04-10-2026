@@ -2,6 +2,10 @@ package com.example.mycalendar2026sar;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +73,7 @@ public class CashCalculatorActivity extends AppCompatActivity {
             }
         });
 
+        applyColors();
         refreshDenominations();
         updateOnlineStatusIndicator();
     }
@@ -84,8 +90,59 @@ public class CashCalculatorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         refreshDenominations();
         updateOnlineStatusIndicator();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+
+        ImageButton backBtn = findViewById(R.id.cashCalcBackButton);
+        if (backBtn != null) {
+            backBtn.setImageTintList(ColorStateList.valueOf(accent));
+        }
+
+        View shareBtn = findViewById(R.id.btnCashCalcShare);
+        if (shareBtn != null) {
+            shareBtn.setBackgroundTintList(ColorStateList.valueOf(accent));
+        }
+
+        applyStrokeColor(findViewById(R.id.mainCalcBorderContainer), accent, 1);
+        applyStrokeColor(findViewById(R.id.cardOnlineStatus), accent, 1);
+        applyStrokeColor(findViewById(R.id.headerTotalDisplay), accent, 1);
+        applyStrokeColor(findViewById(R.id.editOnlineAmount), accent, 1);
+
+        applyTopBorderColor(findViewById(R.id.subtotalRow), accent);
+        applyTopBorderColor(findViewById(R.id.grandTotalRow), accent);
+    }
+
+    private void applyStrokeColor(View view, int strokeColor, int strokeWidthDp) {
+        if (view != null && view.getBackground() != null) {
+            Drawable bg = view.getBackground().mutate();
+            if (bg instanceof GradientDrawable) {
+                int strokeWidthPx = (int) (strokeWidthDp * getResources().getDisplayMetrics().density);
+                ((GradientDrawable) bg).setStroke(strokeWidthPx, strokeColor);
+            }
+        }
+    }
+
+    private void applyTopBorderColor(View view, int accentColor) {
+        if (view != null && view.getBackground() != null) {
+            Drawable bg = view.getBackground().mutate();
+            if (bg instanceof LayerDrawable) {
+                LayerDrawable ld = (LayerDrawable) bg;
+                if (ld.getNumberOfLayers() > 0) {
+                    Drawable item = ld.getDrawable(0);
+                    if (item instanceof GradientDrawable) {
+                        int strokeWidthPx = (int) (1 * getResources().getDisplayMetrics().density);
+                        ((GradientDrawable) item).setStroke(strokeWidthPx, accentColor);
+                    } else {
+                        item.setTint(accentColor);
+                    }
+                }
+            }
+        }
     }
 
     private void refreshDenominations() {
@@ -94,6 +151,8 @@ public class CashCalculatorActivity extends AppCompatActivity {
         dynamicRowsContainer.removeAllViews();
         rowViews.clear();
         
+        int accent = ThemeManager.getMainAccentColor(this);
+
         for (DenomManager.Denomination d : denominations) {
             if (!d.enabled) continue;
             
@@ -108,6 +167,10 @@ public class CashCalculatorActivity extends AppCompatActivity {
             TextView txtRowTotal = row.findViewById(R.id.txtRowTotal);
             Button btnPlus = row.findViewById(R.id.btnPlus);
             Button btnMinus = row.findViewById(R.id.btnMinus);
+
+            btnPlus.setBackgroundTintList(ColorStateList.valueOf(accent));
+            btnMinus.setBackgroundTintList(ColorStateList.valueOf(accent));
+            applyStrokeColor(editCount, accent, 1);
 
             Integer currentQty = rowData.get(d.value);
             int existingQty = (currentQty != null) ? currentQty : 0;

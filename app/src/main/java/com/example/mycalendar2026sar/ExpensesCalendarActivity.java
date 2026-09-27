@@ -157,10 +157,23 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         updateUI();
     }
 
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        if (accountSubtitle != null) accountSubtitle.setTextColor(accent);
+        if (totalCashInText != null) totalCashInText.setTextColor(accent);
+        if (balanceText != null) balanceText.setTextColor(accent);
+        View backBtn = findViewById(R.id.backButton);
+        if (backBtn instanceof android.widget.ImageView) {
+            ((android.widget.ImageView) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+    }
+
     private void updateUI() {
+        applyColors();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         Calendar rangeEnd = (Calendar) currentMonth.clone();
         rangeEnd.set(Calendar.DAY_OF_MONTH, currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -268,9 +281,13 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         Button btnIn = view.findViewById(R.id.btnDialogCashIn);
         Button btnOut = view.findViewById(R.id.btnDialogCashOut);
 
+        int accent = ThemeManager.getMainAccentColor(this);
         dateText.setText(sdf.format(date));
         cashInText.setText(String.format(Locale.US, "%,.2f", summary.cashIn));
+        cashInText.setTextColor(accent);
         cashOutText.setText(String.format(Locale.US, "%,.2f", summary.cashOut));
+
+        btnIn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new DialogAdapter(summary.transactions));
@@ -335,6 +352,9 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
                 convertView.setBackgroundColor(0xFF1A1A1A);
             }
 
+            int accent = ThemeManager.getMainAccentColor(ExpensesCalendarActivity.this);
+            cashIn.setTextColor(accent);
+
             DaySummary summary = daySummaries.get(keySdf.format(date));
             if (summary != null) {
                 if (summary.cashIn > 0) {
@@ -376,6 +396,8 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Transaction t = transactions.get(position);
             holder.note.setText(t.getTitle());
+            int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
+            holder.cashIn.setTextColor(accent);
             if (t.getType().equals(Transaction.TYPE_CASH_IN)) {
                 holder.cashIn.setText(String.format(Locale.US, "%,.2f", t.getAmount()));
                 holder.cashOut.setText("");

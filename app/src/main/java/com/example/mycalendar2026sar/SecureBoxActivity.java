@@ -3,6 +3,7 @@ package com.example.mycalendar2026sar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -682,10 +684,31 @@ public class SecureBoxActivity extends AppCompatActivity {
         w.loadDataWithBaseURL(null, h, "text/HTML", "UTF-8", null);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshColors();
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navSecureBoxButton);
+    }
+
     private void refreshColors() {
-        int m = colorPrefs.getInt("color_main_theme", getColor(R.color.light_green)); findViewById(R.id.main).setBackgroundColor(colorPrefs.getInt("color_app_background", Color.BLACK));
+        int m = ThemeManager.getMainAccentColor(this);
+        View mainView = findViewById(R.id.main);
+        if (mainView != null) mainView.setBackgroundColor(colorPrefs.getInt("color_app_background", Color.BLACK));
         TextView t = findViewById(R.id.secureBoxTitle); if (t != null) { t.setTextColor(m); applyFontSettings(t, 24); }
+        ImageView titleIcon = findViewById(R.id.secureBoxTitleIcon); if (titleIcon != null) { titleIcon.setImageTintList(ColorStateList.valueOf(m)); }
         if (noteTitleInput != null) applyFontSettings(noteTitleInput, 18); if (noteContentInput != null) applyFontSettings(noteContentInput, 18);
+
+        View addCatBtn = findViewById(R.id.addCategoryHeaderButton);
+        if (addCatBtn instanceof ImageButton) ((ImageButton) addCatBtn).setImageTintList(ColorStateList.valueOf(m));
+        View voiceBtn = findViewById(R.id.sbVoiceNoteButton);
+        if (voiceBtn instanceof ImageButton) ((ImageButton) voiceBtn).setImageTintList(ColorStateList.valueOf(m));
+        View camBtn = findViewById(R.id.sbCameraNoteButton);
+        if (camBtn instanceof ImageButton) ((ImageButton) camBtn).setImageTintList(ColorStateList.valueOf(m));
+        View saveBtn = findViewById(R.id.saveStickyNoteButton);
+        if (saveBtn instanceof ImageButton) ((ImageButton) saveBtn).setImageTintList(ColorStateList.valueOf(m));
+
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navSecureBoxButton);
     }
 
     private void applyFontSettings(TextView tv, float b) {

@@ -153,6 +153,10 @@ public class TransactionNamesActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             TransactionDbHelper.NamedEntry entry = filtered.get(position);
             holder.text.setText(entry.name);
+            int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
+            if (holder.editButton instanceof android.widget.ImageButton) {
+                ((android.widget.ImageButton) holder.editButton).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            }
             holder.editButton.setOnClickListener(v -> showEditDialog(entry));
             holder.deleteButton.setOnClickListener(v -> confirmDelete(entry));
         }

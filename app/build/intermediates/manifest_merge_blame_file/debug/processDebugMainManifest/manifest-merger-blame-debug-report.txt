@@ -12,42 +12,42 @@
 9-->INJECTED
 10
 11    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-11-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:4:5-77
-11-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:4:22-74
+11-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:4:5-77
+11-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:4:22-74
 12    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-12-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:5:5-79
-12-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:5:22-76
+12-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:5:5-79
+12-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:5:22-76
 13    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-13-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:6:5-74
-13-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:6:22-71
+13-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:6:5-74
+13-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:6:22-71
 14    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-14-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:7:5-77
-14-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:7:22-74
+14-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:7:5-77
+14-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:7:22-74
 15    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
-15-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:8:5-89
-15-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:8:22-86
+15-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:8:5-89
+15-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:8:22-86
 16    <uses-permission android:name="android.permission.CAMERA" />
-16-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:9:5-65
-16-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:9:22-62
+16-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:9:5-65
+16-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:9:22-62
 17    <uses-permission android:name="android.permission.INTERNET" />
-17-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:10:5-67
-17-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:10:22-64
+17-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:10:5-67
+17-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:10:22-64
 18    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-18-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:11:5-71
-18-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:11:22-68
+18-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:11:5-71
+18-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:11:22-68
 19    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-19-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:12:5-79
-19-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:12:22-76
+19-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:12:5-79
+19-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:12:22-76
 20    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-20-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:13:5-81
-20-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:13:22-78
+20-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:13:5-81
+20-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:13:22-78
 21
 22    <uses-feature
-22-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:14:5-85
+22-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:14:5-85
 23        android:name="android.hardware.camera"
-23-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:14:19-57
+23-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:14:19-57
 24        android:required="false" />
-24-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:14:58-82
+24-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:14:58-82
 25
 26    <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- suppress DeprecatedClassUsageInspection -->
 26-->[androidx.biometric:biometric:1.1.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\ec3dbf8507f95b16014fe10a95ca1a3c\transformed\biometric-1.1.0\AndroidManifest.xml:24:5-72
@@ -71,401 +71,401 @@
 34-->[androidx.core:core:1.18.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\f4e143fbd3b52fd59f471635fdd4c992\transformed\core-1.18.0\AndroidManifest.xml:26:22-94
 35
 36    <application
-36-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:16:5-206:19
+36-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:16:5-206:19
 37        android:allowBackup="true"
-37-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:17:9-35
+37-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:17:9-35
 38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 38-->[androidx.core:core:1.18.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\f4e143fbd3b52fd59f471635fdd4c992\transformed\core-1.18.0\AndroidManifest.xml:28:18-86
 39        android:dataExtractionRules="@xml/data_extraction_rules"
-39-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:18:9-65
+39-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:18:9-65
 40        android:debuggable="true"
 41        android:enableOnBackInvokedCallback="true"
-41-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:25:9-51
+41-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:25:9-51
 42        android:extractNativeLibs="false"
 42-->INJECTED
 43        android:fullBackupContent="@xml/backup_rules"
-43-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:19:9-54
+43-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:19:9-54
 44        android:icon="@mipmap/ic_launcher"
-44-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:20:9-43
+44-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:20:9-43
 45        android:label="@string/app_name"
-45-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:21:9-41
+45-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:21:9-41
 46        android:roundIcon="@mipmap/ic_launcher_round"
-46-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:22:9-54
+46-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:22:9-54
 47        android:supportsRtl="true"
-47-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:23:9-35
+47-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:23:9-35
 48        android:testOnly="true"
 49        android:theme="@style/Theme.MyCalendar2026SAR" >
-49-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:24:9-55
+49-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:24:9-55
 50        <activity
-50-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:26:9-37:20
+50-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:26:9-37:20
 51            android:name="com.example.mycalendar2026sar.MainActivity"
-51-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:27:13-41
+51-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:27:13-41
 52            android:clearTaskOnLaunch="true"
-52-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:29:13-45
+52-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:29:13-45
 53            android:exported="true"
-53-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:28:13-36
+53-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:28:13-36
 54            android:launchMode="singleTask"
-54-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:30:13-44
+54-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:30:13-44
 55            android:windowSoftInputMode="adjustResize" >
-55-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:31:13-55
+55-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:31:13-55
 56            <intent-filter>
-56-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:32:13-36:29
+56-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:32:13-36:29
 57                <action android:name="android.intent.action.MAIN" />
-57-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:33:17-69
-57-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:33:25-66
+57-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:33:17-69
+57-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:33:25-66
 58
 59                <category android:name="android.intent.category.LAUNCHER" />
-59-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:35:17-77
-59-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:35:27-74
+59-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:35:17-77
+59-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:35:27-74
 60            </intent-filter>
 61        </activity>
 62        <activity
-62-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:38:9-42:62
+62-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:38:9-42:62
 63            android:name="com.example.mycalendar2026sar.SecureBoxActivity"
-63-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:39:13-46
+63-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:39:13-46
 64            android:exported="false"
-64-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:40:13-37
+64-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:40:13-37
 65            android:finishOnTaskLaunch="true"
-65-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:41:13-46
+65-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:41:13-46
 66            android:theme="@style/Theme.MyCalendar2026SAR" />
-66-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:42:13-59
+66-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:42:13-59
 67        <activity
-67-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:43:9-47:62
+67-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:43:9-47:62
 68            android:name="com.example.mycalendar2026sar.CategoryActivity"
-68-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:44:13-45
+68-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:44:13-45
 69            android:exported="false"
-69-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:45:13-37
+69-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:45:13-37
 70            android:finishOnTaskLaunch="true"
-70-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:46:13-46
+70-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:46:13-46
 71            android:theme="@style/Theme.MyCalendar2026SAR" />
-71-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:47:13-59
+71-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:47:13-59
 72        <activity
-72-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:48:9-52:62
+72-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:48:9-52:62
 73            android:name="com.example.mycalendar2026sar.ExpensesActivity"
-73-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:49:13-45
+73-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:49:13-45
 74            android:exported="false"
-74-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:50:13-37
+74-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:50:13-37
 75            android:finishOnTaskLaunch="true"
-75-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:51:13-46
+75-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:51:13-46
 76            android:theme="@style/Theme.MyCalendar2026SAR" />
-76-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:52:13-59
+76-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:52:13-59
 77        <activity
-77-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:53:9-57:62
+77-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:53:9-57:62
 78            android:name="com.example.mycalendar2026sar.AddTransactionActivity"
-78-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:54:13-51
+78-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:54:13-51
 79            android:exported="false"
-79-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:55:13-37
+79-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:55:13-37
 80            android:finishOnTaskLaunch="true"
-80-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:56:13-46
+80-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:56:13-46
 81            android:theme="@style/Theme.MyCalendar2026SAR" />
-81-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:57:13-59
+81-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:57:13-59
 82        <activity
-82-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:58:9-62:62
+82-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:58:9-62:62
 83            android:name="com.example.mycalendar2026sar.IncomeActivity"
-83-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:59:13-43
+83-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:59:13-43
 84            android:exported="false"
-84-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:60:13-37
+84-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:60:13-37
 85            android:finishOnTaskLaunch="true"
-85-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:61:13-46
+85-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:61:13-46
 86            android:theme="@style/Theme.MyCalendar2026SAR" />
-86-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:62:13-59
+86-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:62:13-59
 87        <activity
-87-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:63:9-67:62
+87-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:63:9-67:62
 88            android:name="com.example.mycalendar2026sar.ExpenseTypeActivity"
-88-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:64:13-48
+88-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:64:13-48
 89            android:exported="false"
-89-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:65:13-37
+89-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:65:13-37
 90            android:finishOnTaskLaunch="true"
-90-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:66:13-46
+90-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:66:13-46
 91            android:theme="@style/Theme.MyCalendar2026SAR" />
-91-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:67:13-59
+91-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:67:13-59
 92        <activity
-92-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:68:9-72:62
+92-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:68:9-72:62
 93            android:name="com.example.mycalendar2026sar.TransferActivity"
-93-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:69:13-45
+93-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:69:13-45
 94            android:exported="false"
-94-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:70:13-37
+94-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:70:13-37
 95            android:finishOnTaskLaunch="true"
-95-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:71:13-46
+95-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:71:13-46
 96            android:theme="@style/Theme.MyCalendar2026SAR" />
-96-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:72:13-59
+96-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:72:13-59
 97        <activity
-97-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:73:9-77:62
+97-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:73:9-77:62
 98            android:name="com.example.mycalendar2026sar.AccountSummaryActivity"
-98-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:74:13-51
+98-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:74:13-51
 99            android:exported="false"
-99-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:75:13-37
+99-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:75:13-37
 100            android:finishOnTaskLaunch="true"
-100-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:76:13-46
+100-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:76:13-46
 101            android:theme="@style/Theme.MyCalendar2026SAR" />
-101-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:77:13-59
+101-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:77:13-59
 102        <activity
-102-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:78:9-82:62
+102-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:78:9-82:62
 103            android:name="com.example.mycalendar2026sar.TransactionNamesActivity"
-103-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:79:13-53
+103-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:79:13-53
 104            android:exported="false"
-104-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:80:13-37
+104-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:80:13-37
 105            android:finishOnTaskLaunch="true"
-105-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:81:13-46
+105-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:81:13-46
 106            android:theme="@style/Theme.MyCalendar2026SAR" />
-106-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:82:13-59
+106-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:82:13-59
 107        <activity
-107-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:83:9-87:62
+107-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:83:9-87:62
 108            android:name="com.example.mycalendar2026sar.SummaryActivity"
-108-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:84:13-44
+108-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:84:13-44
 109            android:exported="false"
-109-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:85:13-37
+109-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:85:13-37
 110            android:finishOnTaskLaunch="true"
-110-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:86:13-46
+110-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:86:13-46
 111            android:theme="@style/Theme.MyCalendar2026SAR" />
-111-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:87:13-59
+111-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:87:13-59
 112        <activity
-112-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:88:9-92:62
+112-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:88:9-92:62
 113            android:name="com.example.mycalendar2026sar.ReportAllActivity"
-113-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:89:13-46
+113-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:89:13-46
 114            android:exported="false"
-114-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:90:13-37
+114-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:90:13-37
 115            android:finishOnTaskLaunch="true"
-115-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:91:13-46
+115-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:91:13-46
 116            android:theme="@style/Theme.MyCalendar2026SAR" />
-116-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:92:13-59
+116-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:92:13-59
 117        <activity
-117-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:93:9-97:62
+117-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:93:9-97:62
 118            android:name="com.example.mycalendar2026sar.DeletedTransactionsActivity"
-118-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:94:13-56
+118-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:94:13-56
 119            android:exported="false"
-119-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:95:13-37
+119-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:95:13-37
 120            android:finishOnTaskLaunch="true"
-120-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:96:13-46
+120-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:96:13-46
 121            android:theme="@style/Theme.MyCalendar2026SAR" />
-121-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:97:13-59
+121-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:97:13-59
 122        <activity
-122-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:98:9-102:62
+122-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:98:9-102:62
 123            android:name="com.example.mycalendar2026sar.ExpensesSettingsActivity"
-123-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:99:13-53
+123-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:99:13-53
 124            android:exported="false"
-124-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:100:13-37
+124-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:100:13-37
 125            android:finishOnTaskLaunch="true"
-125-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:101:13-46
+125-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:101:13-46
 126            android:theme="@style/Theme.MyCalendar2026SAR" />
-126-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:102:13-59
+126-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:102:13-59
 127        <activity
-127-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:103:9-107:62
+127-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:103:9-107:62
 128            android:name="com.example.mycalendar2026sar.NotebookActivity"
-128-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:104:13-45
+128-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:104:13-45
 129            android:exported="false"
-129-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:105:13-37
+129-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:105:13-37
 130            android:finishOnTaskLaunch="true"
-130-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:106:13-46
+130-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:106:13-46
 131            android:theme="@style/Theme.MyCalendar2026SAR" />
-131-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:107:13-59
+131-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:107:13-59
 132        <activity
-132-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:108:9-112:62
+132-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:108:9-112:62
 133            android:name="com.example.mycalendar2026sar.ImageEditorActivity"
-133-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:109:13-48
+133-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:109:13-48
 134            android:exported="false"
-134-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:110:13-37
+134-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:110:13-37
 135            android:finishOnTaskLaunch="true"
-135-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:111:13-46
+135-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:111:13-46
 136            android:theme="@style/Theme.MyCalendar2026SAR" />
-136-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:112:13-59
+136-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:112:13-59
 137        <activity
-137-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:113:9-117:62
+137-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:113:9-117:62
 138            android:name="com.example.mycalendar2026sar.TaskActivity"
-138-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:114:13-41
+138-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:114:13-41
 139            android:exported="false"
-139-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:115:13-37
+139-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:115:13-37
 140            android:finishOnTaskLaunch="true"
-140-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:116:13-46
+140-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:116:13-46
 141            android:theme="@style/Theme.MyCalendar2026SAR" />
-141-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:117:13-59
+141-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:117:13-59
 142        <activity
-142-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:118:9-122:62
+142-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:118:9-122:62
 143            android:name="com.example.mycalendar2026sar.ExpensesCalendarActivity"
-143-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:119:13-53
+143-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:119:13-53
 144            android:exported="false"
-144-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:120:13-37
+144-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:120:13-37
 145            android:finishOnTaskLaunch="true"
-145-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:121:13-46
+145-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:121:13-46
 146            android:theme="@style/Theme.MyCalendar2026SAR" />
-146-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:122:13-59
+146-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:122:13-59
 147        <activity
-147-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:123:9-127:62
+147-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:123:9-127:62
 148            android:name="com.example.mycalendar2026sar.ChartActivity"
-148-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:124:13-42
+148-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:124:13-42
 149            android:exported="false"
-149-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:125:13-37
+149-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:125:13-37
 150            android:finishOnTaskLaunch="true"
-150-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:126:13-46
+150-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:126:13-46
 151            android:theme="@style/Theme.MyCalendar2026SAR" />
-151-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:127:13-59
+151-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:127:13-59
 152        <activity
-152-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:128:9-132:62
+152-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:128:9-132:62
 153            android:name="com.example.mycalendar2026sar.RatesActivity"
-153-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:129:13-42
+153-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:129:13-42
 154            android:exported="false"
-154-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:130:13-37
+154-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:130:13-37
 155            android:finishOnTaskLaunch="true"
-155-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:131:13-46
+155-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:131:13-46
 156            android:theme="@style/Theme.MyCalendar2026SAR" />
-156-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:132:13-59
+156-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:132:13-59
 157        <activity
-157-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:133:9-137:62
+157-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:133:9-137:62
 158            android:name="com.example.mycalendar2026sar.RecommendActivity"
-158-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:134:13-46
+158-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:134:13-46
 159            android:exported="false"
-159-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:135:13-37
+159-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:135:13-37
 160            android:finishOnTaskLaunch="true"
-160-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:136:13-46
+160-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:136:13-46
 161            android:theme="@style/Theme.MyCalendar2026SAR" />
-161-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:137:13-59
+161-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:137:13-59
 162        <activity
-162-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:138:9-142:62
+162-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:138:9-142:62
 163            android:name="com.example.mycalendar2026sar.AccountsOverviewActivity"
-163-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:139:13-53
+163-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:139:13-53
 164            android:exported="false"
-164-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:140:13-37
+164-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:140:13-37
 165            android:finishOnTaskLaunch="true"
-165-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:141:13-46
+165-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:141:13-46
 166            android:theme="@style/Theme.MyCalendar2026SAR" />
-166-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:142:13-59
+166-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:142:13-59
 167        <activity
-167-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:143:9-147:62
+167-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:143:9-147:62
 168            android:name="com.example.mycalendar2026sar.TransactionsAllAccountsActivity"
-168-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:144:13-60
+168-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:144:13-60
 169            android:exported="false"
-169-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:145:13-37
+169-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:145:13-37
 170            android:finishOnTaskLaunch="true"
-170-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:146:13-46
+170-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:146:13-46
 171            android:theme="@style/Theme.MyCalendar2026SAR" />
-171-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:147:13-59
+171-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:147:13-59
 172        <activity
-172-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:148:9-152:62
+172-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:148:9-152:62
 173            android:name="com.example.mycalendar2026sar.CashCalculatorActivity"
-173-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:149:13-51
+173-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:149:13-51
 174            android:exported="false"
-174-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:150:13-37
+174-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:150:13-37
 175            android:finishOnTaskLaunch="true"
-175-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:151:13-46
+175-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:151:13-46
 176            android:theme="@style/Theme.MyCalendar2026SAR" />
-176-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:152:13-59
+176-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:152:13-59
 177        <activity
-177-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:153:9-157:62
+177-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:153:9-157:62
 178            android:name="com.example.mycalendar2026sar.AddRemoveCurrencyActivity"
-178-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:154:13-54
+178-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:154:13-54
 179            android:exported="false"
-179-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:155:13-37
+179-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:155:13-37
 180            android:finishOnTaskLaunch="true"
-180-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:156:13-46
+180-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:156:13-46
 181            android:theme="@style/Theme.MyCalendar2026SAR" />
-181-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:157:13-59
+181-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:157:13-59
 182        <activity
-182-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:159:9-163:62
+182-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:159:9-163:62
 183            android:name="com.example.mycalendar2026sar.DayDetailsActivity"
-183-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:160:13-47
+183-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:160:13-47
 184            android:exported="false"
-184-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:161:13-37
+184-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:161:13-37
 185            android:finishOnTaskLaunch="true"
-185-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:162:13-46
+185-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:162:13-46
 186            android:theme="@style/Theme.MyCalendar2026SAR" />
-186-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:163:13-59
+186-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:163:13-59
 187        <activity
-187-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:165:9-170:58
+187-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:165:9-170:58
 188            android:name="com.example.mycalendar2026sar.NotificationDetailsActivity"
-188-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:166:13-56
+188-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:166:13-56
 189            android:exported="false"
-189-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:167:13-37
+189-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:167:13-37
 190            android:finishOnTaskLaunch="true"
-190-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:168:13-46
+190-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:168:13-46
 191            android:theme="@style/Theme.MyCalendar2026SAR"
-191-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:169:13-59
+191-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:169:13-59
 192            android:windowSoftInputMode="adjustResize" />
-192-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:170:13-55
+192-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:170:13-55
 193        <activity
-193-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:172:9-176:62
+193-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:172:9-176:62
 194            android:name="com.example.mycalendar2026sar.EventsActivity"
-194-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:173:13-43
+194-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:173:13-43
 195            android:exported="false"
-195-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:174:13-37
+195-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:174:13-37
 196            android:finishOnTaskLaunch="true"
-196-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:175:13-46
+196-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:175:13-46
 197            android:theme="@style/Theme.MyCalendar2026SAR" />
-197-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:176:13-59
+197-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:176:13-59
 198
 199        <service
-199-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:178:9-185:19
+199-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:178:9-185:19
 200            android:name="com.example.mycalendar2026sar.QuickNoteNotificationService"
-200-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:179:13-57
+200-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:179:13-57
 201            android:enabled="true"
-201-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:180:13-35
+201-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:180:13-35
 202            android:exported="false"
-202-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:181:13-37
+202-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:181:13-37
 203            android:foregroundServiceType="specialUse" >
-203-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:182:13-55
+203-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:182:13-55
 204            <property
-204-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:183:13-184:71
+204-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:183:13-184:71
 205                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-205-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:183:23-82
+205-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:183:23-82
 206                android:value="Persistent UI for quick note taking" />
-206-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:184:17-68
+206-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:184:17-68
 207        </service>
 208
 209        <receiver
-209-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:187:9-79
+209-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:9-79
 210            android:name="com.example.mycalendar2026sar.ReminderReceiver"
-210-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:187:19-51
+210-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:19-51
 211            android:exported="false" />
-211-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:187:52-76
+211-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:52-76
 212
 213        <!-- Professional 4x4 SAR Dashboard Widget -->
 214        <receiver
-214-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:190:9-193:20
+214-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:9-193:20
 215            android:name="com.example.mycalendar2026sar.SARCalendarWidget4x4"
-215-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:190:19-55
+215-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:19-55
 216            android:exported="false"
-216-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:190:56-80
+216-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:56-80
 217            android:label="SAR Dashboard (4x4)" >
-217-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:190:81-116
+217-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:81-116
 218            <intent-filter>
-218-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:191:13-111
+218-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:13-111
 219                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-219-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:191:28-95
-219-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:191:36-92
+219-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:28-95
+219-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:36-92
 220            </intent-filter>
 221
 222            <meta-data
-222-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:192:13-112
+222-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:13-112
 223                android:name="android.appwidget.provider"
-223-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:192:24-65
+223-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:24-65
 224                android:resource="@xml/sar_widget_4x4_info" />
-224-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:192:66-109
+224-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:66-109
 225        </receiver>
 226
 227        <service
-227-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:195:9-136
+227-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:9-136
 228            android:name="com.example.mycalendar2026sar.WidgetListService"
-228-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:195:18-51
+228-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:18-51
 229            android:exported="false"
-229-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:195:109-133
+229-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:109-133
 230            android:permission="android.permission.BIND_REMOTEVIEWS" />
-230-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:195:52-108
+230-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:52-108
 231
 232        <provider
 232-->INJECTED
 233            android:name="androidx.core.content.FileProvider"
-233-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:198:13-62
+233-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:198:13-62
 234            android:authorities="com.example.mycalendar2026sar.fileprovider"
 234-->INJECTED
 235            android:exported="false"
-235-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:200:13-37
+235-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:200:13-37
 236            android:grantUriPermissions="true" >
-236-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:201:13-47
+236-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:201:13-47
 237            <meta-data
-237-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:202:13-204:54
+237-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:202:13-204:54
 238                android:name="android.support.FILE_PROVIDER_PATHS"
-238-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:203:17-67
+238-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:203:17-67
 239                android:resource="@xml/file_paths" />
-239-->C:\Users\SAR\StudioProjects\MyCalendar-New-04-09-2026\app\src\main\AndroidManifest.xml:204:17-51
+239-->C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:204:17-51
 240        </provider>
 241
 242        <service

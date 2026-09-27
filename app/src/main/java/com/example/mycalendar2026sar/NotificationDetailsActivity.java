@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
@@ -807,5 +808,59 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         intent.putExtra("notes", currentEvent.getNotes());
         startActivity(intent);
         Toast.makeText(this, "Converted to Task", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        if (getWindow() != null) {
+            getWindow().setStatusBarColor(android.graphics.Color.BLACK);
+        }
+        int accent = ThemeManager.getMainAccentColor(this);
+        View root = findViewById(android.R.id.content);
+        if (root instanceof ViewGroup) {
+            applyAccentToLabels((ViewGroup) root, accent);
+        }
+        View completeBtn = findViewById(R.id.completeAction);
+        if (completeBtn != null) {
+            completeBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View btnAddAttachment = findViewById(R.id.btnAddAttachment);
+        if (btnAddAttachment != null) {
+            btnAddAttachment.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View btnRecordVoice = findViewById(R.id.btnRecordVoice);
+        if (btnRecordVoice != null) {
+            btnRecordVoice.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View playVoiceBtn = findViewById(R.id.playVoiceBtn);
+        if (playVoiceBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) playVoiceBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        androidx.appcompat.widget.SwitchCompat switchAllDay = findViewById(R.id.switchAllDay);
+        if (switchAllDay != null) {
+            switchAllDay.setThumbTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+    }
+
+    private void applyAccentToLabels(ViewGroup vg, int accent) {
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View child = vg.getChildAt(i);
+            if (child instanceof TextView) {
+                TextView tv = (TextView) child;
+                if (tv.getId() == R.id.editTitleHeader || tv.getId() == R.id.topTitle
+                        || tv.getId() == R.id.detailTitle || tv.getId() == R.id.btnSaveEdit) {
+                    tv.setTextColor(accent);
+                } else if (tv.getCurrentTextColor() == ContextCompat.getColor(this, R.color.light_green)) {
+                    tv.setTextColor(accent);
+                }
+            } else if (child instanceof ViewGroup) {
+                applyAccentToLabels((ViewGroup) child, accent);
+            }
+        }
     }
 }

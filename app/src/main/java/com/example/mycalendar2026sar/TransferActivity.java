@@ -68,6 +68,32 @@ public class TransferActivity extends AppCompatActivity {
         spinnerTo.setAdapter(adapter);
 
         btnTransfer.setOnClickListener(v -> performTransfer());
+        applyColors();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        android.view.View backBtn = findViewById(R.id.transferBackButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        if (btnTransfer != null) {
+            btnTransfer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        TextView lbl1 = findViewById(R.id.lblDateTime);
+        if (lbl1 != null) lbl1.setTextColor(accent);
+        TextView lbl2 = findViewById(R.id.lblFromAccount);
+        if (lbl2 != null) lbl2.setTextColor(accent);
+        TextView lbl3 = findViewById(R.id.lblToAccount);
+        if (lbl3 != null) lbl3.setTextColor(accent);
+        TextView lbl4 = findViewById(R.id.lblAmount);
+        if (lbl4 != null) lbl4.setTextColor(accent);
     }
 
     private void updateDateTimeLabels() {

@@ -2768,7 +2768,7 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView clock = findViewById(R.id.textClockDate);
         if (clock != null) {
-            clock.setTextColor(Color.WHITE);
+            clock.setTextColor(mainTheme);
             applyFontSettings(clock, 14);
         }
         TextView remarkLbl = findViewById(R.id.remarkLabel);

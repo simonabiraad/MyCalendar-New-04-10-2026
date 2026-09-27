@@ -67,10 +67,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TransactionListItem item = items.get(position);
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).headerText.setText(item.getHeaderText());
+            HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
+            headerHolder.headerText.setText(item.getHeaderText());
+            headerHolder.headerText.setTextColor(ThemeManager.getMainAccentColor(holder.itemView.getContext()));
         } else if (holder instanceof RowViewHolder) {
             RowViewHolder rowHolder = (RowViewHolder) holder;
             Transaction transaction = item.getTransaction();
+            int mainAccent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
 
             String displayTitle = transaction.getTitle();
             String notes = transaction.getNotes();
@@ -92,6 +95,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             if (transaction.isCashIn()) {
                 rowHolder.cashIn.setText(formattedAmount);
+                rowHolder.cashIn.setTextColor(mainAccent);
                 rowHolder.cashOut.setText("");
             } else {
                 rowHolder.cashOut.setText(formattedAmount);

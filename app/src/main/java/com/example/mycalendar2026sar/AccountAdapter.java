@@ -53,6 +53,11 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
         holder.nameText.setText(account.getName());
         holder.balanceText.setText(String.format(java.util.Locale.US, "%,.2f %s", account.getBalance(), account.getCurrency()));
 
+        int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
+        if (holder.btnDelete != null) {
+            holder.btnDelete.setColorFilter(accent);
+        }
+
         if (editMode) {
             holder.btnMoveUp.setVisibility(View.VISIBLE);
             holder.btnMoveDown.setVisibility(View.VISIBLE);

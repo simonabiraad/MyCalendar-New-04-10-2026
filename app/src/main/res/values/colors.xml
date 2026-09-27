@@ -20,11 +20,11 @@
     <color name="black">#F5F5F7</color>
     <color name="white">#1C1C1E</color>
 
-    <!-- Primary Accent Blue (replaces Green) -->
-    <color name="light_green">#1976D2</color>
-    <color name="green">#1976D2</color>
-    <color name="income_green">#1976D2</color>
-    <color name="hunter_green">#0D47A1</color>
+    <!-- Primary Accent Green -->
+    <color name="light_green">#4CAF50</color>
+    <color name="green">#4CAF50</color>
+    <color name="income_green">#4CAF50</color>
+    <color name="hunter_green">#2E7D32</color>
 
     <!-- Red / Expense / Negative -->
     <color name="red">#D32F2F</color>

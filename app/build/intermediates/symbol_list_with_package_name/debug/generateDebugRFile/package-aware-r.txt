@@ -468,6 +468,8 @@ id eventTitle
 id eventsContainer
 id eventsHeader
 id eventsRecyclerView
+id eventsTitleIcon
+id eventsTitleText
 id expense_type_main
 id expensesButtonContainer
 id expensesChartButton
@@ -511,11 +513,16 @@ id itemsContainer
 id labelTotalCashIn
 id layoutLocation
 id layoutTime
+id lblAmount
+id lblDateTime
+id lblFromAccount
+id lblToAccount
 id lineChart
 id locationLayout
 id lockExpensesSwitch
 id logo_container
 id main
+id mainCalcBorderContainer
 id mainMenuButton
 id mainScrollView
 id markerDate
@@ -691,6 +698,7 @@ id scrollView2
 id searchCountry
 id secureBoxTitle
 id secureBoxTitleContainer
+id secureBoxTitleIcon
 id selectionBar
 id selectionCountText
 id settingDefaultCurrency
@@ -757,6 +765,7 @@ id taskRecyclerView
 id taskText
 id taskTitle
 id taskTitleContainer
+id taskTitleIcon
 id textClockDate
 id timePickerBox
 id titleTextView
@@ -788,6 +797,7 @@ id tvBalance
 id tvCategoryValue
 id tvEventColorValue
 id tvExpenses
+id tvFinancialTipsTitle
 id tvIncome
 id tvPriorityValue
 id tvReminderValue

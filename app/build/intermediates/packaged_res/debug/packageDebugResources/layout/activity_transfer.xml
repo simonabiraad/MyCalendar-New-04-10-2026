@@ -49,6 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/transferTopBar">
 
         <TextView
+            android:id="@+id/lblDateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date &amp; Time"
@@ -117,6 +118,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/lblFromAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="From Account"
@@ -133,6 +135,7 @@
             android:layout_marginBottom="24dp"/>
 
         <TextView
+            android:id="@+id/lblToAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To Account"
@@ -149,6 +152,7 @@
             android:layout_marginBottom="24dp"/>
 
         <TextView
+            android:id="@+id/lblAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Amount"

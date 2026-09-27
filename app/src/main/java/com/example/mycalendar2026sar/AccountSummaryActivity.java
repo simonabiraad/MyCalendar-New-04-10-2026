@@ -106,7 +106,26 @@ public class AccountSummaryActivity extends AppCompatActivity {
         adapter = new SummaryAdapter(summaryList);
         recyclerView.setAdapter(adapter);
 
+        applyColors();
         refresh();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+        refresh();
+    }
+
+    private void applyColors() {
+        int accent = ThemeManager.getMainAccentColor(this);
+        View backBtn = findViewById(R.id.accountSummaryBackButton);
+        if (backBtn instanceof android.widget.ImageButton) {
+            ((android.widget.ImageButton) backBtn).setImageTintList(ColorStateList.valueOf(accent));
+        }
+        if (footerCashIn != null) {
+            footerCashIn.setTextColor(accent);
+        }
     }
 
     private void navigateRange(int direction) {
@@ -456,7 +475,9 @@ public class AccountSummaryActivity extends AppCompatActivity {
         footerCashOut.setText(String.format(Locale.US, "%,.2f", totalOut));
         double balance = totalIn - totalOut;
         footerBalance.setText(String.format(Locale.US, "%,.2f", balance));
-        footerBalance.setTextColor(balance >= 0 ? ContextCompat.getColor(this, R.color.light_green) : ContextCompat.getColor(this, R.color.expense_red));
+        int accent = ThemeManager.getMainAccentColor(this);
+        footerCashIn.setTextColor(accent);
+        footerBalance.setTextColor(balance >= 0 ? accent : ContextCompat.getColor(this, R.color.expense_red));
 
         emptyText.setVisibility(summaryList.isEmpty() ? View.VISIBLE : View.GONE);
     }
@@ -477,12 +498,14 @@ public class AccountSummaryActivity extends AppCompatActivity {
 
         @Override public void onBindViewHolder(@NonNull VH h, int pos) {
             SummaryRow s = list.get(pos);
+            int rowAccent = ThemeManager.getMainAccentColor(h.itemView.getContext());
             h.date.setText(s.date);
             h.in.setText(String.format(Locale.US, "%,.2f", s.in));
+            h.in.setTextColor(rowAccent);
             h.out.setText(String.format(Locale.US, "%,.2f", s.out));
             double savings = s.in - s.out;
             h.savings.setText(String.format(Locale.US, "%,.2f", savings));
-            h.savings.setTextColor(savings >= 0 ? ContextCompat.getColor(h.itemView.getContext(), R.color.light_green) : ContextCompat.getColor(h.itemView.getContext(), R.color.expense_red));
+            h.savings.setTextColor(savings >= 0 ? rowAccent : ContextCompat.getColor(h.itemView.getContext(), R.color.expense_red));
         }
 
         @Override public int getItemCount() { return list.size(); }

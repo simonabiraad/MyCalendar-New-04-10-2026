@@ -844,7 +844,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     private void updateFilterButtonsUI() {
-        int activeColor = ContextCompat.getColor(this, R.color.light_green);
+        int activeColor = ThemeManager.getMainAccentColor(this);
         int inactiveColor = ContextCompat.getColor(this, R.color.gray);
 
         allButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(currentFilter == FILTER_ALL ? activeColor : inactiveColor));
@@ -863,6 +863,24 @@ public class ExpensesActivity extends AppCompatActivity {
 
     private void showAccountsDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_accounts, null);
+        int mainAccent = ThemeManager.getMainAccentColor(this);
+        View editBtn = dialogView.findViewById(R.id.editAccountsButton);
+        if (editBtn instanceof android.view.ViewGroup) {
+            android.view.ViewGroup vg = (android.view.ViewGroup) editBtn;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                View child = vg.getChildAt(i);
+                if (child instanceof android.widget.TextView) {
+                    ((android.widget.TextView) child).setTextColor(mainAccent);
+                } else if (child instanceof android.widget.ImageView) {
+                    ((android.widget.ImageView) child).setImageTintList(android.content.res.ColorStateList.valueOf(mainAccent));
+                }
+            }
+        }
+        View addBtn = dialogView.findViewById(R.id.addAccountButton);
+        if (addBtn != null) {
+            addBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(mainAccent));
+        }
+
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setView(dialogView)
                 .create();
@@ -999,8 +1017,14 @@ public class ExpensesActivity extends AppCompatActivity {
             txtAccountDate.setText(dialogSdf.format(selectedCal.getTime()));
 
             final boolean[] isPositive = {true};
-            indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(this, R.color.income_green)));
+            int accentColor = ThemeManager.getMainAccentColor(this);
+            indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
             indicatorMinus.setBackgroundTintList(null);
+
+            TextView btnCancelAcc = addView.findViewById(R.id.btnCancelAccount);
+            if (btnCancelAcc != null) btnCancelAcc.setTextColor(accentColor);
+            TextView btnSaveAcc = addView.findViewById(R.id.btnSaveAccount);
+            if (btnSaveAcc != null) btnSaveAcc.setTextColor(accentColor);
 
             androidx.appcompat.app.AlertDialog addDialog = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setView(addView)
@@ -1012,7 +1036,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
             addView.findViewById(R.id.typePlusContainer).setOnClickListener(v1 -> {
                 isPositive[0] = true;
-                indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(this, R.color.income_green)));
+                indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ThemeManager.getMainAccentColor(this)));
                 indicatorMinus.setBackgroundTintList(null);
             });
 
@@ -1252,8 +1276,62 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        applyColors();
         loadAccounts();
         refreshTransactionsList();
+    }
+
+    private void applyColors() {
+        if (getWindow() != null) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+        int accent = ThemeManager.getMainAccentColor(this);
+        if (topExpensesButton != null) {
+            topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View cashInBtn = findViewById(R.id.cashInButton);
+        if (cashInBtn != null) {
+            cashInBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View toggleFooterBtn = findViewById(R.id.toggleFooterButton);
+        if (toggleFooterBtn instanceof ImageButton) {
+            ((ImageButton) toggleFooterBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        View subTodayBtn = findViewById(R.id.subTodayButton);
+        if (subTodayBtn != null) {
+            subTodayBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        TextView cashInTotal = findViewById(R.id.cashInTotalText);
+        if (cashInTotal != null) {
+            cashInTotal.setTextColor(accent);
+        }
+        View prevRow = findViewById(R.id.previousBalanceRow);
+        if (prevRow instanceof ViewGroup) {
+            TextView tv = (TextView) ((ViewGroup) prevRow).getChildAt(0);
+            if (tv != null) tv.setTextColor(accent);
+        }
+        View finalRow = findViewById(R.id.finalBalanceRow);
+        if (finalRow instanceof ViewGroup) {
+            TextView tv = (TextView) ((ViewGroup) finalRow).getChildAt(0);
+            if (tv != null) tv.setTextColor(accent);
+        }
+
+        com.google.android.material.navigation.NavigationView navView = findViewById(R.id.expensesNavigationView);
+        if (navView != null && navView.getHeaderCount() > 0) {
+            View headerView = navView.getHeaderView(0);
+            if (headerView instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) headerView;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    if (child instanceof TextView) {
+                        ((TextView) child).setTextColor(accent);
+                    }
+                }
+            }
+        }
+
+        updateFilterButtonsUI();
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navExpensesButton);
     }
 
     /**

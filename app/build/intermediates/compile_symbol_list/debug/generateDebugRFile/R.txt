@@ -467,6 +467,8 @@ int id eventTitle 0x0
 int id eventsContainer 0x0
 int id eventsHeader 0x0
 int id eventsRecyclerView 0x0
+int id eventsTitleIcon 0x0
+int id eventsTitleText 0x0
 int id expense_type_main 0x0
 int id expensesButtonContainer 0x0
 int id expensesChartButton 0x0
@@ -510,11 +512,16 @@ int id itemsContainer 0x0
 int id labelTotalCashIn 0x0
 int id layoutLocation 0x0
 int id layoutTime 0x0
+int id lblAmount 0x0
+int id lblDateTime 0x0
+int id lblFromAccount 0x0
+int id lblToAccount 0x0
 int id lineChart 0x0
 int id locationLayout 0x0
 int id lockExpensesSwitch 0x0
 int id logo_container 0x0
 int id main 0x0
+int id mainCalcBorderContainer 0x0
 int id mainMenuButton 0x0
 int id mainScrollView 0x0
 int id markerDate 0x0
@@ -690,6 +697,7 @@ int id scrollView2 0x0
 int id searchCountry 0x0
 int id secureBoxTitle 0x0
 int id secureBoxTitleContainer 0x0
+int id secureBoxTitleIcon 0x0
 int id selectionBar 0x0
 int id selectionCountText 0x0
 int id settingDefaultCurrency 0x0
@@ -756,6 +764,7 @@ int id taskRecyclerView 0x0
 int id taskText 0x0
 int id taskTitle 0x0
 int id taskTitleContainer 0x0
+int id taskTitleIcon 0x0
 int id textClockDate 0x0
 int id timePickerBox 0x0
 int id titleTextView 0x0
@@ -787,6 +796,7 @@ int id tvBalance 0x0
 int id tvCategoryValue 0x0
 int id tvEventColorValue 0x0
 int id tvExpenses 0x0
+int id tvFinancialTipsTitle 0x0
 int id tvIncome 0x0
 int id tvPriorityValue 0x0
 int id tvReminderValue 0x0
