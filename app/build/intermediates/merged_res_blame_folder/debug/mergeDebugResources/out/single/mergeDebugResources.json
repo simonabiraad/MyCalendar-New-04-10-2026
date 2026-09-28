@@ -252,6 +252,10 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\dialog_accounts.xml"
     },
     {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_rounded_black_button_bg.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/rounded_black_button_bg.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_activity_report_all.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\activity_report_all.xml"
     },
