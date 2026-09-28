@@ -300,6 +300,8 @@ public class AddTransactionActivity extends AppCompatActivity {
         });
 
         btnVoice.setOnClickListener(v -> startVoiceRecognition());
+        int mainAccent = ThemeManager.getMainAccentColor(this);
+        btnVoice.setImageTintList(ColorStateList.valueOf(mainAccent));
 
         findViewById(R.id.btnSelectCategory).setOnClickListener(v -> {
             Intent intent = new Intent(this, CategoryActivity.class);

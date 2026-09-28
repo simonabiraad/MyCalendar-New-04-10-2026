@@ -1,8 +1,8 @@
-com.example.mycalendar2026sar.app-pngs-0 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\build\generated\res\pngs\debug
-com.example.mycalendar2026sar.app-updated_navigation_xml-1 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\build\generated\updated_navigation_xml\debug
-com.example.mycalendar2026sar.app-packageDebugResources-2 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.mycalendar2026sar.app-packageDebugResources-3 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.mycalendar2026sar.app-debug-4 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.mycalendar2026sar.app-debug-5 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\debug\res
-com.example.mycalendar2026sar.app-main-6 C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\res
-gradleHome-0 C:\Users\SAR\.gradle\gradle-9.2.1
+com.example.mycalendar2026sar.app-pngs-0 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\build\generated\res\pngs\debug
+com.example.mycalendar2026sar.app-updated_navigation_xml-1 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\build\generated\updated_navigation_xml\debug
+com.example.mycalendar2026sar.app-packageDebugResources-2 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.mycalendar2026sar.app-packageDebugResources-3 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.mycalendar2026sar.app-debug-4 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.mycalendar2026sar.app-debug-5 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\src\debug\res
+com.example.mycalendar2026sar.app-main-6 C:\Users\simon\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\res
+gradleHome-0 C:\Users\simon\.gradle

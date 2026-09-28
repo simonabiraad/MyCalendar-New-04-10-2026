@@ -2797,9 +2797,9 @@ public class MainActivity extends AppCompatActivity {
         ImageButton menuBtn = findViewById(R.id.mainMenuButton);
         if (menuBtn != null) menuBtn.setImageTintList(null);
         ImageButton voiceBtn = findViewById(R.id.voiceNoteButton);
-        if (voiceBtn != null) voiceBtn.setImageTintList(null);
+        if (voiceBtn != null) voiceBtn.setImageTintList(ColorStateList.valueOf(mainTheme));
         ImageButton addNoteBtn = findViewById(R.id.addNoteIconButton);
-        if (addNoteBtn != null) addNoteBtn.setImageTintList(null);
+        if (addNoteBtn != null) addNoteBtn.setImageTintList(ColorStateList.valueOf(mainTheme));
 
         updateSortOrderUI();
 

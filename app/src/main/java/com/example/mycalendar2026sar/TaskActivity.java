@@ -246,6 +246,9 @@ public class TaskActivity extends AppCompatActivity {
         if (voiceBtn != null) {
             voiceBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
         }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         BottomNavigationHelper.setupBottomNavigation(this, R.id.navTaskButton);
     }
 
@@ -615,6 +618,9 @@ public class TaskActivity extends AppCompatActivity {
             holder.checkBox.setOnCheckedChangeListener(null); // Clear listener before setting checked state
             holder.checkBox.setChecked(item.completed);
             
+            int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
+            holder.checkBox.setButtonTintList(android.content.res.ColorStateList.valueOf(accent));
+
             updateStrikethrough(holder.taskText, item.completed);
 
             holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
