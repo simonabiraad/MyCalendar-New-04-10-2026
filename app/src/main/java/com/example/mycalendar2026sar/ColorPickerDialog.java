@@ -228,10 +228,28 @@ public class ColorPickerDialog extends Dialog {
         if (presetsContainer == null) return;
 
         int[] presetColors = new int[]{
-                0xFF4CAF50, 0xFF8BC34A, 0xFF2196F3, 0xFF03A9F4, 0xFF00BCD4,
-                0xFF009688, 0xFF3F51B5, 0xFF9C27B0, 0xFFE91E63, 0xFFF44336,
-                0xFFFF5722, 0xFFFF9800, 0xFFFFC107, 0xFFFFEB3B, 0xFF795548,
-                0xFF9E9E9E, 0xFFFFFFFF, 0xFF000000
+                0xFF2E7D32, // Friendly Green
+                0xFF4CAF50, // Vibrant Green
+                0xFF8BC34A, // Light Green
+                0xFF1976D2, // Friendly Blue
+                0xFF2196F3, // Vibrant Blue
+                0xFF0288D1, // Light Blue
+                0xFF7B1FA2, // Friendly Purple
+                0xFF9C27B0, // Vibrant Purple
+                0xFF00796B, // Friendly Teal
+                0xFF009688, // Vibrant Teal
+                0xFFE65100, // Friendly Orange
+                0xFFFF9800, // Vibrant Orange
+                0xFFC21807, // Friendly Red
+                0xFFE53935, // Vibrant Red
+                0xFFFF8F00, // Friendly Amber
+                0xFFFFC107, // Vibrant Gold
+                0xFF3F51B5, // Indigo
+                0xFFE91E63, // Pink
+                0xFF795548, // Brown
+                0xFF9E9E9E, // Gray
+                0xFFFFFFFF, // White
+                0xFF000000  // Black
         };
 
         presetsContainer.removeAllViews();

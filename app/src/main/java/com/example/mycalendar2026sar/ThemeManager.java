@@ -153,10 +153,12 @@ public class ThemeManager {
 
     /**
      * Applies saved theme on app startup or activity creation.
+     * When Dark Mode is ON, forces Dark Mode (MODE_NIGHT_YES).
+     * When Dark Mode is OFF, follows system default (MODE_NIGHT_FOLLOW_SYSTEM).
      */
     public static void applyTheme(Context context) {
         boolean isDark = isDarkMode(context);
-        int mode = isDark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
+        int mode = isDark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         if (AppCompatDelegate.getDefaultNightMode() != mode) {
             AppCompatDelegate.setDefaultNightMode(mode);
         }
@@ -177,7 +179,7 @@ public class ThemeManager {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putBoolean(KEY_DARK_MODE, isDark).apply();
 
-        int mode = isDark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
+        int mode = isDark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         AppCompatDelegate.setDefaultNightMode(mode);
 
         if (currentActivity != null && !currentActivity.isFinishing()) {

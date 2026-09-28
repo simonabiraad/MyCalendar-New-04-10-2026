@@ -231,63 +231,67 @@
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/completeAction"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/light_green"
+            android:background="@drawable/rounded_black_button_bg"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:padding="0dp"
             android:text="Complete"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/snoozeAction"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:backgroundTint="#FF9800"
+            android:background="@drawable/rounded_black_button_bg"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:padding="0dp"
             android:text="Snooze"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editAction"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:backgroundTint="#2196F3"
+            android:background="@drawable/rounded_black_button_bg"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:padding="0dp"
             android:text="Edit"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/deleteAction"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/red"
+            android:background="@drawable/rounded_black_button_bg"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:padding="0dp"
             android:text="Delete"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

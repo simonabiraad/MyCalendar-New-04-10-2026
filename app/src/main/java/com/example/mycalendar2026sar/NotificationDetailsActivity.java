@@ -824,10 +824,6 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         if (root instanceof ViewGroup) {
             applyAccentToLabels((ViewGroup) root, accent);
         }
-        View completeBtn = findViewById(R.id.completeAction);
-        if (completeBtn != null) {
-            completeBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
-        }
         View btnAddAttachment = findViewById(R.id.btnAddAttachment);
         if (btnAddAttachment != null) {
             btnAddAttachment.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
