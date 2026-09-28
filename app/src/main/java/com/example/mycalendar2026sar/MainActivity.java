@@ -350,12 +350,11 @@ public class MainActivity extends AppCompatActivity {
                     hideCustomMenu();
                     return;
                 }
-                new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle(R.string.close_app)
                         .setMessage(R.string.close_app_msg)
                         .setPositiveButton(R.string.yes, (dialog, which) -> finish())
-                        .setNegativeButton(R.string.no, null)
-                        .show();
+                        .setNegativeButton(R.string.no, null), MainActivity.this);
             }
         });
 
@@ -494,27 +493,24 @@ public class MainActivity extends AppCompatActivity {
         
         findViewById(R.id.menuPrivacyPolicy).setOnClickListener(v -> {
             hideCustomMenu();
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("Privacy Policy")
                     .setMessage("Your data is stored locally on your device. We do not collect any personal information.")
-                    .setPositiveButton("OK", null)
-                    .show();
+                    .setPositiveButton("OK", null), this);
         });
         findViewById(R.id.menuAbout).setOnClickListener(v -> {
             hideCustomMenu();
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("About SAR Calendar")
                     .setMessage("SAR Calendar 2026\nVersion 1.0\nCreated by SAR")
-                    .setPositiveButton("OK", null)
-                    .show();
+                    .setPositiveButton("OK", null), this);
         });
         findViewById(R.id.menuExit).setOnClickListener(v -> {
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle(R.string.action_exit)
                     .setMessage(R.string.exit_confirm_msg)
                     .setPositiveButton(R.string.yes, (dialog, which) -> finish())
-                    .setNegativeButton(R.string.no, null)
-                    .show();
+                    .setNegativeButton(R.string.no, null), this);
         });
 
         // Settings Panel Items
@@ -690,21 +686,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.cancelSelectionBtn).setOnClickListener(v -> exitSelectionMode());
         
         findViewById(R.id.deleteSelectedBtn).setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Delete Selected")
                     .setMessage("Move selected notes to trash?")
                     .setPositiveButton("Yes", (dialog, which) -> deleteSelectedNotes())
-                    .setNegativeButton("No", null)
-                    .show();
+                    .setNegativeButton("No", null), this);
         });
         
         findViewById(R.id.archiveSelectedBtn).setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Archive Selected")
                     .setMessage("Move selected notes to archive?")
                     .setPositiveButton("Yes", (dialog, which) -> archiveSelectedNotes())
-                    .setNegativeButton("No", null)
-                    .show();
+                    .setNegativeButton("No", null), this);
         });
 
         findViewById(R.id.copySelectedBtn).setOnClickListener(v -> {
@@ -873,14 +867,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void showBackupDataDialog() {
         String[] options = {"Export Data (Save Backup)", "Import Data (Restore Backup)"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Backup & Restore")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) startExport();
                     else startImport();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void startExport() {
@@ -914,7 +907,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startImport() {
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Import Data")
                 .setMessage("Warning: Importing data will overwrite all current notes and settings. Continue?")
                 .setPositiveButton("Yes", (dialog, which) -> {
@@ -923,8 +916,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.setType("application/json");
                     importLauncher.launch(intent);
                 })
-                .setNegativeButton("No", null)
-                .show();
+                .setNegativeButton("No", null), this);
     }
 
     private void performImport(android.net.Uri uri) {
@@ -1107,7 +1099,7 @@ public class MainActivity extends AppCompatActivity {
                 else if (id == 2) showEditDialog(remarkText, index, sourcePrefs);
                 else if (id == 3) {
                     String[] options = {"Share as Text", "Share as .ics File"};
-                    new AlertDialog.Builder(this)
+                    ThemeManager.showDialog(new AlertDialog.Builder(this)
                             .setTitle("Share Note")
                             .setItems(options, (dialog, which) -> {
                                 if (which == 0) {
@@ -1122,7 +1114,7 @@ public class MainActivity extends AppCompatActivity {
                                     sendIntent.setType("text/plain");
                                     startActivity(Intent.createChooser(sendIntent, "Share Note via"));
                                 } else shareNoteAsIcs(remarkText, currentDateKey);
-                            }).show();
+                            }), this);
                 }
                 else if (id == 4) archiveNote(index);
                 else if (id == 5) deleteRemark(index, sourcePrefs);
@@ -1367,7 +1359,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteSingleNotePermanently(String dateKey, int index, SharedPreferences sourcePrefs) {
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Delete Note")
                 .setMessage("Permanently delete this note?")
                 .setPositiveButton("Yes", (dialog, which) -> {
@@ -1386,7 +1378,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Permanently Deleted", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("No", null).show();
+                .setNegativeButton("No", null), this);
     }
 
     private String addDefaultIcsDates(String icsContent, Date date) {
@@ -1400,12 +1392,12 @@ public class MainActivity extends AppCompatActivity {
         String reminderKey = currentDateKey + "_" + noteText;
         String savedValue = reminderPreferences.getString(reminderKey, null);
         if (savedValue != null) {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Manage Reminder")
                     .setMessage("Currently set for: " + savedValue)
                     .setPositiveButton("Edit", (dialog, which) -> showReminderPicker(noteText))
                     .setNegativeButton("Delete", (dialog, which) -> deleteReminder(noteText))
-                    .setNeutralButton("Cancel", null).show();
+                    .setNeutralButton("Cancel", null), this);
         } else {
             showReminderPicker(noteText);
         }
@@ -1483,7 +1475,8 @@ public class MainActivity extends AppCompatActivity {
             String updatedText = input.getText().toString().trim();
             if (!updatedText.isEmpty()) updateRemark(updatedText, index, sourcePrefs);
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel()).show();
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        ThemeManager.showDialog(builder, this);
     }
 
     private void updateRemark(String newText, int index, SharedPreferences sourcePrefs) {
@@ -1501,9 +1494,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void archiveNote(int index) {
-        new AlertDialog.Builder(this).setTitle("Archive Note").setMessage("Are you sure you want to archive this note?")
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Archive Note").setMessage("Are you sure you want to archive this note?")
                 .setPositiveButton("Yes", (dialog, which) -> performArchiveNote(index))
-                .setNegativeButton("No", null).show();
+                .setNegativeButton("No", null), this);
     }
 
     private void performArchiveNote(int index) {
@@ -1529,16 +1522,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteRemark(int index, SharedPreferences sourcePrefs) {
         if (sourcePrefs == deletedPreferences) {
-            new AlertDialog.Builder(this).setTitle("Delete Note").setMessage("Permanently delete this note?")
+            ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Delete Note").setMessage("Permanently delete this note?")
                     .setPositiveButton("Yes", (dialog, which) -> performPermanentDelete(index, sourcePrefs))
-                    .setNegativeButton("No", null).show();
+                    .setNegativeButton("No", null), this);
             return;
         }
         String[] options = {"Move to Trash", "Delete Permanently"};
-        new AlertDialog.Builder(this).setTitle("Delete Note").setItems(options, (dialog, which) -> {
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Delete Note").setItems(options, (dialog, which) -> {
             if (which == 0) performDeleteRemark(index, sourcePrefs);
             else performPermanentDelete(index, sourcePrefs);
-        }).setNegativeButton("Cancel", null).show();
+        }).setNegativeButton("Cancel", null), this);
     }
 
     private void performPermanentDelete(int index, SharedPreferences sourcePrefs) {
@@ -1665,7 +1658,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView title = new TextView(this);
         title.setText("Speech & Translation");
-        title.setTextColor(Color.parseColor("#8BC34A"));
+        title.setTextColor(ThemeManager.getMainAccentColor(this));
         title.setTextSize(20);
         title.setTypeface(null, Typeface.BOLD);
         root.addView(title);
@@ -1703,12 +1696,12 @@ public class MainActivity extends AppCompatActivity {
         speakingSelector.setBackgroundResource(R.drawable.summary_border);
         speakingSelector.setPadding(30, 30, 30, 30);
         speakingSelector.setOnClickListener(v -> {
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("Select Speaking Language")
                     .setItems(languageNames, (dialog, which) -> {
                         speechSourceLang = languageCodes[which];
                         speakingSelector.setText(languageNames[which]);
-                    }).show();
+                    }), this);
         });
         root.addView(speakingSelector);
 
@@ -1750,12 +1743,12 @@ public class MainActivity extends AppCompatActivity {
         translateToSelector.setBackgroundResource(R.drawable.summary_border);
         translateToSelector.setPadding(30, 30, 30, 30);
         translateToSelector.setOnClickListener(v -> {
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("Select Translation Language")
                     .setItems(languageNames, (dialog, which) -> {
                         speechTargetLang = languageCodes[which];
                         translateToSelector.setText(languageNames[which]);
-                    }).show();
+                    }), this);
         });
         translationContainer.addView(translateToSelector);
         root.addView(translationContainer);
@@ -1780,10 +1773,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("CANCEL", null);
         
         AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> ThemeManager.styleDialogButtons(dialog, this));
         dialog.show();
-
-        // Style positive button
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#8BC34A"));
     }
 
     private final String[] languageNames = {"English", "Arabic", "French", "Spanish", "German", "Chinese", "Italian", "Japanese", "Russian", "Portuguese"};
@@ -2288,7 +2279,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             builder.setNegativeButton("Cancel", null);
-            builder.show();
+            ThemeManager.showDialog(builder, this);
         } else {
             Executor executor = ContextCompat.getMainExecutor(this);
             BiometricPrompt biometricPrompt = new BiometricPrompt(MainActivity.this,
@@ -2355,7 +2346,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             builder.setNegativeButton("Cancel", null);
-            builder.show();
+            ThemeManager.showDialog(builder, this);
         } else {
             java.util.concurrent.Executor executor = ContextCompat.getMainExecutor(this);
             androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(MainActivity.this,
@@ -2395,7 +2386,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showChangePasswordDialog() {
         String[] options = {"Use Phone Lock Screen (Fingerprint/PIN)", "Set a New Custom Password", "Disable Password"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Secure Box Access Type")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
@@ -2410,19 +2401,17 @@ public class MainActivity extends AppCompatActivity {
                         confirmDisablePassword();
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void confirmDisablePassword() {
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Disable Password")
                 .setMessage("Are you sure you want to disable the password entirely? Anyone will be able to open the Secure Box and Expenses.")
                 .setPositiveButton("Yes", (dialog, which) -> {
                     verifyThenDisablePassword("Global", "password_disabled");
                 })
-                .setNegativeButton("No", null)
-                .show();
+                .setNegativeButton("No", null), this);
     }
 
     private void showSetCustomPasswordDialog() {
@@ -2450,12 +2439,12 @@ public class MainActivity extends AppCompatActivity {
             currentDialogInput = null;
             dialog.cancel();
         });
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private void showSecurityToggleDialog(String featureName, String prefKey) {
         String[] options = {"Yes (Require Password)", "No (No Password)"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Require password for " + featureName + "?")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
@@ -2465,13 +2454,12 @@ public class MainActivity extends AppCompatActivity {
                         verifyThenDisablePassword(featureName, prefKey);
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showThemeOptionsDialog() {
         String[] options = {"Dark Mode", "Light Mode", "Other (Custom Colors)"};
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Select Theme")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
@@ -2482,8 +2470,7 @@ public class MainActivity extends AppCompatActivity {
                         showColorPicker(0);
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void verifyThenDisablePassword(String featureName, String prefKey) {
@@ -2503,7 +2490,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             builder.setNegativeButton("Cancel", null);
-            builder.show();
+            ThemeManager.showDialog(builder, this);
         } else {
             Executor executor = ContextCompat.getMainExecutor(this);
             BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
@@ -2673,26 +2660,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void showFontStylePicker() {
         String[] fontNames = {"Default", "Sans Serif", "Serif", "Monospace"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Select Font Style")
                 .setItems(fontNames, (dialog, which) -> {
                     fontPrefs.edit().putInt("font_style", which).apply();
                     refreshUI();
                     Toast.makeText(this, "Font style updated!", Toast.LENGTH_SHORT).show();
-                })
-                .show();
+                }), this);
     }
 
     private void showFontSizePicker() {
         String[] sizeNames = {"Small", "Normal", "Large", "Extra Large"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Select Font Size")
                 .setItems(sizeNames, (dialog, which) -> {
                     fontPrefs.edit().putInt("font_size_index", which).apply();
                     refreshUI();
                     Toast.makeText(this, "Font size updated!", Toast.LENGTH_SHORT).show();
-                })
-                .show();
+                }), this);
     }
 
     private void resetFontSettings() {
@@ -2840,12 +2825,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.setNegativeButton("Close", null);
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private void showPrintDialog() {
         String[] options = {"Selected Date's Notes", "All Personal Notes", "All Archived Notes", "All Deleted Notes"};
-        new AlertDialog.Builder(this)
+        ThemeManager.showDialog(new AlertDialog.Builder(this)
                 .setTitle("Print Notes")
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
@@ -2855,8 +2840,7 @@ public class MainActivity extends AppCompatActivity {
                         case 3: printAllNotes(deletedPreferences, "All Deleted Notes"); break;
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void printNotes(String dateKey, SharedPreferences prefs) {

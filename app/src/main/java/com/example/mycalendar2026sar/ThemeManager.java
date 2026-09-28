@@ -63,6 +63,26 @@ public class ThemeManager {
     }
 
     /**
+     * Helper method to show an androidx AlertDialog and automatically style its buttons on show.
+     */
+    public static AlertDialog showDialog(AlertDialog.Builder builder, Context context) {
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> styleDialogButtons(dialog, context));
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * Helper method to show an android.app AlertDialog and automatically style its buttons on show.
+     */
+    public static android.app.AlertDialog showDialog(android.app.AlertDialog.Builder builder, Context context) {
+        android.app.AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> styleDialogButtons(dialog, context));
+        dialog.show();
+        return dialog;
+    }
+
+    /**
      * Applies saved theme on app startup or activity creation.
      */
     public static void applyTheme(Context context) {

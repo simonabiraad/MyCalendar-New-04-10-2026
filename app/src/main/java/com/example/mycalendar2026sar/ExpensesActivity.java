@@ -812,8 +812,8 @@ public class ExpensesActivity extends AppCompatActivity {
         builder.setNegativeButton("CANCEL", null);
         
         AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> ThemeManager.styleDialogButtons(dialog, this));
         dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#8BC34A"));
     }
 
     private final String[] languageNames = {"English", "Arabic", "French", "Spanish", "German", "Chinese", "Italian", "Japanese", "Russian", "Portuguese"};
@@ -1112,14 +1112,13 @@ public class ExpensesActivity extends AppCompatActivity {
 
     private void showBackupRestoreDialog() {
         String[] options = {"Export Data (Save Backup)", "Import Data (Restore Backup)"};
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Backup & Restore")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) startBackupExport();
                     else startBackupImport();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void startBackupExport() {
@@ -1152,7 +1151,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     private void startBackupImport() {
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Import Data")
                 .setMessage("Warning: Importing data will overwrite all current notes and settings. Continue?")
                 .setPositiveButton("Yes", (dialog, which) -> {
@@ -1161,8 +1160,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     intent.setType("application/json");
                     backupImportLauncher.launch(intent);
                 })
-                .setNegativeButton("No", null)
-                .show();
+                .setNegativeButton("No", null), this);
     }
 
     private void performBackupImport(android.net.Uri uri) {

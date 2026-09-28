@@ -339,7 +339,7 @@ public class TaskActivity extends AppCompatActivity {
 
     private void deleteSelectedTasks() {
         if (selectedIndices.isEmpty()) return;
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Delete Selected Tasks")
                 .setMessage("Are you sure you want to delete the selected tasks?")
                 .setPositiveButton("Delete", (dialog, which) -> {
@@ -354,8 +354,7 @@ public class TaskActivity extends AppCompatActivity {
                     exitSelectionMode();
                     Toast.makeText(this, "Selected tasks deleted", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showTaskBottomSheet(int position) {
@@ -400,7 +399,7 @@ public class TaskActivity extends AppCompatActivity {
 
         view.findViewById(R.id.bsDeleteTask).setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("Delete Task")
                     .setMessage("Are you sure you want to delete this task?")
                     .setPositiveButton("Delete", (dialog, which) -> {
@@ -411,8 +410,7 @@ public class TaskActivity extends AppCompatActivity {
                         }
                         Toast.makeText(this, "Task deleted", Toast.LENGTH_SHORT).show();
                     })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    .setNegativeButton("Cancel", null), this);
         });
 
         bottomSheetDialog.show();
@@ -458,7 +456,7 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
         builder.setNegativeButton("Cancel", null);
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private void showClearCompletedConfirm() {
@@ -474,7 +472,7 @@ public class TaskActivity extends AppCompatActivity {
             return;
         }
 
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Clear Completed")
                 .setMessage("Delete all tasks that are checked?")
                 .setPositiveButton("Clear", (dialog, which) -> {
@@ -488,8 +486,7 @@ public class TaskActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     Toast.makeText(this, "Completed tasks cleared", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void setupDragAndDrop() {
