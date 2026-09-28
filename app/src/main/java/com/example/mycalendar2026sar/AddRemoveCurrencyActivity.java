@@ -59,7 +59,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
         if (item != null) input.setText(String.valueOf(item.value));
         layout.addView(input);
 
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle(item == null ? "Add" : "Edit")
                 .setView(layout)
                 .setPositiveButton("Save", (dialog, which) -> {
@@ -78,8 +78,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
                         } catch (NumberFormatException ignored) {}
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private String formatValue(double value) {
@@ -104,6 +103,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
             holder.txtValue.setText(formatValue(d.value));
             holder.sw.setOnCheckedChangeListener(null);
             holder.sw.setChecked(d.enabled);
+            ThemeManager.styleSwitch(holder.sw, AddRemoveCurrencyActivity.this);
             holder.sw.setOnCheckedChangeListener((btn, isChecked) -> {
                 d.enabled = isChecked;
                 DenomManager.saveDenominations(AddRemoveCurrencyActivity.this, countryCode, denomList);
@@ -113,7 +113,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
             holder.txtValue.setOnClickListener(v -> showAddEditDialog(d));
             
             holder.btnDelete.setOnClickListener(v -> {
-                new AlertDialog.Builder(AddRemoveCurrencyActivity.this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new AlertDialog.Builder(AddRemoveCurrencyActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Delete")
                         .setMessage("Delete " + formatValue(d.value) + "?")
                         .setPositiveButton("Delete", (dialog, which) -> {
@@ -121,8 +121,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
                             DenomManager.saveDenominations(AddRemoveCurrencyActivity.this, countryCode, denomList);
                             adapter.notifyDataSetChanged();
                         })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                        .setNegativeButton("Cancel", null), AddRemoveCurrencyActivity.this);
             });
         }
 

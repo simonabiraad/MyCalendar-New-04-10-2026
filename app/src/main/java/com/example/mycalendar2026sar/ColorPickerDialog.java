@@ -81,6 +81,12 @@ public class ColorPickerDialog extends Dialog {
 
         updateAllFromColor(currentColor, false);
 
+        int mainTheme = ThemeManager.getMainAccentColor(getContext());
+        TextView cancelBtn = findViewById(R.id.btnCancel);
+        if (cancelBtn != null) cancelBtn.setTextColor(mainTheme);
+        TextView saveBtn = findViewById(R.id.btnSave);
+        if (saveBtn != null) saveBtn.setTextColor(mainTheme);
+
         findViewById(R.id.btnCancel).setOnClickListener(v -> dismiss());
         findViewById(R.id.btnSave).setOnClickListener(v -> {
             if (listener != null) {

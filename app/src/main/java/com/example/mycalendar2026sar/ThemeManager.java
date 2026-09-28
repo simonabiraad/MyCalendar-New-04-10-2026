@@ -3,10 +3,17 @@ package com.example.mycalendar2026sar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
 public class ThemeManager {
@@ -38,7 +45,7 @@ public class ThemeManager {
 
     /**
      * Styles the Positive, Negative, and Neutral buttons of an AlertDialog
-     * to match the current Main Theme accent color.
+     * to match the current Main Theme accent color, and styles any switches inside.
      */
     public static void styleDialogButtons(AlertDialog dialog, Context context) {
         if (dialog == null || context == null) return;
@@ -49,6 +56,11 @@ public class ThemeManager {
         if (neg != null) neg.setTextColor(accent);
         Button neu = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
         if (neu != null) neu.setTextColor(accent);
+
+        Window window = dialog.getWindow();
+        if (window != null && window.getDecorView() != null) {
+            styleSwitchesInView(window.getDecorView(), context);
+        }
     }
 
     public static void styleDialogButtons(android.app.AlertDialog dialog, Context context) {
@@ -60,10 +72,15 @@ public class ThemeManager {
         if (neg != null) neg.setTextColor(accent);
         Button neu = dialog.getButton(android.app.AlertDialog.BUTTON_NEUTRAL);
         if (neu != null) neu.setTextColor(accent);
+
+        Window window = dialog.getWindow();
+        if (window != null && window.getDecorView() != null) {
+            styleSwitchesInView(window.getDecorView(), context);
+        }
     }
 
     /**
-     * Helper method to show an androidx AlertDialog and automatically style its buttons on show.
+     * Helper method to show an androidx AlertDialog and automatically style its buttons & switches on show.
      */
     public static AlertDialog showDialog(AlertDialog.Builder builder, Context context) {
         AlertDialog dialog = builder.create();
@@ -73,13 +90,65 @@ public class ThemeManager {
     }
 
     /**
-     * Helper method to show an android.app AlertDialog and automatically style its buttons on show.
+     * Helper method to show an android.app AlertDialog and automatically style its buttons & switches on show.
      */
     public static android.app.AlertDialog showDialog(android.app.AlertDialog.Builder builder, Context context) {
         android.app.AlertDialog dialog = builder.create();
         dialog.setOnShowListener(d -> styleDialogButtons(dialog, context));
         dialog.show();
         return dialog;
+    }
+
+    /**
+     * Styles any Switch / SwitchCompat / CompoundButton to use the active Main Theme color.
+     */
+    public static void styleSwitch(CompoundButton switchView, Context context) {
+        if (switchView == null || context == null) return;
+        int accent = getMainAccentColor(context);
+
+        int[][] states = new int[][] {
+            new int[] { android.R.attr.state_checked },
+            new int[] { -android.R.attr.state_checked }
+        };
+
+        int[] thumbColors = new int[] {
+            accent,
+            0xFF888888
+        };
+
+        int trackCheckedColor = (accent & 0x00FFFFFF) | 0x66000000;
+        int[] trackColors = new int[] {
+            trackCheckedColor,
+            0xFF444444
+        };
+
+        ColorStateList thumbStateList = new ColorStateList(states, thumbColors);
+        ColorStateList trackStateList = new ColorStateList(states, trackColors);
+
+        if (switchView instanceof SwitchCompat) {
+            ((SwitchCompat) switchView).setThumbTintList(thumbStateList);
+            ((SwitchCompat) switchView).setTrackTintList(trackStateList);
+        } else if (switchView instanceof Switch) {
+            ((Switch) switchView).setThumbTintList(thumbStateList);
+            ((Switch) switchView).setTrackTintList(trackStateList);
+        } else {
+            switchView.setButtonTintList(thumbStateList);
+        }
+    }
+
+    /**
+     * Recursively traverses a View tree and styles all Switch / SwitchCompat / CompoundButton elements.
+     */
+    public static void styleSwitchesInView(View view, Context context) {
+        if (view == null || context == null) return;
+        if (view instanceof CompoundButton) {
+            styleSwitch((CompoundButton) view, context);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                styleSwitchesInView(vg.getChildAt(i), context);
+            }
+        }
     }
 
     /**

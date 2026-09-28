@@ -96,7 +96,7 @@ public class CategoryActivity extends AppCompatActivity {
             if ("Other".equals(item.name)) {
                 android.widget.EditText nameInput = new android.widget.EditText(this);
                 nameInput.setHint("Enter Name");
-                new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                         .setTitle("Custom Category")
                         .setView(nameInput)
                         .setPositiveButton("Next", (d, w) -> {
@@ -109,8 +109,7 @@ public class CategoryActivity extends AppCompatActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                        .setNegativeButton("Cancel", null), this);
             } else {
                 if (isSelectionMode) {
                     returnResult(finalTitle);
@@ -134,7 +133,7 @@ public class CategoryActivity extends AppCompatActivity {
         amountInput.setHint("0.00");
         amountInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Enter Amount for " + title)
                 .setView(amountInput)
                 .setPositiveButton("Save", (d, w) -> {
@@ -154,8 +153,7 @@ public class CategoryActivity extends AppCompatActivity {
                         } catch (NumberFormatException ignored) {}
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void addExpenseItems(List<CategoryItem> items) {

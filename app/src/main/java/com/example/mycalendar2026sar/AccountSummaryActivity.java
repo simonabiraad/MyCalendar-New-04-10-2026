@@ -195,7 +195,7 @@ public class AccountSummaryActivity extends AppCompatActivity {
             if (which == 0) saveAsPdf();
             else saveAsExcel();
         });
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private void saveAsPdf() {

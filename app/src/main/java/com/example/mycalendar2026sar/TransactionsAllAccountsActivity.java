@@ -284,7 +284,7 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
         }
 
         final String[] items = accountNames.toArray(new String[0]);
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Select Account")
                 .setItems(items, (dialog, which) -> {
                     filterAccount = items[which];
@@ -293,8 +293,7 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
                 .setNeutralButton("Clear Filter", (dialog, which) -> {
                     filterAccount = null;
                     refresh();
-                })
-                .show();
+                }), this);
     }
 
     private void refresh() {

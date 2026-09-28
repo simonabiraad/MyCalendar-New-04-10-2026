@@ -439,7 +439,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
             }
         });
         builder.setNegativeButton("Cancel", null);
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private void showCustomReminderDialog(TextView targetTv) {
@@ -741,23 +741,22 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     private void showDeleteConfirmation() {
         if (!"None".equalsIgnoreCase(currentEvent.getRepeat()) && !"Does not repeat".equalsIgnoreCase(currentEvent.getRepeat())) {
             String[] options = {"Delete this occurrence", "Delete all recurring events"};
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Recurring Notification")
                     .setItems(options, (dialog, which) -> {
                         NotificationUtils.cancelNotification(this, eventId);
                         dbHelper.deleteNotification(eventId);
                         finish();
-                    }).show();
+                    }), this);
         } else {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Delete notification?")
                     .setPositiveButton("Delete", (dialog, which) -> {
                         NotificationUtils.cancelNotification(this, eventId);
                         dbHelper.deleteNotification(eventId);
                         finish();
                     })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    .setNegativeButton("Cancel", null), this);
         }
     }
 
@@ -843,7 +842,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         }
         androidx.appcompat.widget.SwitchCompat switchAllDay = findViewById(R.id.switchAllDay);
         if (switchAllDay != null) {
-            switchAllDay.setThumbTintList(android.content.res.ColorStateList.valueOf(accent));
+            ThemeManager.styleSwitch(switchAllDay, this);
         }
     }
 

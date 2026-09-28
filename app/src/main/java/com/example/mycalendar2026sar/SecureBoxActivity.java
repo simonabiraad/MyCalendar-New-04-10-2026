@@ -291,11 +291,11 @@ public class SecureBoxActivity extends AppCompatActivity {
         
         findViewById(R.id.cancelSelectionBtn).setOnClickListener(v -> exitSelectionMode());
         findViewById(R.id.deleteSelectedBtn).setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Delete Selected")
                     .setMessage("Permanently delete selected sticky notes?")
                     .setPositiveButton("Yes", (dialog, which) -> deleteSelectedNotes())
-                    .setNegativeButton("No", null).show();
+                    .setNegativeButton("No", null), this);
         });
         findViewById(R.id.moveSelectedBtn).setOnClickListener(v -> showMoveSelectedDialog());
     }
@@ -448,7 +448,7 @@ public class SecureBoxActivity extends AppCompatActivity {
         List<String> names = new ArrayList<>(), keys = new ArrayList<>();
         for (CategoryItem cat : categoryList) if (!cat.key.equals("all_notes") && !cat.key.equals(activeCategoryKey)) { names.add(cat.name); keys.add(cat.key); }
         if (names.isEmpty()) return;
-        new AlertDialog.Builder(this).setTitle("Move to Category").setItems(names.toArray(new String[0]), (d, w) -> moveSelectedToCategory(keys.get(w))).show();
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Move to Category").setItems(names.toArray(new String[0]), (d, w) -> moveSelectedToCategory(keys.get(w))), this);
     }
 
     private void moveSelectedToCategory(String tk) {
@@ -582,7 +582,7 @@ public class SecureBoxActivity extends AppCompatActivity {
         if (p != null) {
             AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle("Locked"); EditText in = new EditText(this); in.setInputType(129); b.setView(in);
             b.setPositiveButton("Access", (d, w) -> { if (in.getText().toString().equals(p)) performSelectCategory(k, c); else Toast.makeText(this, "Incorrect", Toast.LENGTH_SHORT).show(); });
-            b.show();
+            ThemeManager.showDialog(b, this);
         } else {
             Executor ex = ContextCompat.getMainExecutor(this);
             new BiometricPrompt(this, ex, new BiometricPrompt.AuthenticationCallback() {
@@ -594,7 +594,7 @@ public class SecureBoxActivity extends AppCompatActivity {
     private void showAddCategoryDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle("New Category"); EditText in = new EditText(this); in.setHint("Name"); b.setView(in);
         b.setPositiveButton("Choose Color", (d, w) -> { if (!in.getText().toString().isEmpty()) showColorPickerForCategory(in.getText().toString().trim()); });
-        b.show();
+        ThemeManager.showDialog(b, this);
     }
 
     private void showColorPickerForCategory(String n) {
@@ -611,20 +611,21 @@ public class SecureBoxActivity extends AppCompatActivity {
     }
 
     private void showCategoryOptionsDialog(String k, Button b) {
-        new AlertDialog.Builder(this).setTitle("Options").setItems(new String[]{"Rename", "Change Color", "Set Password", "Delete Category"}, (d, w) -> {
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Options").setItems(new String[]{"Rename", "Change Color", "Set Password", "Delete Category"}, (d, w) -> {
             if (w == 0) showRenameDialog(k, b); else if (w == 1) showColorPickerForExisting(k, b); else if (w == 2) showCategorySecurityToggleDialog(k, b.getText().toString()); else if (w == 3) showDeleteCategoryConfirm(k);
-        }).show();
+        }), this);
     }
 
     private void showCategorySecurityToggleDialog(String k, String n) {
-        new AlertDialog.Builder(this).setTitle("Password for " + n + "?").setItems(new String[]{"Yes", "No"}, (d, w) -> { if (w == 0) securityPrefs.edit().putBoolean("cat_protected_" + k, true).apply(); else verifyThenDisableCatPassword(n, "cat_protected_" + k); }).show();
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Password for " + n + "?").setItems(new String[]{"Yes", "No"}, (d, w) -> { if (w == 0) securityPrefs.edit().putBoolean("cat_protected_" + k, true).apply(); else verifyThenDisableCatPassword(n, "cat_protected_" + k); }), this);
     }
 
     private void verifyThenDisableCatPassword(String n, String pk) {
         String p = securityPrefs.getString("custom_password", null);
         if (p != null) {
             AlertDialog.Builder b = new AlertDialog.Builder(this).setTitle("Verify"); EditText in = new EditText(this); in.setInputType(129); b.setView(in);
-            b.setPositiveButton("Verify", (d, w) -> { if (in.getText().toString().equals(p)) securityPrefs.edit().putBoolean(pk, false).apply(); }); b.show();
+            b.setPositiveButton("Verify", (d, w) -> { if (in.getText().toString().equals(p)) securityPrefs.edit().putBoolean(pk, false).apply(); });
+            ThemeManager.showDialog(b, this);
         } else {
             Executor ex = ContextCompat.getMainExecutor(this);
             new BiometricPrompt(this, ex, new BiometricPrompt.AuthenticationCallback() {
@@ -635,7 +636,8 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private void showRenameDialog(String k, Button b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("Rename"); EditText in = new EditText(this); in.setText(b.getText().toString()); builder.setView(in);
-        builder.setPositiveButton("OK", (d, w) -> { if (!in.getText().toString().isEmpty()) { categoryPrefs.edit().putString(k, in.getText().toString()).apply(); b.setText(in.getText().toString()); } }); builder.show();
+        builder.setPositiveButton("OK", (d, w) -> { if (!in.getText().toString().isEmpty()) { categoryPrefs.edit().putString(k, in.getText().toString()).apply(); b.setText(in.getText().toString()); } });
+        ThemeManager.showDialog(builder, this);
     }
 
     private void showColorPickerForExisting(String k, Button b) {
@@ -650,11 +652,11 @@ public class SecureBoxActivity extends AppCompatActivity {
     }
 
     private void showDeleteCategoryConfirm(String k) {
-        new AlertDialog.Builder(this).setTitle("Delete?").setMessage("Are you sure?").setPositiveButton("Yes", (d, w) -> {
+        ThemeManager.showDialog(new AlertDialog.Builder(this).setTitle("Delete?").setMessage("Are you sure?").setPositiveButton("Yes", (d, w) -> {
             categoryPrefs.edit().remove(k).apply(); securePrefs.edit().remove(k).apply(); String o = categoryPrefs.getString("cats_order", "");
             if (!o.isEmpty()) { List<String> l = new ArrayList<>(Arrays.asList(o.split(","))); l.remove(k); categoryPrefs.edit().putString("cats_order", String.join(",", l)).apply(); }
             if (activeCategoryKey.equals(k)) performSelectCategory("all_notes", Color.GRAY); loadCategories();
-        }).setNegativeButton("No", null).show();
+        }).setNegativeButton("No", null), this);
     }
 
     private void showEditFullPage(String k, int idx, String t, String c, ViewGroup ignore) {

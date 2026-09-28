@@ -176,13 +176,12 @@ public class ReportAllActivity extends AppCompatActivity {
         
         final String[] items = uniqueCurrencies.toArray(new String[0]);
 
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Select Currency")
                 .setItems(items, (dialog, which) -> {
                     selectedCurrency = items[which];
                     refresh();
-                })
-                .show();
+                }), this);
     }
 
     private static class ReportRow {

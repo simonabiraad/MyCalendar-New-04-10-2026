@@ -313,15 +313,14 @@ public class AddTransactionActivity extends AppCompatActivity {
         findViewById(R.id.btnAddBills).setOnClickListener(v -> showBillsOptions());
 
         btnDelete.setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
+            ThemeManager.showDialog(new AlertDialog.Builder(this)
                     .setTitle("Delete Transaction")
                     .setMessage("Are you sure you want to delete this transaction?")
                     .setPositiveButton("Delete", (d, w) -> {
                         performDelete();
                         finish();
                     })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    .setNegativeButton("Cancel", null), this);
         });
 
         btnSaveExit.setOnClickListener(v -> {
@@ -422,14 +421,13 @@ public class AddTransactionActivity extends AppCompatActivity {
             items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
         }
 
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Select Currency")
                 .setItems(items, (dialog, which) -> {
                     currentCurrency = countries.get(which).currency;
                     txtCurrency.setText("Currency: " + currentCurrency);
                     editAmount.setText(editAmount.getText().toString());
-                })
-                .show();
+                }), this);
     }
 
     private void startVoiceRecognition() {
@@ -497,7 +495,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                     break;
             }
         });
-        builder.show();
+        ThemeManager.showDialog(builder, this);
     }
 
     private boolean saveTransaction() {

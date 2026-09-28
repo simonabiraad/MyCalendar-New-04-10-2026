@@ -357,6 +357,7 @@ public class RatesActivity extends AppCompatActivity {
 
         boolean isDark = prefs.getBoolean("dark_mode", true);
         if (switchDarkMode != null) {
+            ThemeManager.styleSwitch(switchDarkMode, this);
             switchDarkMode.setChecked(isDark);
             if (txtThemeValue != null) txtThemeValue.setText(isDark ? "Dark mode" : "Light mode");
             switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -406,7 +407,7 @@ public class RatesActivity extends AppCompatActivity {
         if (settingLanguage != null) {
             settingLanguage.setOnClickListener(v -> {
                 String[] languages = {"English", "Arabic (العربية)", "French (Français)", "Spanish (Español)", "German (Deutsch)"};
-                new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                         .setTitle("Select Language")
                         .setItems(languages, (dialog, which) -> {
                             String selected = languages[which];
@@ -415,8 +416,7 @@ public class RatesActivity extends AppCompatActivity {
                             prefs.edit().putString("language", selected).apply();
                             applySelectedLanguage(selected);
                             Toast.makeText(this, "Language set to " + selected, Toast.LENGTH_SHORT).show();
-                        })
-                        .show();
+                        }), this);
             });
         }
     }
@@ -440,7 +440,7 @@ public class RatesActivity extends AppCompatActivity {
     private void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                     .setTitle("Location Permission Required")
                     .setMessage("Location permission is needed to automatically detect your country and currency.")
                     .setPositiveButton("Grant", (dialog, which) -> {
@@ -450,8 +450,7 @@ public class RatesActivity extends AppCompatActivity {
                                 REQ_CODE_LOCATION
                         );
                     })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    .setNegativeButton("Cancel", null), this);
         } else {
             ActivityCompat.requestPermissions(
                     this,
@@ -630,7 +629,7 @@ public class RatesActivity extends AppCompatActivity {
             } else {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
                         && !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                    new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                    ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                             .setTitle("Location Permission Disabled")
                             .setMessage("Location permission was denied. Please enable it in System Settings to allow country/currency detection.")
                             .setPositiveButton("Open Settings", (dialog, which) -> {
@@ -639,8 +638,7 @@ public class RatesActivity extends AppCompatActivity {
                                 intent.setData(uri);
                                 startActivity(intent);
                             })
-                            .setNegativeButton("Cancel", null)
-                            .show();
+                            .setNegativeButton("Cancel", null), this);
                 } else {
                     Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
                 }
@@ -1252,6 +1250,7 @@ public class RatesActivity extends AppCompatActivity {
             });
         }
 
+        dialog.setOnShowListener(d -> ThemeManager.styleDialogButtons(dialog, this));
         dialog.show();
     }
 

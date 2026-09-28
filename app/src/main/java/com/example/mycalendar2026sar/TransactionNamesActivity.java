@@ -73,7 +73,7 @@ public class TransactionNamesActivity extends AppCompatActivity {
     private void showAddDialog() {
         EditText input = new EditText(this);
         input.setHint("Name");
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Add Transaction Name")
                 .setView(input)
                 .setPositiveButton("Add", (d, w) -> {
@@ -83,15 +83,14 @@ public class TransactionNamesActivity extends AppCompatActivity {
                         loadNames();
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showEditDialog(TransactionDbHelper.NamedEntry entry) {
         EditText input = new EditText(this);
         input.setText(entry.name);
         input.setSelection(input.getText().length());
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Edit Name")
                 .setView(input)
                 .setPositiveButton("Save", (d, w) -> {
@@ -101,12 +100,11 @@ public class TransactionNamesActivity extends AppCompatActivity {
                         loadNames();
                     }
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void confirmDelete(TransactionDbHelper.NamedEntry entry) {
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Delete Name")
                 .setMessage("Delete \"" + entry.name + "\"?")
                 .setPositiveButton("Delete", (d, w) -> {
@@ -114,8 +112,7 @@ public class TransactionNamesActivity extends AppCompatActivity {
                     loadNames();
                     Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private class NamesAdapter extends RecyclerView.Adapter<NamesAdapter.ViewHolder> {

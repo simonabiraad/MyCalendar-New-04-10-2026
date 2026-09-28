@@ -520,6 +520,7 @@ public class MainActivity extends AppCompatActivity {
         
         androidx.appcompat.widget.SwitchCompat switchDarkModeMenu = findViewById(R.id.switchDarkModeMenu);
         if (switchDarkModeMenu != null) {
+            ThemeManager.styleSwitch(switchDarkModeMenu, this);
             switchDarkModeMenu.setOnCheckedChangeListener(null);
             switchDarkModeMenu.setChecked(ThemeManager.isDarkMode(this));
             switchDarkModeMenu.setOnCheckedChangeListener((buttonView, isChecked) -> {

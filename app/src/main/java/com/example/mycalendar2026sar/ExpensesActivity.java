@@ -886,6 +886,8 @@ public class ExpensesActivity extends AppCompatActivity {
                 .setView(dialogView)
                 .create();
 
+        dialog.setOnShowListener(d -> ThemeManager.styleDialogButtons(dialog, this));
+
         androidx.recyclerview.widget.RecyclerView recyclerView = dialogView.findViewById(R.id.accountsRecyclerView);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
         
@@ -899,7 +901,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(Account account, int position) {
-                new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Delete Account")
                         .setMessage("Are you sure you want to delete " + account.getName() + "?\n\nAll transactions associated with this account will also be removed.")
                         .setPositiveButton("Delete", (d, w) -> {
@@ -923,8 +925,7 @@ public class ExpensesActivity extends AppCompatActivity {
                             // 4. Update UI immediately
                             refreshTransactionsList();
                         })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                        .setNegativeButton("Cancel", null), ExpensesActivity.this);
             }
 
             @Override
@@ -938,7 +939,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 
                 editView.findViewById(R.id.accountCurrencyPicker).setVisibility(View.GONE);
             
-            new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Edit Account")
                         .setView(editView)
                         .setPositiveButton("Save", (d, w) -> {
@@ -958,8 +959,7 @@ public class ExpensesActivity extends AppCompatActivity {
                                 saveAccounts();
                             }
                         })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                        .setNegativeButton("Cancel", null), ExpensesActivity.this);
             }
 
             @Override
@@ -1005,12 +1005,12 @@ public class ExpensesActivity extends AppCompatActivity {
                 for (int i = 0; i < countries.size(); i++) {
                     items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
                 }
-                new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                         .setTitle("Select Currency")
                         .setItems(items, (dialog1, which) -> {
                             selectedCurrency[0] = countries.get(which).currency;
                             txtAccountCurrency.setText("Currency: " + selectedCurrency[0]);
-                        }).show();
+                        }), this);
             });
 
             final java.util.Calendar selectedCal = java.util.Calendar.getInstance();
@@ -1095,7 +1095,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     private void confirmDeleteTransaction(Transaction transaction) {
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Delete Transaction")
                 .setMessage("Move \"" + transaction.getTitle() + "\" to Deleted Transactions?")
                 .setPositiveButton("Delete", (d, w) -> {
@@ -1106,8 +1106,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     transactionDbHelper.deleteTransaction(transaction.getId());
                     refreshTransactionsList();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showBackupRestoreDialog() {
@@ -1839,7 +1838,7 @@ public class ExpensesActivity extends AppCompatActivity {
     private void showUserInfoDialog(String title, String prefKey) {
         EditText input = new EditText(this);
         input.setText(getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString(prefKey, ""));
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Edit " + title)
                 .setView(input)
                 .setPositiveButton("Save", (d, w) -> {
@@ -1847,7 +1846,6 @@ public class ExpensesActivity extends AppCompatActivity {
                     getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).edit().putString(prefKey, val).apply();
                     Toast.makeText(this, title + " saved", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 }

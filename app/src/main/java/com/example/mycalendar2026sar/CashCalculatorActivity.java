@@ -319,7 +319,7 @@ public class CashCalculatorActivity extends AppCompatActivity {
             });
         });
 
-        new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setView(view)
                 .setPositiveButton("OK", (dialog, which) -> {
                     CountryManager.saveSelectedCountry(this, selected[0]);
@@ -330,8 +330,7 @@ public class CashCalculatorActivity extends AppCompatActivity {
                     refreshDenominations();
                     updateOnlineStatusIndicator();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showCountryListDialog(java.util.function.Consumer<CountryManager.Country> callback) {
@@ -359,6 +358,7 @@ public class CashCalculatorActivity extends AppCompatActivity {
             }
         });
 
+        dialog.setOnShowListener(d -> ThemeManager.styleDialogButtons(dialog, this));
         dialog.show();
     }
 

@@ -60,7 +60,7 @@ public class DeletedTransactionsActivity extends AppCompatActivity {
     }
 
     private void confirmEmptyTrash() {
-        new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Empty Trash")
                 .setMessage("Permanently delete all transactions in the trash? This cannot be undone.")
                 .setPositiveButton("Empty Trash", (d, w) -> {
@@ -68,8 +68,7 @@ public class DeletedTransactionsActivity extends AppCompatActivity {
                     loadData();
                     Toast.makeText(this, "Trash emptied", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null), this);
     }
 
     private class DeletedAdapter extends RecyclerView.Adapter<DeletedAdapter.ViewHolder> {
@@ -104,7 +103,7 @@ public class DeletedTransactionsActivity extends AppCompatActivity {
                 Toast.makeText(DeletedTransactionsActivity.this, "Restored", Toast.LENGTH_SHORT).show();
             });
 
-            holder.foreverButton.setOnClickListener(v -> new AlertDialog.Builder(
+            holder.foreverButton.setOnClickListener(v -> ThemeManager.showDialog(new AlertDialog.Builder(
                     DeletedTransactionsActivity.this, R.style.CustomAlertDialogTheme)
                     .setTitle("Delete Forever")
                     .setMessage("Permanently delete \"" + t.getTitle() + "\"? This cannot be undone.")
@@ -112,8 +111,7 @@ public class DeletedTransactionsActivity extends AppCompatActivity {
                         dbHelper.permanentlyDeleteTransaction(t.getId());
                         loadData();
                     })
-                    .setNegativeButton("Cancel", null)
-                    .show());
+                    .setNegativeButton("Cancel", null), DeletedTransactionsActivity.this));
         }
 
         @Override
