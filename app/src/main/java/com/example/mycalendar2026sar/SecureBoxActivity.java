@@ -598,11 +598,15 @@ public class SecureBoxActivity extends AppCompatActivity {
     }
 
     private void showColorPickerForCategory(String n) {
-        String[] names = {"Green", "Blue", "Red", "Orange", "Purple", "Teal", "Grey", "Pink"}; int[] vals = {0xFF4CAF50, 0xFF2196F3, 0xFFF44336, 0xFFFF9800, 0xFF9C27B0, 0xFF009688, 0xFF9E9E9E, 0xFFE91E63};
-        new AlertDialog.Builder(this).setTitle("Pick Color").setItems(names, (d, w) -> {
-            String k = n.toLowerCase().replace(" ", "_") + "_notes_" + System.currentTimeMillis(); categoryPrefs.edit().putString(k, n).apply();
-            String o = categoryPrefs.getString("cats_order", ""); categoryPrefs.edit().putString("cats_order", o.isEmpty() ? k : o + "," + k).apply();
-            colorPrefs.edit().putInt("color_sb_" + k.replace("_notes", ""), vals[w]).apply(); loadCategories(); selectCategory(k, vals[w]);
+        int initialColor = 0xFF4CAF50;
+        new ColorPickerDialog(this, initialColor, selectedColor -> {
+            String k = n.toLowerCase().replace(" ", "_") + "_notes_" + System.currentTimeMillis();
+            categoryPrefs.edit().putString(k, n).apply();
+            String o = categoryPrefs.getString("cats_order", "");
+            categoryPrefs.edit().putString("cats_order", o.isEmpty() ? k : o + "," + k).apply();
+            colorPrefs.edit().putInt("color_sb_" + k.replace("_notes", ""), selectedColor).apply();
+            loadCategories();
+            selectCategory(k, selectedColor);
         }).show();
     }
 
@@ -635,8 +639,14 @@ public class SecureBoxActivity extends AppCompatActivity {
     }
 
     private void showColorPickerForExisting(String k, Button b) {
-        int[] vals = {0xFF4CAF50, 0xFF2196F3, 0xFFF44336, 0xFFFF9800, 0xFF9C27B0, 0xFF009688, 0xFF9E9E9E, 0xFFE91E63};
-        new AlertDialog.Builder(this).setTitle("Pick Color").setItems(new String[]{"Green", "Blue", "Red", "Orange", "Purple", "Teal", "Grey", "Pink"}, (d, w) -> { colorPrefs.edit().putInt("color_sb_" + k.replace("_notes", ""), vals[w]).apply(); b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(vals[w])); if (activeCategoryKey.equals(k)) selectCategory(k, vals[w]); }).show();
+        int initialColor = colorPrefs.getInt("color_sb_" + k.replace("_notes", ""), 0xFF4CAF50);
+        new ColorPickerDialog(this, initialColor, selectedColor -> {
+            colorPrefs.edit().putInt("color_sb_" + k.replace("_notes", ""), selectedColor).apply();
+            b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(selectedColor));
+            if (activeCategoryKey.equals(k)) {
+                selectCategory(k, selectedColor);
+            }
+        }).show();
     }
 
     private void showDeleteCategoryConfirm(String k) {

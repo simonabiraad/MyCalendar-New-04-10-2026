@@ -2551,6 +2551,8 @@ public class MainActivity extends AppCompatActivity {
         // Color Options
         String[] options = {
                 "Main Theme (Buttons/Title)",
+                "Note Text Color",
+                "Checked Note Text Color",
                 "Archive Folder Color",
                 "Deleted Folder Color",
                 "App Background Color",
@@ -2592,9 +2594,11 @@ public class MainActivity extends AppCompatActivity {
                 int category;
                 switch (which) {
                     case 0: category = 0; break;  // Main Theme (Buttons/Title)
-                    case 1: category = 3; break;  // Archive Folder Color
-                    case 2: category = 4; break;  // Deleted Folder Color
-                    case 3: category = 10; break; // App Background Color
+                    case 1: category = 1; break;  // Note Text Color
+                    case 2: category = 2; break;  // Checked Note Text Color
+                    case 3: category = 3; break;  // Archive Folder Color
+                    case 4: category = 4; break;  // Deleted Folder Color
+                    case 5: category = 10; break; // App Background Color
                     default: return;
                 }
                 showColorPicker(category);
@@ -2607,20 +2611,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showColorPicker(int category) {
-        String[] colorNames = {"Green", "Light Green", "Blue", "Red", "Chili Red", "Orange", "Purple", "Gold", "Unmellow Yellow", "Honey", "Teal", "White", "Black"};
-        int[] colorValues = {
-                0xFF4CAF50, 0xFF8BC34A, 0xFF2196F3, 0xFFFF0000, 0xFFC21807,
-                0xFFFF9800, 0xFF9C27B0, 0xFFFFD700, 0xFFFFFF66, 0xFFFFC30B,
-                0xFF008080, 0xFFFFFFFF, 0xFF000000
-        };
+        int initialColor;
+        switch (category) {
+            case 0: initialColor = colorPrefs.getInt("color_main_theme", getColor(R.color.light_green)); break;
+            case 1: initialColor = colorPrefs.getInt("color_note_text", Color.WHITE); break;
+            case 2: initialColor = colorPrefs.getInt("color_note_checked", Color.GREEN); break;
+            case 3: initialColor = colorPrefs.getInt("color_archive", Color.YELLOW); break;
+            case 4: initialColor = colorPrefs.getInt("color_deleted", getColor(R.color.chili_red)); break;
+            case 10: initialColor = colorPrefs.getInt("color_app_background", Color.BLACK); break;
+            default: initialColor = getColor(R.color.light_green); break;
+        }
 
-        new AlertDialog.Builder(this)
-                .setTitle("Select Color")
-                .setItems(colorNames, (dialog, which) -> {
-                    int selectedColor = colorValues[which];
-                    saveColor(category, selectedColor);
-                })
-                .show();
+        new ColorPickerDialog(this, initialColor, selectedColor -> {
+            saveColor(category, selectedColor);
+        }).show();
     }
 
     private void saveColor(int category, int color) {

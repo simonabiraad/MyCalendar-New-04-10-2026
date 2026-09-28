@@ -233,6 +233,8 @@ int id attachmentsRecyclerView 0x0
 int id backButton 0x0
 int id balanceText 0x0
 int id balanceTotalText 0x0
+int id blueSeekBar 0x0
+int id blueText 0x0
 int id bottomActions 0x0
 int id bottomContainer 0x0
 int id bottomNavContainer 0x0
@@ -304,6 +306,7 @@ int id btnPriorityArrow 0x0
 int id btnRecordVoice 0x0
 int id btnReminderArrow 0x0
 int id btnRepeatArrow 0x0
+int id btnSave 0x0
 int id btnSaveAccount 0x0
 int id btnSaveContinue 0x0
 int id btnSaveEdit 0x0
@@ -370,6 +373,7 @@ int id chartHeader 0x0
 int id chartTitle 0x0
 int id clearDataRow 0x0
 int id colorBox 0x0
+int id colorPreview 0x0
 int id completeAction 0x0
 int id copySelectedBtn 0x0
 int id count_sticky 0x0
@@ -489,13 +493,18 @@ int id footerGrandTotalAmount 0x0
 int id footerSubTotalAmount 0x0
 int id footerTotalCount 0x0
 int id grandTotalRow 0x0
+int id greenSeekBar 0x0
+int id greenText 0x0
 int id headerDateText 0x0
 int id headerLayout 0x0
 int id headerTextContainer 0x0
 int id headerTitle 0x0
 int id headerTotalDisplay 0x0
+int id hexInput 0x0
 int id historyContainer 0x0
 int id historyGroupContainer 0x0
+int id hueSeekBar 0x0
+int id hueText 0x0
 int id imagePreview 0x0
 int id imgFromArrow 0x0
 int id imgToArrow 0x0
@@ -639,6 +648,7 @@ int id overviewTopBar 0x0
 int id periodBar 0x0
 int id pieChart 0x0
 int id playVoiceBtn 0x0
+int id presetsContainer 0x0
 int id prevMonth 0x0
 int id previousBalanceRow 0x0
 int id previousBalanceTotalText 0x0
@@ -654,6 +664,8 @@ int id ratesRootLayout 0x0
 int id ratesTopBar 0x0
 int id recommendBackButton 0x0
 int id recommendTopBar 0x0
+int id redSeekBar 0x0
+int id redText 0x0
 int id remarkHistoryContainer 0x0
 int id remarkHistoryTitle 0x0
 int id remarkLabel 0x0
@@ -691,6 +703,8 @@ int id rowDate 0x0
 int id rowSavings 0x0
 int id rowTime 0x0
 int id rowTitle 0x0
+int id satSeekBar 0x0
+int id satText 0x0
 int id saveStickyNoteButton 0x0
 int id sbCameraNoteButton 0x0
 int id sbVoiceNoteButton 0x0
@@ -861,6 +875,8 @@ int id txtTransferDate 0x0
 int id txtTransferTime 0x0
 int id typeMinusContainer 0x0
 int id typePlusContainer 0x0
+int id valSeekBar 0x0
+int id valText 0x0
 int id viewConvertContainer 0x0
 int id viewEventColorDot 0x0
 int id viewHistoryContainer 0x0
@@ -925,6 +941,7 @@ int layout dialog_accounts 0x0
 int layout dialog_add_account 0x0
 int layout dialog_add_transaction 0x0
 int layout dialog_calculator 0x0
+int layout dialog_color_picker 0x0
 int layout dialog_country_list 0x0
 int layout dialog_edit_notification 0x0
 int layout dialog_item_with_icon 0x0

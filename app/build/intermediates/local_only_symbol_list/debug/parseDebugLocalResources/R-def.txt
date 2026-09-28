@@ -235,6 +235,8 @@ id attachmentsRecyclerView
 id backButton
 id balanceText
 id balanceTotalText
+id blueSeekBar
+id blueText
 id bottomActions
 id bottomContainer
 id bottomNavContainer
@@ -306,6 +308,7 @@ id btnPriorityArrow
 id btnRecordVoice
 id btnReminderArrow
 id btnRepeatArrow
+id btnSave
 id btnSaveAccount
 id btnSaveContinue
 id btnSaveEdit
@@ -372,6 +375,7 @@ id chartHeader
 id chartTitle
 id clearDataRow
 id colorBox
+id colorPreview
 id completeAction
 id copySelectedBtn
 id count_sticky
@@ -491,13 +495,18 @@ id footerGrandTotalAmount
 id footerSubTotalAmount
 id footerTotalCount
 id grandTotalRow
+id greenSeekBar
+id greenText
 id headerDateText
 id headerLayout
 id headerTextContainer
 id headerTitle
 id headerTotalDisplay
+id hexInput
 id historyContainer
 id historyGroupContainer
+id hueSeekBar
+id hueText
 id imagePreview
 id imgFromArrow
 id imgToArrow
@@ -641,6 +650,7 @@ id overviewTopBar
 id periodBar
 id pieChart
 id playVoiceBtn
+id presetsContainer
 id prevMonth
 id previousBalanceRow
 id previousBalanceTotalText
@@ -656,6 +666,8 @@ id ratesRootLayout
 id ratesTopBar
 id recommendBackButton
 id recommendTopBar
+id redSeekBar
+id redText
 id remarkHistoryContainer
 id remarkHistoryTitle
 id remarkLabel
@@ -693,6 +705,8 @@ id rowDate
 id rowSavings
 id rowTime
 id rowTitle
+id satSeekBar
+id satText
 id saveStickyNoteButton
 id sbCameraNoteButton
 id sbVoiceNoteButton
@@ -863,6 +877,8 @@ id txtTransferDate
 id txtTransferTime
 id typeMinusContainer
 id typePlusContainer
+id valSeekBar
+id valText
 id viewConvertContainer
 id viewEventColorDot
 id viewHistoryContainer
@@ -927,6 +943,7 @@ layout dialog_accounts
 layout dialog_add_account
 layout dialog_add_transaction
 layout dialog_calculator
+layout dialog_color_picker
 layout dialog_country_list
 layout dialog_edit_notification
 layout dialog_item_with_icon
