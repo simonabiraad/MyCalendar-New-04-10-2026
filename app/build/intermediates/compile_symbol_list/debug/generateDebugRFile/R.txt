@@ -149,6 +149,7 @@ int drawable ic_refresh 0x0
 int drawable ic_remove_circle 0x0
 int drawable ic_report_logo 0x0
 int drawable ic_swap_vert 0x0
+int drawable rounded_black_button_bg 0x0
 int drawable rounded_search_bg 0x0
 int drawable status_dot_off 0x0
 int drawable status_dot_on 0x0

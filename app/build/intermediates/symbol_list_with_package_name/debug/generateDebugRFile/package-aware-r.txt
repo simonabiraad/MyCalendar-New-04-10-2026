@@ -150,6 +150,7 @@ drawable ic_refresh
 drawable ic_remove_circle
 drawable ic_report_logo
 drawable ic_swap_vert
+drawable rounded_black_button_bg
 drawable rounded_search_bg
 drawable status_dot_off
 drawable status_dot_on
