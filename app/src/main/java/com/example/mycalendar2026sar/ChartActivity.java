@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class ChartActivity extends AppCompatActivity {
 
@@ -143,84 +144,126 @@ public class ChartActivity extends AppCompatActivity {
         currencyChartsContainer.removeAllViews();
         List<Account> accounts = loadAccounts();
 
-        // Group accounts by currency
-        Map<String, List<Account>> groupedAccounts = new HashMap<>();
-        for (Account a : accounts) {
-            String curr = a.getCurrency();
-            if (curr == null) curr = "USD";
-            if (!groupedAccounts.containsKey(curr)) {
-                groupedAccounts.put(curr, new ArrayList<>());
-            }
-            List<Account> accountList = groupedAccounts.get(curr);
-            if (accountList != null) {
-                accountList.add(a);
+        // Collect all unique currencies from transactions AND accounts
+        Set<String> currenciesSet = new java.util.TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        for (Transaction t : transactions) {
+            if (t.getCurrency() != null && !t.getCurrency().trim().isEmpty()) {
+                currenciesSet.add(t.getCurrency().trim().toUpperCase(Locale.US));
             }
         }
+        for (Account a : accounts) {
+            if (a.getCurrency() != null && !a.getCurrency().trim().isEmpty()) {
+                currenciesSet.add(a.getCurrency().trim().toUpperCase(Locale.US));
+            }
+        }
+        if (currenciesSet.isEmpty()) {
+            currenciesSet.add("USD");
+        }
 
-        // Sort currencies so they appear consistently (USD first, then EUR, then others)
-        List<String> currencies = new ArrayList<>(groupedAccounts.keySet());
+        List<String> currencies = new ArrayList<>(currenciesSet);
         Collections.sort(currencies, (c1, c2) -> {
             if (c1.equalsIgnoreCase("USD")) return -1;
             if (c2.equalsIgnoreCase("USD")) return 1;
             if (c1.equalsIgnoreCase("EUR")) return -1;
             if (c2.equalsIgnoreCase("EUR")) return 1;
+            if (c1.equalsIgnoreCase("LBP")) return -1;
+            if (c2.equalsIgnoreCase("LBP")) return 1;
             return c1.compareTo(c2);
         });
 
         for (String currency : currencies) {
-            List<Account> currencyAccounts = groupedAccounts.get(currency);
-            if (currencyAccounts == null) continue;
+            double totalIncome = 0;
+            double totalExpenses = 0;
+            Map<String, Double> incomeSourcesMap = new HashMap<>();
 
-            // Calculate stats for this currency
-            double totalAmount = 0;
-            Map<String, Double> accountBalances = new HashMap<>();
-            for (Account a : currencyAccounts) {
-                totalAmount += a.getBalance();
-                accountBalances.put(a.getName(), a.getBalance());
-            }
-
-            double income = 0;
-            double expenses = 0;
+            // 1. Process transactions in this currency
             for (Transaction t : transactions) {
-                if (currency.equalsIgnoreCase(t.getCurrency())) {
+                String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                        ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+
+                if (currency.equalsIgnoreCase(txCurr)) {
+                    double amt = t.getAmount();
                     if (t.isCashIn()) {
-                        income += t.getAmount();
+                        totalIncome += amt;
+                        String title = t.getTitle();
+                        if (title == null || title.trim().isEmpty()) {
+                            title = "Income";
+                        }
+                        incomeSourcesMap.put(title, incomeSourcesMap.getOrDefault(title, 0.0) + amt);
                     } else {
-                        expenses += t.getAmount();
+                        totalExpenses += amt;
                     }
                 }
             }
-            double balance = income - expenses;
+
+            // 2. Include positive account balances in this currency
+            for (Account a : accounts) {
+                String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
+                        ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                if (currency.equalsIgnoreCase(accCurr) && a.getBalance() > 0) {
+                    if (!incomeSourcesMap.containsKey(a.getName())) {
+                        incomeSourcesMap.put(a.getName(), a.getBalance());
+                        totalIncome += a.getBalance();
+                    }
+                }
+            }
+
+            double balance = totalIncome - totalExpenses;
 
             // Inflate layout
             View currencyView = LayoutInflater.from(this).inflate(R.layout.layout_currency_chart, currencyChartsContainer, false);
 
             TextView header = currencyView.findViewById(R.id.currencyHeader);
-            TextView tvTotal = currencyView.findViewById(R.id.tvTotalAmount);
             TextView tvIncome = currencyView.findViewById(R.id.tvIncome);
             TextView tvExpenses = currencyView.findViewById(R.id.tvExpenses);
             TextView tvBalance = currencyView.findViewById(R.id.tvBalance);
             PieChart currencyPieChart = currencyView.findViewById(R.id.currencyPieChart);
             LinearLayout detailsContainer = currencyView.findViewById(R.id.currencyDetailsContainer);
 
-            String symbol = getCurrencySymbol(currency);
             header.setText(currency + " Breakdown");
-            tvTotal.setText(String.format(Locale.US, "%,.2f %s", totalAmount, symbol));
-            tvIncome.setText(String.format(Locale.US, "%,.2f %s", income, symbol));
-            tvExpenses.setText(String.format(Locale.US, "%,.2f %s", expenses, symbol));
-            tvBalance.setText(String.format(Locale.US, "%,.2f %s", balance, symbol));
+
+            if ("LBP".equalsIgnoreCase(currency)) {
+                tvIncome.setText(CurrencyFormatter.formatLbpAmount(totalIncome) + " LBP");
+                tvExpenses.setText(CurrencyFormatter.formatLbpAmount(totalExpenses) + " LBP");
+                tvBalance.setText(CurrencyFormatter.formatLbpAmount(balance) + " LBP");
+            } else {
+                String symbol = getCurrencySymbol(currency);
+                tvIncome.setText(formatAmountWithSymbol(totalIncome, currency, symbol));
+                tvExpenses.setText(formatAmountWithSymbol(totalExpenses, currency, symbol));
+                tvBalance.setText(formatAmountWithSymbol(balance, currency, symbol));
+            }
 
             // Setup PieChart for this currency
-            setupCurrencyPieChart(currencyPieChart, detailsContainer, accountBalances, totalAmount, currency);
+            setupCurrencyPieChart(currencyPieChart, detailsContainer, incomeSourcesMap, totalIncome, currency);
 
             currencyChartsContainer.addView(currencyView);
         }
     }
 
-    private void setupCurrencyPieChart(PieChart chart, LinearLayout container, Map<String, Double> accountBalances, double totalBalance, String currency) {
+    private String formatAmountWithSymbol(double amount, String currency, String symbol) {
+        if ("LBP".equalsIgnoreCase(currency)) {
+            return CurrencyFormatter.formatLbpAmount(amount) + " LBP";
+        }
+        if (symbol.equalsIgnoreCase(currency)) {
+            return String.format(Locale.US, "%,.2f %s", amount, currency);
+        } else {
+            return String.format(Locale.US, "%,.2f %s", amount, symbol);
+        }
+    }
+
+    private void setupCurrencyPieChart(PieChart chart, LinearLayout container, Map<String, Double> incomeSourcesMap, double totalIncome, String currency) {
         ArrayList<PieEntry> entries = new ArrayList<>();
-        for (Map.Entry<String, Double> entry : accountBalances.entrySet()) {
-            entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+        for (Map.Entry<String, Double> entry : incomeSourcesMap.entrySet()) {
+            if (entry.getValue() > 0) {
+                entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+            }
+        }
+
+        if (entries.isEmpty()) {
+            chart.setNoDataText("No income for " + currency);
+            chart.clear();
+            container.removeAllViews();
+            return;
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -251,12 +294,76 @@ public class ChartActivity extends AppCompatActivity {
         chart.setDrawEntryLabels(false);
         chart.getLegend().setEnabled(false);
 
-        chart.setCenterText(generateCenterText("Total accounts", totalBalance, currency));
+        chart.setCenterText(generateCenterText("Total Income", totalIncome, currency));
 
         chart.animateY(1000);
         chart.invalidate();
 
-        populateDetails(container, accountBalances, totalBalance, colors, true, currency);
+        populateDetails(container, incomeSourcesMap, totalIncome, colors, true, currency);
+    }
+
+    private SpannableString generateCenterText(String label, double total, String currency) {
+        String top = label + "\n";
+        String bottom;
+        if ("LBP".equalsIgnoreCase(currency)) {
+            bottom = CurrencyFormatter.formatLbpAmount(total) + " LBP";
+        } else {
+            String symbol = getCurrencySymbol(currency);
+            bottom = formatAmountWithSymbol(total, currency, symbol);
+        }
+        SpannableString s = new SpannableString(top + bottom);
+        s.setSpan(new ForegroundColorSpan(Color.LTGRAY), 0, top.length(), 0);
+        s.setSpan(new RelativeSizeSpan(0.85f), 0, top.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, top.length(), 0);
+
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), top.length(), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(1.4f), top.length(), s.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), top.length(), s.length(), 0);
+        return s;
+    }
+
+    private void populateDetails(LinearLayout container, Map<String, Double> totals, double grandTotal, int[] palette, boolean isAccount, String currency) {
+        container.removeAllViews();
+        List<Map.Entry<String, Double>> list = new ArrayList<>(totals.entrySet());
+        Collections.sort(list, (a, b) -> b.getValue().compareTo(a.getValue()));
+
+        int colorIndex = 0;
+        for (Map.Entry<String, Double> entry : list) {
+            View row = LayoutInflater.from(this).inflate(R.layout.item_chart_detail, container, false);
+
+            ImageView icon = row.findViewById(R.id.catIcon);
+            TextView name = row.findViewById(R.id.catName);
+            TextView percent = row.findViewById(R.id.catPercent);
+            TextView amount = row.findViewById(R.id.catAmount);
+            ProgressBar progress = row.findViewById(R.id.catProgress);
+
+            int color = palette[colorIndex % palette.length];
+            colorIndex++;
+
+            name.setText(entry.getKey());
+            double val = entry.getValue();
+            int p = (int) Math.round((val / (grandTotal > 0 ? grandTotal : 1.0)) * 100);
+
+            percent.setText(p + "%");
+            if ("LBP".equalsIgnoreCase(currency)) {
+                amount.setText(CurrencyFormatter.formatLbpAmount(val) + " LBP");
+            } else {
+                String symbol = getCurrencySymbol(currency);
+                amount.setText(formatAmountWithSymbol(val, currency, symbol));
+            }
+
+            if (isAccount) {
+                icon.setImageResource(R.drawable.ic_menu_accounts_color);
+            } else {
+                icon.setImageResource(getIconForCategory(entry.getKey()));
+            }
+            icon.setImageTintList(ColorStateList.valueOf(color));
+
+            progress.setProgressTintList(ColorStateList.valueOf(color));
+            progress.setProgress(p);
+
+            container.addView(row);
+        }
     }
 
     private String getCurrencySymbol(String currency) {
@@ -295,24 +402,47 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     private void setupPieChart(List<Transaction> transactions) {
-        Map<String, Double> categoryTotals = new HashMap<>();
-        double totalSpent = 0;
+        if (pieChart == null || detailsContainer == null) return;
+
+        Map<String, Double> cashOutByCurrency = new java.util.TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Double> categoryTotalsWithCurrency = new HashMap<>();
+        Map<String, String> categoryCurrencyMap = new HashMap<>();
+        Map<String, String> categoryNameOnlyMap = new HashMap<>();
 
         for (Transaction t : transactions) {
             if (!t.isCashIn()) {
+                String curr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                        ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                double amt = t.getAmount();
+
+                cashOutByCurrency.put(curr, cashOutByCurrency.getOrDefault(curr, 0.0) + amt);
+
                 String category = t.getTitle();
-                double amount = t.getAmount();
-                categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
-                totalSpent += amount;
+                if (category == null || category.trim().isEmpty()) {
+                    category = "Other";
+                }
+
+                String displayKey = curr + ": " + category;
+                categoryTotalsWithCurrency.put(displayKey, categoryTotalsWithCurrency.getOrDefault(displayKey, 0.0) + amt);
+                categoryCurrencyMap.put(displayKey, curr);
+                categoryNameOnlyMap.put(displayKey, category);
             }
         }
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        for (Map.Entry<String, Double> entry : categoryTotals.entrySet()) {
-            entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+        if (cashOutByCurrency.isEmpty()) {
+            pieChart.setNoDataText("No spending data");
+            pieChart.clear();
+            detailsContainer.removeAllViews();
+            return;
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : categoryTotalsWithCurrency.entrySet()) {
+            if (entry.getValue() > 0) {
+                entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+            }
+        }
+
         int[] colors = {
             Color.parseColor("#4285F4"), // Blue
             Color.parseColor("#34A853"), // Green
@@ -322,9 +452,11 @@ public class ChartActivity extends AppCompatActivity {
             Color.parseColor("#00ACC1"), // Teal
             Color.parseColor("#795548")  // Brown
         };
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(colors);
         dataSet.setDrawValues(true);
-        dataSet.setValueTextSize(14f);
+        dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
 
@@ -334,48 +466,80 @@ public class ChartActivity extends AppCompatActivity {
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleRadius(50f);
-        pieChart.setTransparentCircleRadius(55f);
+        pieChart.setHoleRadius(55f);
+        pieChart.setTransparentCircleRadius(60f);
         pieChart.setHoleColor(Color.BLACK);
         pieChart.setDrawEntryLabels(false);
         pieChart.getLegend().setEnabled(false);
 
-        // Center text: Total spent
-        pieChart.setCenterText(generateCenterText("Total spent", totalSpent, "USD"));
+        // Center text: Dynamic totals for each currency separately
+        pieChart.setCenterText(generateMultiCurrencyCenterText(cashOutByCurrency));
 
         pieChart.animateY(1200);
         pieChart.invalidate();
 
-        populateDetails(detailsContainer, categoryTotals, totalSpent, colors, false, "USD");
+        populateMultiCurrencyDetails(detailsContainer, categoryTotalsWithCurrency, cashOutByCurrency, categoryCurrencyMap, categoryNameOnlyMap, colors);
     }
 
-    private SpannableString generateCenterText(String label, double total, String currency) {
-        String top = label + "\n";
-        String symbol = getCurrencySymbol(currency);
-        String bottom = String.format(Locale.US, "%,.2f %s", total, symbol);
-        SpannableString s = new SpannableString(top + bottom);
-        s.setSpan(new ForegroundColorSpan(Color.LTGRAY), 0, top.length(), 0);
-        s.setSpan(new RelativeSizeSpan(1.0f), 0, top.length(), 0);
-        s.setSpan(new StyleSpan(Typeface.BOLD), 0, top.length(), 0);
-        
-        s.setSpan(new ForegroundColorSpan(Color.WHITE), top.length(), s.length(), 0);
-        s.setSpan(new RelativeSizeSpan(1.8f), top.length(), s.length(), 0);
-        s.setSpan(new StyleSpan(Typeface.BOLD), top.length(), s.length(), 0);
+    private SpannableString generateMultiCurrencyCenterText(Map<String, Double> cashOutByCurrency) {
+        StringBuilder sb = new StringBuilder("Total spent\n");
+        if (cashOutByCurrency.isEmpty()) {
+            sb.append("0.00 $");
+        } else {
+            int count = 0;
+            for (Map.Entry<String, Double> entry : cashOutByCurrency.entrySet()) {
+                String curr = entry.getKey();
+                double amt = entry.getValue();
+                if (count > 0) sb.append("\n");
+
+                if ("LBP".equalsIgnoreCase(curr)) {
+                    sb.append(CurrencyFormatter.formatLbpAmount(amt)).append(" LBP");
+                } else {
+                    String symbol = getCurrencySymbol(curr);
+                    if (symbol.equalsIgnoreCase(curr)) {
+                        sb.append(String.format(Locale.US, "%,.2f %s", amt, curr));
+                    } else {
+                        sb.append(symbol).append(String.format(Locale.US, "%,.2f", amt));
+                    }
+                }
+                count++;
+            }
+        }
+
+        String fullText = sb.toString();
+        SpannableString s = new SpannableString(fullText);
+        int topEnd = "Total spent".length();
+
+        s.setSpan(new ForegroundColorSpan(Color.LTGRAY), 0, topEnd, 0);
+        s.setSpan(new RelativeSizeSpan(0.85f), 0, topEnd, 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD), 0, topEnd, 0);
+
+        if (fullText.length() > topEnd) {
+            s.setSpan(new ForegroundColorSpan(Color.WHITE), topEnd, fullText.length(), 0);
+            int currencyCount = cashOutByCurrency.size();
+            float fontMultiplier = currencyCount > 3 ? 0.9f : (currencyCount > 2 ? 1.1f : 1.3f);
+            s.setSpan(new RelativeSizeSpan(fontMultiplier), topEnd, fullText.length(), 0);
+            s.setSpan(new StyleSpan(Typeface.BOLD), topEnd, fullText.length(), 0);
+        }
+
         return s;
     }
 
-    private void populateDetails(LinearLayout container, Map<String, Double> totals, double grandTotal, int[] palette, boolean isAccount, String currency) {
+    private void populateMultiCurrencyDetails(LinearLayout container,
+                                              Map<String, Double> categoryTotalsWithCurrency,
+                                              Map<String, Double> cashOutByCurrency,
+                                              Map<String, String> categoryCurrencyMap,
+                                              Map<String, String> categoryNameOnlyMap,
+                                              int[] palette) {
         container.removeAllViews();
-        List<Map.Entry<String, Double>> list = new ArrayList<>(totals.entrySet());
+        List<Map.Entry<String, Double>> list = new ArrayList<>(categoryTotalsWithCurrency.entrySet());
         // Sort by amount descending
         Collections.sort(list, (a, b) -> b.getValue().compareTo(a.getValue()));
-
-        String symbol = getCurrencySymbol(currency);
 
         int colorIndex = 0;
         for (Map.Entry<String, Double> entry : list) {
             View row = LayoutInflater.from(this).inflate(R.layout.item_chart_detail, container, false);
-            
+
             ImageView icon = row.findViewById(R.id.catIcon);
             TextView name = row.findViewById(R.id.catName);
             TextView percent = row.findViewById(R.id.catPercent);
@@ -385,20 +549,30 @@ public class ChartActivity extends AppCompatActivity {
             int color = palette[colorIndex % palette.length];
             colorIndex++;
 
-            name.setText(entry.getKey());
+            String displayKey = entry.getKey();
+            String curr = categoryCurrencyMap.get(displayKey);
+            String catNameOnly = categoryNameOnlyMap.get(displayKey);
+            if (curr == null) curr = "USD";
+            if (catNameOnly == null) catNameOnly = displayKey;
+
+            name.setText(curr + ": " + catNameOnly);
             double val = entry.getValue();
-            int p = (int) Math.round((val / grandTotal) * 100);
-            
+
+            double currencyTotalSpent = cashOutByCurrency.getOrDefault(curr, 0.0);
+            int p = (int) Math.round((val / (currencyTotalSpent > 0 ? currencyTotalSpent : 1.0)) * 100);
+
             percent.setText(p + "%");
-            amount.setText(String.format(Locale.US, "%,.2f %s", val, symbol));
-            
-            if (isAccount) {
-                icon.setImageResource(R.drawable.ic_menu_accounts_color);
+
+            if ("LBP".equalsIgnoreCase(curr)) {
+                amount.setText(CurrencyFormatter.formatLbpAmount(val) + " LBP");
             } else {
-                icon.setImageResource(getIconForCategory(entry.getKey()));
+                String symbol = getCurrencySymbol(curr);
+                amount.setText(formatAmountWithSymbol(val, curr, symbol));
             }
+
+            icon.setImageResource(getIconForCategory(catNameOnly));
             icon.setImageTintList(ColorStateList.valueOf(color));
-            
+
             progress.setProgressTintList(ColorStateList.valueOf(color));
             progress.setProgress(p);
 

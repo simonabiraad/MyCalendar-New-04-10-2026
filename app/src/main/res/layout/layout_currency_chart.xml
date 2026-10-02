@@ -29,29 +29,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="12dp"
-            android:weightSum="4">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total"
-                    android:textColor="#888888"
-                    android:textSize="10sp" />
-                <TextView
-                    android:id="@+id/tvTotalAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -84,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Expenses"
+                    android:text="Expense"
                     android:textColor="#888888"
                     android:textSize="10sp" />
                 <TextView

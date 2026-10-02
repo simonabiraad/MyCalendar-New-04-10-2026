@@ -827,7 +827,6 @@ id tvRepeatValue
 id tvSortDateAscState
 id tvSortDateDescState
 id tvStatusValue
-id tvTotalAmount
 id txCashIn
 id txCashOut
 id txNamesAddButton

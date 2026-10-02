@@ -825,7 +825,6 @@ int id tvRepeatValue 0x0
 int id tvSortDateAscState 0x0
 int id tvSortDateDescState 0x0
 int id tvStatusValue 0x0
-int id tvTotalAmount 0x0
 int id txCashIn 0x0
 int id txCashOut 0x0
 int id txNamesAddButton 0x0
