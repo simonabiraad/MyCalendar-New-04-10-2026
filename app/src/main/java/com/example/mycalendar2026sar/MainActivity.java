@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -463,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.aiAssistantButton).setOnClickListener(v -> showSpeechTranslationDialog());
 
         createNotificationChannel();
+        setupSwipeGesture();
         setupCustomMenu();
         handleIntent(getIntent());
     }
@@ -3109,5 +3112,25 @@ public class MainActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    private GestureDetector gestureDetector;
+
+    private void setupSwipeGesture() {
+        gestureDetector = SwipeGestureHelper.createSwipeDetector(this,
+            null,
+            () -> {
+                Intent intent = new Intent(MainActivity.this, EventsActivity.class);
+                startActivity(intent);
+            }
+        );
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

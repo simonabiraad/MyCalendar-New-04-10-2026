@@ -3,8 +3,11 @@ package com.example.mycalendar2026sar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import androidx.activity.OnBackPressedCallback;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,27 +76,17 @@ public class EventsActivity extends AppCompatActivity {
 
         findViewById(R.id.eventBackButton).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
+        setupSwipeGesture();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                showLeaveConfirmation();
+                Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
             }
         });
-    }
-
-    private void showLeaveConfirmation() {
-        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("Leave Page")
-                .setMessage("Are you sure you want to leave this page?")
-                .setPositiveButton("Yes", (d, which) -> {
-                    Intent intent = new Intent(EventsActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton("No", null)
-                .show();
-        ThemeManager.styleDialogButtons(dialog, this);
     }
 
     @Override
@@ -340,6 +333,33 @@ public class EventsActivity extends AppCompatActivity {
                 eventsContainer = itemView.findViewById(R.id.eventsContainer);
             }
         }
+    }
+
+    private GestureDetector gestureDetector;
+
+    private void setupSwipeGesture() {
+        gestureDetector = SwipeGestureHelper.createSwipeDetector(this,
+            () -> {
+                Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            },
+            () -> {
+                Intent intent = new Intent(EventsActivity.this, TaskActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        );
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
 

@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -172,6 +174,8 @@ public class TaskActivity extends AppCompatActivity {
         findViewById(R.id.shareSelectedBtn).setOnClickListener(v -> shareSelectedTasks());
         findViewById(R.id.deleteSelectedBtn).setOnClickListener(v -> deleteSelectedTasks());
 
+        setupSwipeGesture();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -179,18 +183,10 @@ public class TaskActivity extends AppCompatActivity {
                     exitSelectionMode();
                     return;
                 }
-                AlertDialog dialog = new AlertDialog.Builder(TaskActivity.this, R.style.CustomAlertDialogTheme)
-                        .setTitle("Leave Page")
-                        .setMessage("Are you sure you want to leave this page?")
-                        .setPositiveButton("Yes", (d, which) -> {
-                            Intent intent = new Intent(TaskActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent);
-                            finish();
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-                ThemeManager.styleDialogButtons(dialog, TaskActivity.this);
+                Intent intent = new Intent(TaskActivity.this, EventsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -674,5 +670,32 @@ public class TaskActivity extends AppCompatActivity {
                 taskText = itemView.findViewById(R.id.taskText);
             }
         }
+    }
+
+    private GestureDetector gestureDetector;
+
+    private void setupSwipeGesture() {
+        gestureDetector = SwipeGestureHelper.createSwipeDetector(this,
+            () -> {
+                Intent intent = new Intent(TaskActivity.this, EventsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            },
+            () -> {
+                Intent intent = new Intent(TaskActivity.this, SecureBoxActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        );
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

@@ -548,6 +548,8 @@ public class ExpensesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        setupSwipeGesture();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -558,20 +560,10 @@ public class ExpensesActivity extends AppCompatActivity {
                     topExpensesButton.setText("Expenses");
                     refreshTransactionsList();
                 } else {
-                    // Already in Summary Mode: Show confirmation dialog
-                    androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
-                            .setTitle("Leave Expenses")
-                            .setMessage("Do you want to leave Expenses?")
-                            .setPositiveButton("Yes", (d, which) -> {
-                                // Redirect to SAR Calendar (MainActivity)
-                                Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                startActivity(intent);
-                                finish();
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                    ThemeManager.styleDialogButtons(dialog, ExpensesActivity.this);
+                    Intent intent = new Intent(ExpensesActivity.this, SecureBoxActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -1847,5 +1839,27 @@ public class ExpensesActivity extends AppCompatActivity {
                     Toast.makeText(this, title + " saved", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancel", null), this);
+    }
+
+    private android.view.GestureDetector gestureDetector;
+
+    private void setupSwipeGesture() {
+        gestureDetector = SwipeGestureHelper.createSwipeDetector(this,
+            () -> {
+                Intent intent = new Intent(ExpensesActivity.this, SecureBoxActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            },
+            null
+        );
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(android.view.MotionEvent ev) {
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

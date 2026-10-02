@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -242,24 +244,18 @@ public class SecureBoxActivity extends AppCompatActivity {
         performSelectCategory("all_notes", Color.GRAY);
         refreshColors();
 
+        setupSwipeGesture();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (isSelectionMode) {
                     exitSelectionMode();
                 } else {
-                    AlertDialog dialog = new AlertDialog.Builder(SecureBoxActivity.this, R.style.CustomAlertDialogTheme)
-                            .setTitle("Leave Page")
-                            .setMessage("Are you sure you want to leave this page?")
-                            .setPositiveButton("Yes", (d, which) -> {
-                                Intent intent = new Intent(SecureBoxActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                startActivity(intent);
-                                finish();
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                    ThemeManager.styleDialogButtons(dialog, SecureBoxActivity.this);
+                    Intent intent = new Intent(SecureBoxActivity.this, TaskActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -735,5 +731,32 @@ public class SecureBoxActivity extends AppCompatActivity {
         int si = fontPrefs.getInt("font_style", 0); Typeface tf = Typeface.DEFAULT; if (si == 1) tf = Typeface.SANS_SERIF; else if (si == 2) tf = Typeface.SERIF; else if (si == 3) tf = Typeface.MONOSPACE;
         tv.setTypeface(tf); int sz = fontPrefs.getInt("font_size_index", 1); float m = 1.0f; if (sz == 0) m = 0.8f; else if (sz == 2) m = 1.3f; else if (sz == 3) m = 1.6f;
         tv.setTextSize(b * m);
+    }
+
+    private GestureDetector gestureDetector;
+
+    private void setupSwipeGesture() {
+        gestureDetector = SwipeGestureHelper.createSwipeDetector(this,
+            () -> {
+                Intent intent = new Intent(SecureBoxActivity.this, TaskActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            },
+            () -> {
+                Intent intent = new Intent(SecureBoxActivity.this, ExpensesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        );
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
