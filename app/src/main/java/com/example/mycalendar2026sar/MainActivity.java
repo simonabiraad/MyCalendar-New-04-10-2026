@@ -1803,7 +1803,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", languageCodes);
             intent.putExtra("android.speech.extra.ENABLE_LANGUAGE_DETECTION", true);
             // Some newer versions support multi-language detection with these extras
-            intent.putExtra("android.speech.extra.LANGUAGE_DETECTION_MODE", 1); 
+            intent.putExtra("android.speech.extra.LANGUAGE_DETECTION_MODE", 1);
         }
         
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, isVoiceCommandMode ? "Listening for command..." : "Speak now...");

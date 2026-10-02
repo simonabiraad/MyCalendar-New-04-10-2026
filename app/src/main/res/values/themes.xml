@@ -20,6 +20,12 @@
         <item name="android:textAppearanceSmallPopupMenu">@style/CustomMenuTextAppearance</item>
         <item name="android:popupMenuStyle">@style/CustomPopupMenuStyle</item>
 
+        <!-- Text cursor and handles permanently black -->
+        <item name="android:textCursorDrawable">@drawable/black_cursor</item>
+        <item name="android:textSelectHandle">@drawable/black_handle</item>
+        <item name="android:textSelectHandleLeft">@drawable/black_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/black_handle_right</item>
+
         <!-- Dialog button colors -->
         <item name="materialAlertDialogTheme">@style/CustomAlertDialogTheme</item>
         <item name="alertDialogTheme">@style/CustomAlertDialogTheme</item>

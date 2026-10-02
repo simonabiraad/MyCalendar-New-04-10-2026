@@ -59,6 +59,10 @@ drawable bg_pill_green
 drawable bg_pill_red
 drawable bg_save_button
 drawable bg_swap_circle
+drawable black_cursor
+drawable black_handle
+drawable black_handle_left
+drawable black_handle_right
 drawable button_outline_green
 drawable calendar_logo_bg
 drawable cash_calc_border

@@ -142,7 +142,7 @@ public class ChartActivity extends AppCompatActivity {
     private void setupCurrencyCharts(List<Transaction> transactions) {
         currencyChartsContainer.removeAllViews();
         List<Account> accounts = loadAccounts();
-        
+
         // Group accounts by currency
         Map<String, List<Account>> groupedAccounts = new HashMap<>();
         for (Account a : accounts) {
@@ -170,7 +170,7 @@ public class ChartActivity extends AppCompatActivity {
         for (String currency : currencies) {
             List<Account> currencyAccounts = groupedAccounts.get(currency);
             if (currencyAccounts == null) continue;
-            
+
             // Calculate stats for this currency
             double totalAmount = 0;
             Map<String, Double> accountBalances = new HashMap<>();
@@ -194,7 +194,7 @@ public class ChartActivity extends AppCompatActivity {
 
             // Inflate layout
             View currencyView = LayoutInflater.from(this).inflate(R.layout.layout_currency_chart, currencyChartsContainer, false);
-            
+
             TextView header = currencyView.findViewById(R.id.currencyHeader);
             TextView tvTotal = currencyView.findViewById(R.id.tvTotalAmount);
             TextView tvIncome = currencyView.findViewById(R.id.tvIncome);

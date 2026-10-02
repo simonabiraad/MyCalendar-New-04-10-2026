@@ -270,7 +270,7 @@ public class SecureBoxActivity extends AppCompatActivity {
         selectionBar = findViewById(R.id.selectionBar);
         selectionCountText = findViewById(R.id.selectionCountText);
 
-        categoryRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        categoryRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         notesRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         findViewById(R.id.backButton).setOnClickListener(v -> {
@@ -462,18 +462,28 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.VH> {
         @NonNull @Override public VH onCreateViewHolder(@NonNull ViewGroup p, int t) {
-            Button b = new Button(p.getContext());
+            com.google.android.material.button.MaterialButton b = new com.google.android.material.button.MaterialButton(p.getContext());
             GridLayoutManager.LayoutParams lp = new GridLayoutManager.LayoutParams(-1, -2);
-            lp.setMargins(4, 4, 4, 4);
+            int margin = (int) (4 * p.getContext().getResources().getDisplayMetrics().density);
+            lp.setMargins(margin, margin, margin, margin);
             b.setLayoutParams(lp);
+            int padHoriz = (int) (4 * p.getContext().getResources().getDisplayMetrics().density);
+            int padVert = (int) (8 * p.getContext().getResources().getDisplayMetrics().density);
+            b.setPadding(padHoriz, padVert, padHoriz, padVert);
+            b.setSingleLine(true);
+            b.setMaxLines(1);
+            int cornerRadius = (int) (20 * p.getContext().getResources().getDisplayMetrics().density);
+            b.setCornerRadius(cornerRadius);
             return new VH(b);
         }
 
         @Override public void onBindViewHolder(@NonNull VH h, int pos) {
-            Button b = (Button) h.itemView;
+            com.google.android.material.button.MaterialButton b = (com.google.android.material.button.MaterialButton) h.itemView;
             b.setAllCaps(false);
             b.setTextColor(Color.BLACK);
-            applyFontSettings(b, 14);
+            b.setSingleLine(true);
+            b.setMaxLines(1);
+            applyFontSettings(b, 13);
 
             CategoryItem itm = categoryList.get(pos);
             b.setText(itm.name);
@@ -683,6 +693,9 @@ public class SecureBoxActivity extends AppCompatActivity {
         Button pr = new Button(this); pr.setText("Print"); applyFontSettings(pr, 16); pr.setOnClickListener(v -> { String p = te.getText().toString() + (fce != null ? "\n\n" + fce.getText().toString() : "\n\n[Image]"); printSingleNote(p); }); bl.addView(pr);
         Button sa = new Button(this); sa.setText("Save"); applyFontSettings(sa, 16); sa.setOnClickListener(v -> { String nt = te.getText().toString().trim(), nc = fce != null ? fce.getText().toString().trim() : c; if (fce != null && nc.isEmpty()) Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show(); else { updateNote(k, idx, (nt.isEmpty() ? "No Name" : nt) + TITLE_SEP + nc); d.dismiss(); } }); bl.addView(sa);
         l.addView(bl); s.addView(l); d.setContentView(s); d.show();
+        if (d.getWindow() != null && d.getWindow().getDecorView() != null) {
+            ThemeManager.applyBlackCursorToAllEditTexts(d.getWindow().getDecorView());
+        }
     }
 
     private void updateNote(String k, int idx, String fn) {

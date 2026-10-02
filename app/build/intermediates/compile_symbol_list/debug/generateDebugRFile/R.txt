@@ -58,6 +58,10 @@ int drawable bg_pill_green 0x0
 int drawable bg_pill_red 0x0
 int drawable bg_save_button 0x0
 int drawable bg_swap_circle 0x0
+int drawable black_cursor 0x0
+int drawable black_handle 0x0
+int drawable black_handle_left 0x0
+int drawable black_handle_right 0x0
 int drawable button_outline_green 0x0
 int drawable calendar_logo_bg 0x0
 int drawable cash_calc_border 0x0

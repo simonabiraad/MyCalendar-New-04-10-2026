@@ -1429,7 +1429,21 @@ public class ExpensesActivity extends AppCompatActivity {
         LinearLayout footerContainer = findViewById(R.id.totalsFooterContainer);
         footerContainer.removeAllViews();
 
-        java.util.Set<String> allCurrencies = new java.util.TreeSet<>(cashInMap.keySet());
+        List<Account> accounts = BalanceManager.loadAccounts(this);
+        List<Transaction> allTransactions = transactionDbHelper.getAllTransactionsAscending();
+
+        java.util.Set<String> allCurrencies = new java.util.TreeSet<>();
+        for (Account a : accounts) {
+            if (a.getCurrency() != null && !a.getCurrency().trim().isEmpty()) {
+                allCurrencies.add(a.getCurrency().trim().toUpperCase(Locale.US));
+            }
+        }
+        for (Transaction t : allTransactions) {
+            if (t.getCurrency() != null && !t.getCurrency().trim().isEmpty()) {
+                allCurrencies.add(t.getCurrency().trim().toUpperCase(Locale.US));
+            }
+        }
+        allCurrencies.addAll(cashInMap.keySet());
         allCurrencies.addAll(cashOutMap.keySet());
 
         if (allCurrencies.isEmpty()) {
