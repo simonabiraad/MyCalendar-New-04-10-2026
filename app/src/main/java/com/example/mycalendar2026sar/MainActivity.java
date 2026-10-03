@@ -3036,6 +3036,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            int mainThemeColor = colorPrefs.getInt("color_main_theme", ContextCompat.getColor(itemView.getContext(), R.color.light_green));
             int defaultTextColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
             int currentMonthDatesColor = colorPrefs.getInt("color_note_text", defaultTextColor);
             int bgAppColor = ContextCompat.getColor(itemView.getContext(), R.color.app_bg);
@@ -3047,24 +3048,28 @@ public class MainActivity extends AppCompatActivity {
                     cellCal.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
 
             if (isToday) {
-                dayText.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.light_green));
+                dayText.setTextColor(Color.WHITE);
+                dayText.setBackgroundResource(R.drawable.today_circle);
+                dayText.setBackgroundTintList(ColorStateList.valueOf(mainThemeColor));
+                dayText.setGravity(Gravity.CENTER);
                 if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
                     itemView.setBackgroundColor(bgAppColor);
                 } else {
                     itemView.setBackgroundColor(bgCardColor);
                 }
-            } else if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
-                dayText.setTextColor(defaultTextColor);
-                itemView.setBackgroundColor(bgAppColor);
             } else {
-                dayText.setTextColor(currentMonthDatesColor);
-                itemView.setBackgroundColor(bgCardColor);
+                dayText.setBackgroundResource(0);
+                dayText.setBackgroundTintList(null);
+                if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
+                    dayText.setTextColor(defaultTextColor);
+                    itemView.setBackgroundColor(bgAppColor);
+                } else {
+                    dayText.setTextColor(currentMonthDatesColor);
+                    itemView.setBackgroundColor(bgCardColor);
+                }
             }
 
-            dayText.setBackgroundResource(0);
-            if (isToday) {
-                dayText.setGravity(Gravity.CENTER);
-            } else if (cellCal.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
+            if (!isToday && cellCal.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
                 cellCal.get(Calendar.MONTH) == selectedDate.get(Calendar.MONTH) &&
                 cellCal.get(Calendar.DAY_OF_MONTH) == selectedDate.get(Calendar.DAY_OF_MONTH)) {
                 itemView.setBackgroundColor(Color.parseColor("#33FFFFFF"));
