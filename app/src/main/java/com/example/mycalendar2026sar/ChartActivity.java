@@ -263,8 +263,19 @@ public class ChartActivity extends AppCompatActivity {
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
 
+        String currSymbol = getCurrencySymbol(currency);
         PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(chart));
+        data.setValueFormatter(new PercentFormatter(chart) {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.US, "%.1f%% %s", value, currSymbol);
+            }
+
+            @Override
+            public String getPieLabel(float value, PieEntry pieEntry) {
+                return String.format(Locale.US, "%.1f%% %s", value, currSymbol);
+            }
+        });
         chart.setData(data);
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
@@ -276,6 +287,22 @@ public class ChartActivity extends AppCompatActivity {
         chart.getLegend().setEnabled(false);
 
         chart.setCenterText(generateCenterText("Income", totalIncome, currency));
+
+        chart.setOnChartValueSelectedListener(new com.github.mikephil.charting.listener.OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                if (e instanceof PieEntry) {
+                    PieEntry pe = (PieEntry) e;
+                    if (pe.getLabel() != null) {
+                        showSliceDetailsDialog(pe.getLabel(), currency);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {
+            }
+        });
 
         chart.animateY(1000);
         chart.invalidate();
@@ -321,7 +348,8 @@ public class ChartActivity extends AppCompatActivity {
             int color = palette[colorIndex % palette.length];
             colorIndex++;
 
-            name.setText(entry.getKey());
+            String entryKey = entry.getKey();
+            name.setText(entryKey);
             double val = entry.getValue();
             int p = (int) Math.round((val / (grandTotal > 0 ? grandTotal : 1.0)) * 100);
 
@@ -336,12 +364,14 @@ public class ChartActivity extends AppCompatActivity {
             if (isAccount) {
                 icon.setImageResource(R.drawable.ic_menu_accounts_color);
             } else {
-                icon.setImageResource(getIconForCategory(entry.getKey()));
+                icon.setImageResource(getIconForCategory(entryKey));
             }
             icon.setImageTintList(ColorStateList.valueOf(color));
 
             progress.setProgressTintList(ColorStateList.valueOf(color));
             progress.setProgress(p);
+
+            row.setOnClickListener(v -> showSliceDetailsDialog(entryKey, currency));
 
             container.addView(row);
         }
@@ -460,7 +490,24 @@ public class ChartActivity extends AppCompatActivity {
         dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
 
         PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(pieChart));
+        data.setValueFormatter(new PercentFormatter(pieChart) {
+            @Override
+            public String getFormattedValue(float value) {
+                return super.getFormattedValue(value);
+            }
+
+            @Override
+            public String getPieLabel(float value, PieEntry pieEntry) {
+                String curr = "USD";
+                if (pieEntry != null && pieEntry.getLabel() != null) {
+                    String displayKey = pieEntry.getLabel();
+                    String foundCurr = categoryCurrencyMap.get(displayKey);
+                    if (foundCurr != null) curr = foundCurr;
+                }
+                String symbol = getCurrencySymbol(curr);
+                return String.format(Locale.US, "%.1f%% %s", value, symbol);
+            }
+        });
         pieChart.setData(data);
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
@@ -473,6 +520,27 @@ public class ChartActivity extends AppCompatActivity {
 
         // Center text: Dynamic totals for each currency separately
         pieChart.setCenterText(generateMultiCurrencyCenterText(cashOutByCurrency));
+
+        pieChart.setOnChartValueSelectedListener(new com.github.mikephil.charting.listener.OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                if (e instanceof PieEntry) {
+                    PieEntry pe = (PieEntry) e;
+                    String displayKey = pe.getLabel();
+                    if (displayKey != null) {
+                        String curr = categoryCurrencyMap.get(displayKey);
+                        String catNameOnly = categoryNameOnlyMap.get(displayKey);
+                        if (curr == null) curr = "USD";
+                        if (catNameOnly == null) catNameOnly = displayKey;
+                        showSliceDetailsDialog(catNameOnly, curr);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {
+            }
+        });
 
         pieChart.animateY(1200);
         pieChart.invalidate();
@@ -575,8 +643,100 @@ public class ChartActivity extends AppCompatActivity {
             progress.setProgressTintList(ColorStateList.valueOf(color));
             progress.setProgress(p);
 
+            String catNameCopy = catNameOnly;
+            String currCopy = curr;
+            row.setOnClickListener(v -> showSliceDetailsDialog(catNameCopy, currCopy));
+
             container.addView(row);
         }
+    }
+
+    private void showSliceDetailsDialog(String categoryName, String currency) {
+        if (isFinishing()) return;
+        List<String> itemLines = new ArrayList<>();
+        SimpleDateFormat dateSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat timeSdf = new SimpleDateFormat("hh:mm a", Locale.US);
+        String symbol = getCurrencySymbol(currency);
+
+        List<Account> accounts = loadAccounts();
+        List<Transaction> transactions = dbHelper.getAllTransactionsAscending();
+
+        // 1. Check if categoryName matches an account name
+        for (Account a : accounts) {
+            if (a.getName() != null && a.getName().equalsIgnoreCase(categoryName) && currency.equalsIgnoreCase(a.getCurrency())) {
+                String formattedAmt = formatAmountWithSymbol(a.getBalance(), currency, symbol);
+                String line = a.getName() + " Account Balance — " + formattedAmt + " — Added — " + dateSdf.format(new Date()) + " — " + timeSdf.format(new Date());
+                itemLines.add(line);
+                break;
+            }
+        }
+
+        // 2. Find all transactions matching this category / title / notes and currency
+        for (Transaction t : transactions) {
+            if (t == null) continue;
+            String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                    ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+
+            if (!currency.equalsIgnoreCase(txCurr)) continue;
+
+            String title = t.getTitle() != null ? t.getTitle().trim() : "";
+            String notes = t.getNotes() != null ? t.getNotes().trim() : "";
+            String lowerTitle = title.toLowerCase(Locale.US);
+
+            if (lowerTitle.startsWith("transfer") || lowerTitle.equalsIgnoreCase("monthly income")) {
+                continue;
+            }
+
+            boolean matches = title.equalsIgnoreCase(categoryName) || notes.equalsIgnoreCase(categoryName);
+            if (!matches && title.isEmpty() && categoryName.equalsIgnoreCase("Cash In")) {
+                matches = t.isCashIn();
+            }
+            if (!matches && title.isEmpty() && categoryName.equalsIgnoreCase("Other")) {
+                matches = !t.isCashIn();
+            }
+
+            if (matches) {
+                String itemName = !title.isEmpty() ? title : (!notes.isEmpty() ? notes : (t.isCashIn() ? "Cash In" : "Expense"));
+                String status = t.isCashIn() ? "Added" : "Removed";
+                String formattedAmt = formatAmountWithSymbol(t.getAmount(), currency, symbol);
+                String dateStr = dateSdf.format(new Date(t.getTimestamp()));
+                String timeStr = timeSdf.format(new Date(t.getTimestamp()));
+
+                String line = itemName + " — " + formattedAmt + " — " + status + " — " + dateStr + " — " + timeStr;
+                itemLines.add(line);
+            }
+        }
+
+        if (itemLines.isEmpty()) {
+            String formattedZero = formatAmountWithSymbol(0, currency, symbol);
+            itemLines.add(categoryName + " — " + formattedZero + " — Added — " + dateSdf.format(new Date()) + " — " + timeSdf.format(new Date()));
+        }
+
+        // Build popup dialog
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme);
+        builder.setTitle(categoryName + " (" + currency + ")");
+
+        android.widget.ScrollView scrollView = new android.widget.ScrollView(this);
+        LinearLayout contentLayout = new LinearLayout(this);
+        contentLayout.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        contentLayout.setPadding(padding, padding, padding, padding);
+
+        for (String lineText : itemLines) {
+            TextView tv = new TextView(this);
+            tv.setText(lineText);
+            tv.setTextColor(ContextCompat.getColor(this, R.color.white));
+            tv.setTextSize(14f);
+            tv.setTypeface(Typeface.DEFAULT_BOLD);
+            tv.setPadding(0, 0, 0, (int) (12 * getResources().getDisplayMetrics().density));
+            contentLayout.addView(tv);
+        }
+
+        scrollView.addView(contentLayout);
+        builder.setView(scrollView);
+        builder.setPositiveButton("Close", null);
+
+        ThemeManager.showDialog(builder, this);
     }
 
     private int getIconForCategory(String category) {
