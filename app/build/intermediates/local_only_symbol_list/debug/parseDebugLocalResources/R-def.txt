@@ -240,6 +240,7 @@ id attachmentsRecyclerView
 id backButton
 id balanceText
 id balanceTotalText
+id balanceTrendTitle
 id blueSeekBar
 id blueText
 id bottomActions
@@ -732,6 +733,7 @@ id settingsPanelContainer
 id settingsTopBar
 id shareSelectedBtn
 id snoozeAction
+id spendingByCategorySectionTitle
 id spinnerFromAccount
 id spinnerToAccount
 id startTimeBox
@@ -814,6 +816,7 @@ id transferDatePickerBox
 id transferTimePickerBox
 id transferTopBar
 id transfer_main
+id trendLegendContainer
 id tvAllDayStatus
 id tvBalance
 id tvCategoryValue
