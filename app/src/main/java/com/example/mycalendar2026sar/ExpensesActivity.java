@@ -1451,7 +1451,8 @@ public class ExpensesActivity extends AppCompatActivity {
         }
 
         for (String curr : allCurrencies) {
-            double in = cashInMap.getOrDefault(curr, 0.0);
+            IncomeCalculator.IncomeBreakdown inc = IncomeCalculator.calculateIncomeForCurrency(curr, accounts, allTransactions);
+            double in = inc.getTotalIncome();
             double out = cashOutMap.getOrDefault(curr, 0.0);
             
             View row = getLayoutInflater().inflate(R.layout.item_summary_stat_row, footerContainer, false);
@@ -1462,13 +1463,13 @@ public class ExpensesActivity extends AppCompatActivity {
 
             titleTv.setText(curr);
             if ("LBP".equalsIgnoreCase(curr)) {
-                inTv.setText(CurrencyFormatter.formatLbpAmount(in));
-                outTv.setText(CurrencyFormatter.formatLbpAmount(out));
-                balTv.setText(CurrencyFormatter.formatLbpAmount(in - out));
+                if (inTv != null) inTv.setText(CurrencyFormatter.formatLbpAmount(in));
+                if (outTv != null) outTv.setText(CurrencyFormatter.formatLbpAmount(out));
+                if (balTv != null) balTv.setText(CurrencyFormatter.formatLbpAmount(in - out));
             } else {
-                inTv.setText(String.format(Locale.US, "%,.2f", in));
-                outTv.setText(String.format(Locale.US, "%,.2f", out));
-                balTv.setText(String.format(Locale.US, "%,.2f", in - out));
+                if (inTv != null) inTv.setText(String.format(Locale.US, "%,.2f", in));
+                if (outTv != null) outTv.setText(String.format(Locale.US, "%,.2f", out));
+                if (balTv != null) balTv.setText(String.format(Locale.US, "%,.2f", in - out));
             }
             
             footerContainer.addView(row);

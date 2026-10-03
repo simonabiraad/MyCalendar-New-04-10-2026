@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand & Semantic Theme Tokens (Light Mode) -->
-    <color name="app_bg">#F5F5F7</color>
-    <color name="card_bg">#FFFFFF</color>
-    <color name="card_dark">#FFFFFF</color>
-    <color name="nav_bg">#FFFFFF</color>
-    <color name="dialog_bg">#FFFFFF</color>
-    <color name="input_bg">#F0F0F0</color>
-    <color name="button_bg">#E5E5EA</color>
-    <color name="border_color">#D1D1D6</color>
-    <color name="divider_color">#E5E5EA</color>
+    <!-- Brand & Semantic Theme Tokens (Light Mode - Inverted Theme) -->
+    <color name="app_bg">#CFCFCF</color>
+    <color name="card_bg">#E0E0E0</color>
+    <color name="card_dark">#E0E0E0</color>
+    <color name="nav_bg">#CFCFCF</color>
+    <color name="dialog_bg">#E0E0E0</color>
+    <color name="input_bg">#D8D8D8</color>
+    <color name="button_bg">#CCCCCC</color>
+    <color name="border_color">#A0A0A0</color>
+    <color name="divider_color">#B8B8B8</color>
 
-    <color name="text_primary">#1C1C1E</color>
-    <color name="text_secondary">#666666</color>
-    <color name="text_disabled">#8E8E93</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#333333</color>
+    <color name="text_disabled">#666666</color>
     <color name="text_on_accent">#FFFFFF</color>
 
-    <!-- Legacy Color Mappings for Light Mode -->
-    <color name="black">#F5F5F7</color>
-    <color name="white">#1C1C1E</color>
+    <!-- Legacy Color Mappings for Light Mode (Inverted) -->
+    <color name="black">#CFCFCF</color>
+    <color name="white">#000000</color>
 
-    <!-- Primary Accent Green -->
-    <color name="light_green">#4CAF50</color>
-    <color name="green">#4CAF50</color>
-    <color name="income_green">#4CAF50</color>
-    <color name="hunter_green">#2E7D32</color>
+    <!-- Primary Accent Green (Dark Green matching inverted reference photo) -->
+    <color name="light_green">#2E7D32</color>
+    <color name="green">#2E7D32</color>
+    <color name="income_green">#2E7D32</color>
+    <color name="hunter_green">#1B5E20</color>
 
     <!-- Red / Expense / Negative -->
     <color name="red">#D32F2F</color>

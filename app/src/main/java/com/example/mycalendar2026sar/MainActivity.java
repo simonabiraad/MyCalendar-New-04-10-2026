@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
         calendarGrid = findViewById(R.id.calendarGrid);
         monthYearText = findViewById(R.id.monthYearText);
         noteInput = findViewById(R.id.noteInput);
-        noteInput.setTextColor(Color.WHITE);
+        noteInput.setTextColor(ContextCompat.getColor(this, R.color.white));
         remarkLabel = findViewById(R.id.remarkLabel);
         dayRemarksContainer = findViewById(R.id.dayRemarksContainer);
         remarkHistoryContainer = findViewById(R.id.remarkHistoryContainer);
@@ -1292,7 +1292,7 @@ public class MainActivity extends AppCompatActivity {
         if (remarkText.startsWith("▣ ")) {
             textView.setTextColor(colorPrefs.getInt("color_note_checked", Color.GREEN));
         } else {
-            textView.setTextColor(colorPrefs.getInt("color_note_text", Color.WHITE));
+            textView.setTextColor(colorPrefs.getInt("color_note_text", ContextCompat.getColor(this, R.color.white)));
         }
         textView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 
@@ -2717,7 +2717,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshUIColors() {
         int mainTheme = colorPrefs.getInt("color_main_theme", getColor(R.color.light_green));
-        int bgColor = colorPrefs.getInt("color_app_background", Color.BLACK);
+        int defaultBgColor = ContextCompat.getColor(this, R.color.app_bg);
+        int defaultWhiteColor = ContextCompat.getColor(this, R.color.white);
+        int bgColor = colorPrefs.getInt("color_app_background", defaultBgColor);
 
         // Root Background
         View root = findViewById(R.id.main);
@@ -2734,7 +2736,7 @@ public class MainActivity extends AppCompatActivity {
             int spaceIndex = fullText.indexOf(" ");
             if (spaceIndex != -1) {
                 ssb.setSpan(new android.text.style.ForegroundColorSpan(mainTheme), 0, spaceIndex, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.setSpan(new android.text.style.ForegroundColorSpan(Color.WHITE), spaceIndex, fullText.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new android.text.style.ForegroundColorSpan(defaultWhiteColor), spaceIndex, fullText.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 // Make "Calendar" smaller than "SAR"
                 // Original: 22 * 0.8 = 17.6. New base: 24. 17.6 / 24 = 0.733f
                 ssb.setSpan(new android.text.style.RelativeSizeSpan(0.733f), spaceIndex, fullText.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -2775,6 +2777,7 @@ public class MainActivity extends AppCompatActivity {
         // Input
         EditText input = findViewById(R.id.noteInput);
         if (input != null) {
+            input.setTextColor(defaultWhiteColor);
             applyFontSettings(input, 14);
         }
 
@@ -3033,7 +3036,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            int currentMonthDatesColor = colorPrefs.getInt("color_note_text", Color.WHITE);
+            int defaultTextColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
+            int currentMonthDatesColor = colorPrefs.getInt("color_note_text", defaultTextColor);
+            int bgAppColor = ContextCompat.getColor(itemView.getContext(), R.color.app_bg);
+            int bgCardColor = ContextCompat.getColor(itemView.getContext(), R.color.card_bg);
+
             Calendar today = Calendar.getInstance();
             boolean isToday = cellCal.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
                     cellCal.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
@@ -3042,16 +3049,16 @@ public class MainActivity extends AppCompatActivity {
             if (isToday) {
                 dayText.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.light_green));
                 if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
-                    itemView.setBackgroundColor(Color.BLACK);
+                    itemView.setBackgroundColor(bgAppColor);
                 } else {
-                    itemView.setBackgroundColor(Color.parseColor("#1A1A1A"));
+                    itemView.setBackgroundColor(bgCardColor);
                 }
             } else if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
-                dayText.setTextColor(Color.WHITE);
-                itemView.setBackgroundColor(Color.BLACK);
+                dayText.setTextColor(defaultTextColor);
+                itemView.setBackgroundColor(bgAppColor);
             } else {
                 dayText.setTextColor(currentMonthDatesColor);
-                itemView.setBackgroundColor(Color.parseColor("#1A1A1A"));
+                itemView.setBackgroundColor(bgCardColor);
             }
 
             dayText.setBackgroundResource(0);

@@ -172,38 +172,19 @@ public class ChartActivity extends AppCompatActivity {
         });
 
         for (String currency : currencies) {
-            double totalIncome = 0;
-            double totalExpenses = 0;
-            Map<String, Double> incomeSourcesMap = new HashMap<>();
+            IncomeCalculator.IncomeBreakdown inc = IncomeCalculator.calculateIncomeForCurrency(currency, accounts, transactions);
+            double totalIncome = inc.getTotalIncome();
+            Map<String, Double> incomeSourcesMap = inc.sourcesMap;
 
-            // 1. Process transactions in this currency
+            double totalExpenses = 0;
             for (Transaction t : transactions) {
                 String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
                         ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
 
-                if (currency.equalsIgnoreCase(txCurr)) {
-                    double amt = t.getAmount();
-                    if (t.isCashIn()) {
-                        totalIncome += amt;
-                        String title = t.getTitle();
-                        if (title == null || title.trim().isEmpty()) {
-                            title = "Income";
-                        }
-                        incomeSourcesMap.put(title, incomeSourcesMap.getOrDefault(title, 0.0) + amt);
-                    } else {
-                        totalExpenses += amt;
-                    }
-                }
-            }
-
-            // 2. Include positive account balances in this currency
-            for (Account a : accounts) {
-                String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
-                        ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
-                if (currency.equalsIgnoreCase(accCurr) && a.getBalance() > 0) {
-                    if (!incomeSourcesMap.containsKey(a.getName())) {
-                        incomeSourcesMap.put(a.getName(), a.getBalance());
-                        totalIncome += a.getBalance();
+                if (currency.equalsIgnoreCase(txCurr) && !t.isCashIn()) {
+                    String title = t.getTitle() != null ? t.getTitle().trim().toLowerCase(Locale.US) : "";
+                    if (!title.startsWith("transfer")) {
+                        totalExpenses += t.getAmount();
                     }
                 }
             }
@@ -260,7 +241,7 @@ public class ChartActivity extends AppCompatActivity {
         }
 
         if (entries.isEmpty()) {
-            chart.setNoDataText("No income for " + currency);
+            chart.setNoDataText("No data for " + currency);
             chart.clear();
             container.removeAllViews();
             return;
@@ -294,7 +275,7 @@ public class ChartActivity extends AppCompatActivity {
         chart.setDrawEntryLabels(false);
         chart.getLegend().setEnabled(false);
 
-        chart.setCenterText(generateCenterText("Total Income", totalIncome, currency));
+        chart.setCenterText(generateCenterText("Income", totalIncome, currency));
 
         chart.animateY(1000);
         chart.invalidate();
@@ -405,25 +386,38 @@ public class ChartActivity extends AppCompatActivity {
         if (pieChart == null || detailsContainer == null) return;
 
         Map<String, Double> cashOutByCurrency = new java.util.TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        Map<String, Double> categoryTotalsWithCurrency = new HashMap<>();
+        Map<String, Double> categoryTotalsWithCurrency = new java.util.LinkedHashMap<>();
         Map<String, String> categoryCurrencyMap = new HashMap<>();
         Map<String, String> categoryNameOnlyMap = new HashMap<>();
 
         for (Transaction t : transactions) {
-            if (!t.isCashIn()) {
+            if (t != null && !t.isCashIn()) {
                 String curr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
                         ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
-                double amt = t.getAmount();
+                String category = t.getTitle() != null ? t.getTitle().trim() : "";
+                String lowerTitle = category.toLowerCase(Locale.US);
 
-                cashOutByCurrency.put(curr, cashOutByCurrency.getOrDefault(curr, 0.0) + amt);
-
-                String category = t.getTitle();
-                if (category == null || category.trim().isEmpty()) {
-                    category = "Other";
+                // Exclude transfers
+                if (lowerTitle.startsWith("transfer")) {
+                    continue;
                 }
 
+                if (category.isEmpty()) {
+                    if (t.getNotes() != null && !t.getNotes().trim().isEmpty()) {
+                        category = t.getNotes().trim();
+                    } else {
+                        category = "Other";
+                    }
+                }
+
+                double amt = t.getAmount();
+
+                Double prevCurr = cashOutByCurrency.get(curr);
+                cashOutByCurrency.put(curr, (prevCurr != null ? prevCurr : 0.0) + amt);
+
                 String displayKey = curr + ": " + category;
-                categoryTotalsWithCurrency.put(displayKey, categoryTotalsWithCurrency.getOrDefault(displayKey, 0.0) + amt);
+                Double prevVal = categoryTotalsWithCurrency.get(displayKey);
+                categoryTotalsWithCurrency.put(displayKey, (prevVal != null ? prevVal : 0.0) + amt);
                 categoryCurrencyMap.put(displayKey, curr);
                 categoryNameOnlyMap.put(displayKey, category);
             }
@@ -439,7 +433,12 @@ public class ChartActivity extends AppCompatActivity {
         ArrayList<PieEntry> entries = new ArrayList<>();
         for (Map.Entry<String, Double> entry : categoryTotalsWithCurrency.entrySet()) {
             if (entry.getValue() > 0) {
-                entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+                String displayKey = entry.getKey();
+                String curr = categoryCurrencyMap.get(displayKey);
+                Double currTotalObj = cashOutByCurrency.get(curr);
+                double currTotal = (currTotalObj != null && currTotalObj > 0) ? currTotalObj : 1.0;
+                float normalizedValue = (float) ((entry.getValue() / currTotal) * 100.0);
+                entries.add(new PieEntry(normalizedValue, entry.getKey()));
             }
         }
 

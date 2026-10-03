@@ -1,9 +1,9 @@
-#Fri Oct 02 13:25:34 EEST 2026
-base.0=C\:\\Users\\simon\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\simon\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.2=C\:\\Users\\simon\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.3=C\:\\Users\\simon\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\global_synthetics_dex\\debug\\generateDebugGlobalSynthetics\\classes.dex
-base.4=C\:\\Users\\simon\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Sat Oct 03 11:09:17 EEST 2026
+base.0=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
+base.3=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\global_synthetics_dex\\debug\\generateDebugGlobalSynthetics\\classes.dex
+base.4=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=11/classes.dex

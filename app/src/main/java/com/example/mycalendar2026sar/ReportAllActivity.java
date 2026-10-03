@@ -86,20 +86,54 @@ public class ReportAllActivity extends AppCompatActivity {
 
         Map<String, Double> totals = new LinkedHashMap<>();
         double grandTotal = 0;
-        for (Transaction t : all) {
-            if (t.getTimestamp() < periodStart) continue;
-            if ("Monthly Income".equals(t.getTitle())) continue; // system entry, not a real category
-            
-            // CURRENCY FILTER
-            if (!selectedCurrency.equalsIgnoreCase(t.getCurrency())) continue;
 
-            boolean wantCashIn = !showExpenses;
-            if (t.isCashIn() != wantCashIn) continue;
+        if (!showExpenses) {
+            // Income calculation: Account Amount + Cash In + Bonus + Salary
+            if (periodStart == 0) {
+                List<Account> accounts = BalanceManager.loadAccounts(this);
+                for (Account a : accounts) {
+                    if (a != null && selectedCurrency.equalsIgnoreCase(a.getCurrency()) && a.getBalance() > 0) {
+                        totals.put(a.getName(), a.getBalance());
+                        grandTotal += a.getBalance();
+                    }
+                }
+            }
 
-            String category = t.getTitle();
-            double prev = totals.containsKey(category) ? totals.get(category) : 0;
-            totals.put(category, prev + t.getAmount());
-            grandTotal += t.getAmount();
+            for (Transaction t : all) {
+                if (t.getTimestamp() < periodStart) continue;
+                if ("Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+                if (!selectedCurrency.equalsIgnoreCase(t.getCurrency())) continue;
+                if (!t.isCashIn()) continue;
+
+                String title = t.getTitle() != null ? t.getTitle().trim() : "";
+                String lowerTitle = title.toLowerCase(Locale.US);
+                if (lowerTitle.startsWith("transfer") || lowerTitle.contains("transfer from") || lowerTitle.contains("transfer to")) {
+                    continue;
+                }
+
+                String category = title.isEmpty() ? "Cash In" : title;
+                double prev = totals.containsKey(category) ? totals.get(category) : 0;
+                totals.put(category, prev + t.getAmount());
+                grandTotal += t.getAmount();
+            }
+        } else {
+            for (Transaction t : all) {
+                if (t.getTimestamp() < periodStart) continue;
+                if ("Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+                if (!selectedCurrency.equalsIgnoreCase(t.getCurrency())) continue;
+                if (t.isCashIn()) continue;
+
+                String title = t.getTitle() != null ? t.getTitle().trim() : "";
+                String lowerTitle = title.toLowerCase(Locale.US);
+                if (lowerTitle.startsWith("transfer") || lowerTitle.contains("transfer from") || lowerTitle.contains("transfer to")) {
+                    continue;
+                }
+
+                String category = title.isEmpty() ? "Expense" : title;
+                double prev = totals.containsKey(category) ? totals.get(category) : 0;
+                totals.put(category, prev + t.getAmount());
+                grandTotal += t.getAmount();
+            }
         }
 
         totalText.setText(String.format(Locale.US, "Total: %,.2f %s", grandTotal, selectedCurrency));
