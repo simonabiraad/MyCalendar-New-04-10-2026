@@ -1,300 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addTransactionMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:padding="16dp">
+    android:fillViewport="true"
+    android:clipToPadding="false">
 
-    <TextView
-        android:id="@+id/addTransactionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Cash in"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/modeSwitchContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addTransactionContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addTransactionTitle">
-
-        <Button
-            android:id="@+id/btnCashIn"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/light_green"
-            android:text="Cash In"
-            android:textAllCaps="false"
-            app:cornerRadius="25dp" />
-
-        <Button
-            android:id="@+id/btnCashOut"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/gray"
-            android:text="Cash Out"
-            android:textAllCaps="false"
-            app:cornerRadius="25dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/dateTimeContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/modeSwitchContainer">
-
-        <LinearLayout
-            android:id="@+id/datePickerBox"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/summary_border"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
-
-            <TextView
-                android:id="@+id/txtDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="02-08-2026"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_menu_calendar_color" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/timePickerBox"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@drawable/summary_border"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
-
-            <TextView
-                android:id="@+id/txtTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="15:00"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_notif_clock_color" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/amountContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/summary_border"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/dateTimeContainer">
-
-        <EditText
-            android:id="@+id/editAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="Cash in amount"
-            android:inputType="numberDecimal"
-            android:textColor="@color/white"
-            android:textColorHint="#888888"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/btnCalculator"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_menu_calc_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/currencyContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/summary_border"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/amountContainer">
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/txtCurrency"
-            android:layout_width="0dp"
+            android:id="@+id/addTransactionTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Currency: USD"
+            android:layout_marginTop="24dp"
+            android:text="Cash in"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_menu_tx_all_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/itemsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/summary_border"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/currencyContainer">
-
-        <EditText
-            android:id="@+id/editItems"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/modeSwitchContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="Items"
-            android:textColor="@color/white"
-            android:textColorHint="#888888"
-            android:textSize="14sp" />
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addTransactionTitle">
 
-        <ImageView
-            android:id="@+id/btnSelectCategory"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_menu_category_color" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnCashIn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_green"
+                android:text="Cash In"
+                android:textAllCaps="false"
+                app:cornerRadius="25dp" />
 
-    <LinearLayout
-        android:id="@+id/notesContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/summary_border"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/itemsContainer">
+            <Button
+                android:id="@+id/btnCashOut"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/gray"
+                android:text="Cash Out"
+                android:textAllCaps="false"
+                app:cornerRadius="25dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/editNotes"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/dateTimeContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="Notes"
-            android:textColor="@color/white"
-            android:textColorHint="#888888"
-            android:textSize="14sp" />
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/modeSwitchContainer">
 
-        <ImageView
-            android:id="@+id/btnVoice"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_menu_voice_note_color" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/datePickerBox"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/summary_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-    <LinearLayout
-        android:id="@+id/actionButtonsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/notesContainer">
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="02-08-2026"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnAddBills"
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_menu_calendar_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/timePickerBox"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/summary_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="15:00"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_notif_clock_color" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/amountContainer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:backgroundTint="@color/gray"
-            android:drawableStart="@drawable/ic_notif_camera_color"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/summary_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingStart="12dp"
-            android:text="Add Bills"
-            android:textAllCaps="false"
-            android:textSize="12sp"
-            app:cornerRadius="8dp" />
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@id/dateTimeContainer">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/editAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Cash in amount"
+                android:inputType="numberDecimal"
+                android:textColor="@color/white"
+                android:textColorHint="#888888"
+                android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/footerButtonsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+            <ImageView
+                android:id="@+id/btnCalculator"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_menu_calc_color" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/currencyContainer"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/expense_red"
-            android:text="Delete"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            app:cornerRadius="8dp" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/summary_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@id/amountContainer">
 
-        <Button
-            android:id="@+id/btnSaveContinue"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/txtCurrency"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Currency: USD"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_menu_tx_all_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemsContainer"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/green"
-            android:text="Save And Continue"
-            android:textAllCaps="false"
-            app:cornerRadius="8dp" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/summary_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@id/currencyContainer">
 
-        <Button
-            android:id="@+id/btnSaveExit"
-            android:layout_width="0dp"
+            <EditText
+                android:id="@+id/editItems"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Items"
+                android:textColor="@color/white"
+                android:textColorHint="#888888"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/btnSelectCategory"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_menu_category_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/notesContainer"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/light_green"
-            android:text="Save And Exit"
-            android:textAllCaps="false"
-            app:cornerRadius="8dp" />
-    </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:background="@drawable/summary_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@id/itemsContainer">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/editNotes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Notes"
+                android:textColor="@color/white"
+                android:textColorHint="#888888"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/btnVoice"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_menu_voice_note_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionButtonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/notesContainer">
+
+            <Button
+                android:id="@+id/btnAddBills"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/gray"
+                android:drawableStart="@drawable/ic_notif_camera_color"
+                android:paddingStart="12dp"
+                android:text="Add Bills"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/footerButtonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/actionButtonsContainer"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/expense_red"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:cornerRadius="8dp" />
+
+            <Button
+                android:id="@+id/btnSaveContinue"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:text="Save And Continue"
+                android:textAllCaps="false"
+                app:cornerRadius="8dp" />
+
+            <Button
+                android:id="@+id/btnSaveExit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_green"
+                android:text="Save And Exit"
+                android:textAllCaps="false"
+                app:cornerRadius="8dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:197:9-205:20
+INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:198:9-206:20
 	android:grantUriPermissions
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:201:13-47
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:202:13-47
 	android:authorities
 		INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:199:13-64
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:200:13-64
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:200:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:201:13-37
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:198:13-62
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:199:13-62
 manifest
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-208:12
-INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-208:12
-INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-208:12
-INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-208:12
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-209:12
+INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-209:12
+INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-209:12
+INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:2:1-209:12
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\f519d3feef3f525395e1da4e9c01a000\transformed\material-1.10.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\10fb657b33f7bd6fa58740026f526304\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.biometric:biometric:1.1.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\ec3dbf8507f95b16014fe10a95ca1a3c\transformed\biometric-1.1.0\AndroidManifest.xml:17:1-29:12
@@ -138,8 +138,8 @@ ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\An
 	android:name
 		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:14:19-57
 application
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:16:5-206:19
-INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:16:5-206:19
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:16:5-207:19
+INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:16:5-207:19
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\f519d3feef3f525395e1da4e9c01a000\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\f519d3feef3f525395e1da4e9c01a000\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\SAR\.gradle\gradle-9.2.1\caches\9.5.0\transforms\10fb657b33f7bd6fa58740026f526304\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -249,303 +249,305 @@ ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\An
 	android:name
 		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:49:13-45
 activity#com.example.mycalendar2026sar.AddTransactionActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:53:9-57:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:53:9-58:62
+	android:windowSoftInputMode
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:57:13-55
 	android:exported
 		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:55:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:57:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:58:13-59
 	android:finishOnTaskLaunch
 		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:56:13-46
 	android:name
 		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:54:13-51
 activity#com.example.mycalendar2026sar.IncomeActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:58:9-62:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:59:9-63:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:60:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:61:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:62:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:63:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:61:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:62:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:59:13-43
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:60:13-43
 activity#com.example.mycalendar2026sar.ExpenseTypeActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:63:9-67:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:64:9-68:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:65:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:66:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:67:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:68:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:66:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:67:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:64:13-48
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:65:13-48
 activity#com.example.mycalendar2026sar.TransferActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:68:9-72:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:69:9-73:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:70:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:71:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:72:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:73:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:71:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:72:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:69:13-45
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:70:13-45
 activity#com.example.mycalendar2026sar.AccountSummaryActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:73:9-77:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:74:9-78:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:75:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:76:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:77:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:78:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:76:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:77:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:74:13-51
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:75:13-51
 activity#com.example.mycalendar2026sar.TransactionNamesActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:78:9-82:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:79:9-83:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:80:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:81:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:82:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:83:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:81:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:82:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:79:13-53
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:80:13-53
 activity#com.example.mycalendar2026sar.SummaryActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:83:9-87:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:84:9-88:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:85:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:86:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:87:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:88:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:86:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:87:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:84:13-44
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:85:13-44
 activity#com.example.mycalendar2026sar.ReportAllActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:88:9-92:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:89:9-93:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:90:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:91:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:92:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:93:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:91:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:92:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:89:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:90:13-46
 activity#com.example.mycalendar2026sar.DeletedTransactionsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:93:9-97:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:94:9-98:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:95:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:96:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:97:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:98:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:96:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:97:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:94:13-56
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:95:13-56
 activity#com.example.mycalendar2026sar.ExpensesSettingsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:98:9-102:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:99:9-103:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:100:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:101:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:102:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:103:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:101:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:102:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:99:13-53
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:100:13-53
 activity#com.example.mycalendar2026sar.NotebookActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:103:9-107:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:104:9-108:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:105:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:106:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:107:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:108:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:106:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:107:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:104:13-45
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:105:13-45
 activity#com.example.mycalendar2026sar.ImageEditorActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:108:9-112:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:109:9-113:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:110:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:111:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:112:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:113:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:111:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:112:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:109:13-48
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:110:13-48
 activity#com.example.mycalendar2026sar.TaskActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:113:9-117:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:114:9-118:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:115:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:116:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:117:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:118:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:116:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:117:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:114:13-41
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:115:13-41
 activity#com.example.mycalendar2026sar.ExpensesCalendarActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:118:9-122:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:119:9-123:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:120:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:121:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:122:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:123:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:121:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:122:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:119:13-53
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:120:13-53
 activity#com.example.mycalendar2026sar.ChartActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:123:9-127:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:124:9-128:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:125:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:126:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:127:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:128:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:126:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:127:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:124:13-42
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:125:13-42
 activity#com.example.mycalendar2026sar.RatesActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:128:9-132:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:129:9-133:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:130:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:131:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:132:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:133:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:131:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:132:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:129:13-42
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:130:13-42
 activity#com.example.mycalendar2026sar.RecommendActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:133:9-137:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:134:9-138:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:135:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:136:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:137:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:138:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:136:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:137:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:134:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:135:13-46
 activity#com.example.mycalendar2026sar.AccountsOverviewActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:138:9-142:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:139:9-143:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:140:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:141:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:142:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:143:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:141:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:142:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:139:13-53
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:140:13-53
 activity#com.example.mycalendar2026sar.TransactionsAllAccountsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:143:9-147:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:144:9-148:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:145:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:146:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:147:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:148:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:146:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:147:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:144:13-60
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:145:13-60
 activity#com.example.mycalendar2026sar.CashCalculatorActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:148:9-152:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:149:9-153:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:150:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:151:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:152:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:153:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:151:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:152:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:149:13-51
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:150:13-51
 activity#com.example.mycalendar2026sar.AddRemoveCurrencyActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:153:9-157:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:154:9-158:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:155:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:156:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:157:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:158:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:156:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:157:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:154:13-54
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:155:13-54
 activity#com.example.mycalendar2026sar.DayDetailsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:159:9-163:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:160:9-164:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:161:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:162:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:163:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:164:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:162:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:163:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:160:13-47
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:161:13-47
 activity#com.example.mycalendar2026sar.NotificationDetailsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:165:9-170:58
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:166:9-171:58
 	android:windowSoftInputMode
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:170:13-55
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:171:13-55
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:167:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:168:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:169:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:170:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:168:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:169:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:166:13-56
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:167:13-56
 activity#com.example.mycalendar2026sar.EventsActivity
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:172:9-176:62
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:173:9-177:62
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:174:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:175:13-37
 	android:theme
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:176:13-59
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:177:13-59
 	android:finishOnTaskLaunch
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:175:13-46
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:176:13-46
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:173:13-43
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:174:13-43
 service#com.example.mycalendar2026sar.QuickNoteNotificationService
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:178:9-185:19
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:179:9-186:19
 	android:enabled
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:180:13-35
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:181:13-35
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:181:13-37
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:182:13-37
 	android:foregroundServiceType
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:182:13-55
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:183:13-55
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:179:13-57
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:180:13-57
 property#android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:183:13-184:71
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:184:13-185:71
 	android:value
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:184:17-68
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:185:17-68
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:183:23-82
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:184:23-82
 receiver#com.example.mycalendar2026sar.ReminderReceiver
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:9-79
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:188:9-79
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:52-76
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:188:52-76
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:187:19-51
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:188:19-51
 receiver#com.example.mycalendar2026sar.SARCalendarWidget4x4
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:9-193:20
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:9-194:20
 	android:label
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:81-116
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:81-116
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:56-80
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:56-80
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:190:19-55
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:19-55
 intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:13-111
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:13-111
 action#android.appwidget.action.APPWIDGET_UPDATE
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:28-95
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:28-95
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:191:36-92
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:36-92
 meta-data#android.appwidget.provider
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:13-112
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:193:13-112
 	android:resource
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:66-109
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:193:66-109
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:192:24-65
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:193:24-65
 service#com.example.mycalendar2026sar.WidgetListService
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:9-136
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:196:9-136
 	android:exported
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:109-133
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:196:109-133
 	android:permission
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:52-108
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:196:52-108
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:195:18-51
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:196:18-51
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:202:13-204:54
+ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:203:13-205:54
 	android:resource
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:204:17-51
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:205:17-51
 	android:name
-		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:203:17-67
+		ADDED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml:204:17-67
 uses-sdk
 INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\SAR\StudioProjects\MyCalendar-New-25-09-2026\app\src\main\AndroidManifest.xml

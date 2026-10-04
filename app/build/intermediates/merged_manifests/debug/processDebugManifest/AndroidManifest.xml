@@ -78,7 +78,8 @@
             android:name="com.example.mycalendar2026sar.AddTransactionActivity"
             android:exported="false"
             android:finishOnTaskLaunch="true"
-            android:theme="@style/Theme.MyCalendar2026SAR" />
+            android:theme="@style/Theme.MyCalendar2026SAR"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.example.mycalendar2026sar.IncomeActivity"
             android:exported="false"

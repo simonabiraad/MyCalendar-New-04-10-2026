@@ -233,8 +233,15 @@ public class AddTransactionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_transaction);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.addTransactionMain), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets systemBars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout()
+            );
+            Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
+
+            int topPadding = systemBars.top;
+            int bottomPadding = Math.max(systemBars.bottom, imeInsets.bottom);
+
+            v.setPadding(systemBars.left, topPadding, systemBars.right, bottomPadding);
             return insets;
         });
 

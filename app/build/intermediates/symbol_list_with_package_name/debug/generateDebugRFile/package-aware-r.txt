@@ -219,6 +219,7 @@ id addEventButton
 id addEventHeaderButton
 id addNoteIconButton
 id addTaskButton
+id addTransactionContainer
 id addTransactionMain
 id addTransactionTitle
 id agenda_list

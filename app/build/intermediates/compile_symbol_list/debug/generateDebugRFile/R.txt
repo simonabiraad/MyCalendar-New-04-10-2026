@@ -218,6 +218,7 @@ int id addEventButton 0x0
 int id addEventHeaderButton 0x0
 int id addNoteIconButton 0x0
 int id addTaskButton 0x0
+int id addTransactionContainer 0x0
 int id addTransactionMain 0x0
 int id addTransactionTitle 0x0
 int id agenda_list 0x0

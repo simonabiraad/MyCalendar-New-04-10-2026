@@ -1538,19 +1538,24 @@ public class ExpensesActivity extends AppCompatActivity {
     private void refreshTransactionsList() {
         List<Transaction> allAscending = transactionDbHelper.getAllTransactionsAscending();
 
-        // Step 1: Sync with Account Balances
-        // We need to re-calculate all account balances from scratch to ensure accuracy with multiple currencies
+        // Step 1: Sync with Account Balances for custom accounts
         List<Account> accounts = BalanceManager.loadAccounts(this);
         java.util.Map<String, Double> accountBalances = new java.util.HashMap<>();
-        for (Account a : accounts) accountBalances.put(a.getName(), 0.0);
+        for (Account a : accounts) {
+            if (a != null && a.getName() != null && !a.getName().equalsIgnoreCase("Expenses")) {
+                accountBalances.put(a.getName(), 0.0);
+            } else if (a != null && a.getName() != null && a.getName().equalsIgnoreCase("Expenses")) {
+                a.setBalance(0.0);
+            }
+        }
 
         for (Transaction t : allAscending) {
-            if (accountBalances.containsKey(t.getAccount())) {
+            if (t.getAccount() != null && accountBalances.containsKey(t.getAccount())) {
                 accountBalances.put(t.getAccount(), accountBalances.get(t.getAccount()) + t.getSignedAmount());
             }
         }
         for (Account a : accounts) {
-            if (accountBalances.containsKey(a.getName())) {
+            if (a != null && accountBalances.containsKey(a.getName())) {
                 a.setBalance(accountBalances.get(a.getName()));
             }
         }
@@ -1559,15 +1564,12 @@ public class ExpensesActivity extends AppCompatActivity {
         // Running balance logic (Respecting Currency)
         java.util.Map<Long, Double> balanceAfterById = new java.util.HashMap<>();
         String activeAccount = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString("ActiveAccount", "Expenses");
-        boolean isSummaryMode = activeAccount.equals("Expenses");
+        boolean isSummaryMode = activeAccount.equalsIgnoreCase("Expenses");
         
         java.util.Map<String, Double> runningMap = new java.util.HashMap<>(); // Currency -> Running Balance
-        if (isSummaryMode) {
+        if (!isSummaryMode) {
             for (Account a : accounts) {
-                if (a != null && a.getName() != null && !a.getName().trim().isEmpty()) {
-                    if (a.getName().equalsIgnoreCase("Expenses") && a.getBalance() == 0.0) {
-                        continue;
-                    }
+                if (a != null && a.getName() != null && a.getName().equalsIgnoreCase(activeAccount)) {
                     String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
                             ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
                     Double currentVal = runningMap.get(accCurr);
@@ -1664,7 +1666,7 @@ public class ExpensesActivity extends AppCompatActivity {
         List<Account> userAccounts = new ArrayList<>();
         for (Account a : accounts) {
             if (a != null && a.getName() != null && !a.getName().trim().isEmpty()) {
-                if (a.getName().equalsIgnoreCase("Expenses") && a.getBalance() == 0.0) {
+                if (a.getName().equalsIgnoreCase("Expenses")) {
                     continue; // Skip default system fallback account
                 }
                 userAccounts.add(a);
