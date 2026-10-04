@@ -528,7 +528,6 @@ public class MainActivity extends AppCompatActivity {
             switchDarkModeMenu.setOnCheckedChangeListener(null);
             switchDarkModeMenu.setChecked(ThemeManager.isDarkMode(this));
             switchDarkModeMenu.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                hideCustomMenu();
                 ThemeManager.setDarkMode(MainActivity.this, isChecked, MainActivity.this);
             });
         }

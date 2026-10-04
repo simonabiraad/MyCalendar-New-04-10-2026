@@ -170,6 +170,8 @@ int drawable white_handle_right 0x0
 int drawable widget_card_4x4_bg 0x0
 int id accountBalance 0x0
 int id accountCurrencyPicker 0x0
+int id accountGuidelineContainer 0x0
+int id accountGuidelineScrollView 0x0
 int id accountIcon 0x0
 int id accountName 0x0
 int id accountSummaryBackButton 0x0
@@ -395,6 +397,7 @@ int id count_today 0x0
 int id countryRecyclerView 0x0
 int id countrySelectorBox 0x0
 int id currencyChartsContainer 0x0
+int id currencyCheckboxesContainer 0x0
 int id currencyContainer 0x0
 int id currencyDetailsContainer 0x0
 int id currencyHeader 0x0
@@ -521,6 +524,7 @@ int id hueSeekBar 0x0
 int id hueText 0x0
 int id imagePreview 0x0
 int id imgFromArrow 0x0
+int id imgMultiCurrencyArrow 0x0
 int id imgToArrow 0x0
 int id income_main 0x0
 int id indicatorMinus 0x0
@@ -590,6 +594,10 @@ int id monthly_expenses_main 0x0
 int id moreButton 0x0
 int id moreOptionsButton 0x0
 int id moveSelectedBtn 0x0
+int id multiCurrencyBreakdownContainer 0x0
+int id multiCurrencyExpandedContent 0x0
+int id multiCurrencyHeaderRow 0x0
+int id multiCurrencyTotalContainer 0x0
 int id nameRowDeleteButton 0x0
 int id nameRowEditButton 0x0
 int id nameRowText 0x0
@@ -741,6 +749,7 @@ int id shareSelectedBtn 0x0
 int id snoozeAction 0x0
 int id spendingByCategorySectionTitle 0x0
 int id spinnerFromAccount 0x0
+int id spinnerTargetCurrency 0x0
 int id spinnerToAccount 0x0
 int id startTimeBox 0x0
 int id statBalance 0x0
@@ -847,6 +856,7 @@ int id txNamesTopBar 0x0
 int id txNote 0x0
 int id txtAccountCurrency 0x0
 int id txtAccountDate 0x0
+int id txtAccountGuidelineInfo 0x0
 int id txtCashCalcTitle 0x0
 int id txtCashOutHeader 0x0
 int id txtConvertTitle 0x0
@@ -871,6 +881,11 @@ int id txtLanguageTitle 0x0
 int id txtLanguageValue 0x0
 int id txtLocationPermissionTitle 0x0
 int id txtLocationPermissionValue 0x0
+int id txtMultiCurrencyDetails 0x0
+int id txtMultiCurrencyFinalTotal 0x0
+int id txtMultiCurrencyHeaderTitle 0x0
+int id txtMultiCurrencyRateInfo 0x0
+int id txtMultiCurrencySummaryValue 0x0
 int id txtOnlineStatus 0x0
 int id txtPairAndRate 0x0
 int id txtRateChange 0x0
@@ -965,6 +980,7 @@ int layout dialog_notebook_note 0x0
 int layout dialog_select_country 0x0
 int layout dialog_transaction_note 0x0
 int layout item_account 0x0
+int layout item_account_guideline 0x0
 int layout item_account_summary_row 0x0
 int layout item_cash_denom_row 0x0
 int layout item_category 0x0

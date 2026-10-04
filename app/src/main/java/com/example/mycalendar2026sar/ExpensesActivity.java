@@ -88,6 +88,15 @@ public class ExpensesActivity extends AppCompatActivity {
     private TextView finalBalanceTotalText;
     private View previousBalanceRow, finalBalanceRow;
 
+    private View multiCurrencyTotalContainer;
+    private View multiCurrencyHeaderRow, multiCurrencyExpandedContent;
+    private ImageView imgMultiCurrencyArrow;
+    private LinearLayout currencyCheckboxesContainer;
+    private android.widget.Spinner spinnerTargetCurrency;
+    private TextView txtMultiCurrencyDetails, txtMultiCurrencyRateInfo, txtMultiCurrencyFinalTotal, txtMultiCurrencySummaryValue;
+    private boolean isMultiCurrencyExpanded = false;
+    private List<Transaction> currentFilteredTransactions = new ArrayList<>();
+
     private int currentFilter = FILTER_ALL;
     private boolean isSortAscending = false;
     private boolean filterOnlyCashIn = false;
@@ -276,6 +285,7 @@ public class ExpensesActivity extends AppCompatActivity {
             saveActiveAccount(passedAccount);
         }
 
+        setupMultiCurrencyTotalUI();
         refreshTransactionsList();
         
         // Persist default account if needed
@@ -591,15 +601,6 @@ public class ExpensesActivity extends AppCompatActivity {
                 totalsFooterContainer.setVisibility(View.VISIBLE);
                 toggleFooterButton.setImageResource(android.R.drawable.arrow_up_float);
             }
-        });
-
-        // Hide when tapping outside
-        findViewById(R.id.expenses_main).setOnTouchListener((v, event) -> {
-            if (totalsFooterContainer.getVisibility() == View.VISIBLE) {
-                totalsFooterContainer.setVisibility(View.GONE);
-                toggleFooterButton.setImageResource(R.drawable.ic_arrow_down);
-            }
-            return false;
         });
     }
 
@@ -1497,6 +1498,20 @@ public class ExpensesActivity extends AppCompatActivity {
         boolean isSummaryMode = activeAccount.equals("Expenses");
         
         java.util.Map<String, Double> runningMap = new java.util.HashMap<>(); // Currency -> Running Balance
+        if (isSummaryMode) {
+            for (Account a : accounts) {
+                if (a != null && a.getName() != null && !a.getName().trim().isEmpty()) {
+                    if (a.getName().equalsIgnoreCase("Expenses") && a.getBalance() == 0.0) {
+                        continue;
+                    }
+                    String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
+                            ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                    Double currentVal = runningMap.get(accCurr);
+                    double current = (currentVal != null) ? currentVal : 0.0;
+                    runningMap.put(accCurr, current + a.getBalance());
+                }
+            }
+        }
         
         for (Transaction t : allAscending) {
             if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equals(activeAccount))) continue;
@@ -1565,6 +1580,296 @@ public class ExpensesActivity extends AppCompatActivity {
         emptyStateText.setVisibility(filtered.isEmpty() ? View.VISIBLE : View.GONE);
 
         updateTotalsUI(cashInMap, cashOutMap);
+
+        currentFilteredTransactions = new ArrayList<>(filtered);
+        calculateAndDisplayMultiCurrencyTotal();
+        updateAccountGuidelineUI();
+    }
+
+    private void updateAccountGuidelineUI() {
+        android.widget.HorizontalScrollView accountGuidelineScrollView = findViewById(R.id.accountGuidelineScrollView);
+        LinearLayout accountGuidelineContainer = findViewById(R.id.accountGuidelineContainer);
+
+        if (accountGuidelineScrollView == null || accountGuidelineContainer == null) {
+            return;
+        }
+
+        accountGuidelineContainer.removeAllViews();
+
+        List<Account> accounts = BalanceManager.loadAccounts(this);
+        List<Account> userAccounts = new ArrayList<>();
+        for (Account a : accounts) {
+            if (a != null && a.getName() != null && !a.getName().trim().isEmpty()) {
+                if (a.getName().equalsIgnoreCase("Expenses") && a.getBalance() == 0.0) {
+                    continue; // Skip default system fallback account
+                }
+                userAccounts.add(a);
+            }
+        }
+
+        if (userAccounts.isEmpty()) {
+            accountGuidelineScrollView.setVisibility(View.GONE);
+            return;
+        }
+
+        accountGuidelineScrollView.setVisibility(View.VISIBLE);
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (Account a : userAccounts) {
+            View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
+            TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
+
+            String formattedAmt = formatAccountAmount(a.getBalance(), a.getCurrency());
+            String infoStr = a.getName() + " — " + formattedAmt;
+            txtInfo.setText(infoStr);
+
+            accountGuidelineContainer.addView(itemView);
+        }
+    }
+
+    private String formatAccountAmount(double amount, String currency) {
+        String curr = (currency == null || currency.trim().isEmpty()) ? "USD" : currency.trim();
+        if ("LBP".equalsIgnoreCase(curr)) {
+            return CurrencyFormatter.formatLbpAmount(amount) + " LBP";
+        } else {
+            if (amount == (long) amount) {
+                return String.format(Locale.US, "%,d %s", (long) amount, curr);
+            } else {
+                return String.format(Locale.US, "%,.2f %s", amount, curr);
+            }
+        }
+    }
+
+    private void setupMultiCurrencyTotalUI() {
+        multiCurrencyTotalContainer = findViewById(R.id.multiCurrencyTotalContainer);
+        multiCurrencyHeaderRow = findViewById(R.id.multiCurrencyHeaderRow);
+        multiCurrencyExpandedContent = findViewById(R.id.multiCurrencyExpandedContent);
+        imgMultiCurrencyArrow = findViewById(R.id.imgMultiCurrencyArrow);
+        currencyCheckboxesContainer = findViewById(R.id.currencyCheckboxesContainer);
+        spinnerTargetCurrency = findViewById(R.id.spinnerTargetCurrency);
+        txtMultiCurrencyDetails = findViewById(R.id.txtMultiCurrencyDetails);
+        txtMultiCurrencyRateInfo = findViewById(R.id.txtMultiCurrencyRateInfo);
+        txtMultiCurrencyFinalTotal = findViewById(R.id.txtMultiCurrencyFinalTotal);
+        txtMultiCurrencySummaryValue = findViewById(R.id.txtMultiCurrencySummaryValue);
+
+        if (multiCurrencyHeaderRow != null) {
+            multiCurrencyHeaderRow.setOnClickListener(null);
+            multiCurrencyHeaderRow.setClickable(false);
+        }
+
+        if (imgMultiCurrencyArrow != null) {
+            imgMultiCurrencyArrow.setClickable(true);
+            imgMultiCurrencyArrow.setFocusable(true);
+            imgMultiCurrencyArrow.setOnClickListener(v -> {
+                isMultiCurrencyExpanded = !isMultiCurrencyExpanded;
+                if (multiCurrencyExpandedContent != null) {
+                    multiCurrencyExpandedContent.setVisibility(isMultiCurrencyExpanded ? View.VISIBLE : View.GONE);
+                }
+                imgMultiCurrencyArrow.setRotation(isMultiCurrencyExpanded ? 180f : 0f);
+            });
+        }
+
+        CurrencyRateHelper.fetchLiveRates(this, this::calculateAndDisplayMultiCurrencyTotal);
+    }
+
+    private void calculateAndDisplayMultiCurrencyTotal() {
+        if (multiCurrencyTotalContainer == null) return;
+
+        SharedPreferences multiPrefs = getSharedPreferences("MultiCurrencyTotalPrefs", MODE_PRIVATE);
+
+        java.util.Map<String, Double> ratesMap = CurrencyRateHelper.getCachedRates(this);
+        long lastUpdated = CurrencyRateHelper.getLastUpdatedTime(this);
+
+        java.util.Set<String> allAvailableCurrencies = new java.util.TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        for (Transaction t : currentFilteredTransactions) {
+            if (t != null && t.getCurrency() != null && !t.getCurrency().trim().isEmpty()) {
+                allAvailableCurrencies.add(t.getCurrency().trim().toUpperCase(Locale.US));
+            }
+        }
+        for (Account a : accountList) {
+            if (a != null && a.getCurrency() != null && !a.getCurrency().trim().isEmpty()) {
+                allAvailableCurrencies.add(a.getCurrency().trim().toUpperCase(Locale.US));
+            }
+        }
+        if (allAvailableCurrencies.isEmpty()) {
+            allAvailableCurrencies.add("USD");
+            allAvailableCurrencies.add("LBP");
+        }
+
+        List<String> availableList = new ArrayList<>(allAvailableCurrencies);
+
+        String savedCurrenciesStr = multiPrefs.getString("selected_currencies", null);
+        java.util.Set<String> selectedCurrencies = new java.util.HashSet<>();
+        if (savedCurrenciesStr != null && !savedCurrenciesStr.isEmpty()) {
+            for (String c : savedCurrenciesStr.split(",")) {
+                if (!c.trim().isEmpty()) selectedCurrencies.add(c.trim().toUpperCase(Locale.US));
+            }
+        } else {
+            selectedCurrencies.addAll(availableList);
+        }
+
+        if (selectedCurrencies.isEmpty() && !availableList.isEmpty()) {
+            selectedCurrencies.addAll(availableList);
+        }
+
+        if (currencyCheckboxesContainer != null) {
+            currencyCheckboxesContainer.removeAllViews();
+            int mainAccent = ThemeManager.getMainAccentColor(this);
+
+            for (String curr : availableList) {
+                android.widget.CheckBox cb = new android.widget.CheckBox(this);
+                cb.setText(curr);
+                cb.setTextColor(Color.WHITE);
+                cb.setButtonTintList(android.content.res.ColorStateList.valueOf(mainAccent));
+                cb.setChecked(selectedCurrencies.contains(curr));
+
+                int margin = (int) (8 * getResources().getDisplayMetrics().density);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMarginEnd(margin);
+                cb.setLayoutParams(lp);
+
+                cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        selectedCurrencies.add(curr);
+                    } else {
+                        selectedCurrencies.remove(curr);
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    for (String sc : selectedCurrencies) {
+                        if (sb.length() > 0) sb.append(",");
+                        sb.append(sc);
+                    }
+                    multiPrefs.edit().putString("selected_currencies", sb.toString()).apply();
+                    calculateAndDisplayMultiCurrencyTotal();
+                });
+
+                currencyCheckboxesContainer.addView(cb);
+            }
+        }
+
+        String targetCurrency = multiPrefs.getString("target_currency", "USD").toUpperCase(Locale.US);
+
+        if (spinnerTargetCurrency != null) {
+            android.widget.ArrayAdapter<String> targetAdapter = new android.widget.ArrayAdapter<>(this, android.R.layout.simple_spinner_item, availableList);
+            targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerTargetCurrency.setAdapter(targetAdapter);
+
+            int targetIndex = availableList.indexOf(targetCurrency);
+            if (targetIndex >= 0) {
+                spinnerTargetCurrency.setSelection(targetIndex);
+            }
+
+            spinnerTargetCurrency.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                    String selectedTarget = availableList.get(position);
+                    if (!selectedTarget.equalsIgnoreCase(targetCurrency)) {
+                        multiPrefs.edit().putString("target_currency", selectedTarget).apply();
+                        calculateAndDisplayMultiCurrencyTotal();
+                    }
+                }
+                @Override
+                public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            });
+        }
+
+        double totalInTarget = 0;
+        StringBuilder detailsSb = new StringBuilder();
+        StringBuilder currenciesCombinedSb = new StringBuilder();
+
+        java.util.Map<String, Double> selectedNetsMap = new java.util.LinkedHashMap<>();
+        List<Account> accountsForCalc = BalanceManager.loadAccounts(this);
+
+        for (String curr : selectedCurrencies) {
+            double netInCurr = 0;
+
+            // 1. Account amounts for user-created accounts in this currency
+            for (Account a : accountsForCalc) {
+                if (a != null && a.getName() != null && !a.getName().trim().isEmpty()) {
+                    if (a.getName().equalsIgnoreCase("Expenses") && a.getBalance() == 0.0) {
+                        continue;
+                    }
+                    String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
+                            ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                    if (curr.equalsIgnoreCase(accCurr)) {
+                        netInCurr += a.getBalance();
+                    }
+                }
+            }
+
+            // 2. Net signed amount from filtered transactions in this currency
+            for (Transaction t : currentFilteredTransactions) {
+                if (t != null && curr.equalsIgnoreCase(t.getCurrency())) {
+                    netInCurr += t.getSignedAmount();
+                }
+            }
+
+            selectedNetsMap.put(curr, netInCurr);
+        }
+
+        for (java.util.Map.Entry<String, Double> entry : selectedNetsMap.entrySet()) {
+            String curr = entry.getKey();
+            double netVal = entry.getValue();
+
+            if (currenciesCombinedSb.length() > 0) currenciesCombinedSb.append(" + ");
+            currenciesCombinedSb.append(curr);
+
+            double convertedVal = CurrencyRateHelper.convertAmount(netVal, curr, targetCurrency, ratesMap);
+            totalInTarget += convertedVal;
+
+            String formattedNet = "LBP".equalsIgnoreCase(curr)
+                    ? CurrencyFormatter.formatLbpAmount(netVal) + " LBP"
+                    : CurrencyFormatter.formatAmount(netVal, curr);
+
+            if (detailsSb.length() > 0) detailsSb.append("\n");
+            detailsSb.append(curr).append(" Amount: ").append(formattedNet);
+
+            if (!curr.equalsIgnoreCase(targetCurrency)) {
+                String formattedConverted = "LBP".equalsIgnoreCase(targetCurrency)
+                        ? CurrencyFormatter.formatLbpAmount(convertedVal) + " LBP"
+                        : CurrencyFormatter.formatAmount(convertedVal, targetCurrency);
+                detailsSb.append("  ➔  (").append(formattedConverted).append(")");
+            }
+        }
+
+        StringBuilder rateInfoSb = new StringBuilder();
+        double rateTargetUsd = ratesMap.getOrDefault(targetCurrency, 1.0);
+        rateInfoSb.append("Online Exchange Rate Source: ER API\n");
+        for (String curr : selectedCurrencies) {
+            if (!curr.equalsIgnoreCase(targetCurrency)) {
+                double rFrom = ratesMap.getOrDefault(curr, 1.0);
+                double pairRate = (1.0 / rFrom) * rateTargetUsd;
+                rateInfoSb.append(String.format(Locale.US, "1 %s = %,.4f %s\n", curr, pairRate, targetCurrency));
+            }
+        }
+
+        if (lastUpdated > 0) {
+            SimpleDateFormat timeSdf = new SimpleDateFormat("dd-MMM-yyyy, hh:mm a", Locale.US);
+            rateInfoSb.append("Last updated: ").append(timeSdf.format(new java.util.Date(lastUpdated)));
+        } else {
+            rateInfoSb.append("Last updated: Live rate");
+        }
+
+        String formattedFinalTotal = "LBP".equalsIgnoreCase(targetCurrency)
+                ? CurrencyFormatter.formatLbpAmount(totalInTarget) + " LBP"
+                : CurrencyFormatter.formatAmount(totalInTarget, targetCurrency);
+
+        if (txtMultiCurrencySummaryValue != null) {
+            txtMultiCurrencySummaryValue.setText(formattedFinalTotal);
+        }
+
+        if (txtMultiCurrencyDetails != null) {
+            txtMultiCurrencyDetails.setText("Selected Currencies: " + currenciesCombinedSb.toString() + "\n\n" + detailsSb.toString());
+        }
+
+        if (txtMultiCurrencyRateInfo != null) {
+            txtMultiCurrencyRateInfo.setText(rateInfoSb.toString());
+        }
+
+        if (txtMultiCurrencyFinalTotal != null) {
+            txtMultiCurrencyFinalTotal.setText("Total: " + formattedFinalTotal);
+        }
     }
 
     private void updateTotalsUI(java.util.Map<String, Double> cashInMap, java.util.Map<String, Double> cashOutMap) {

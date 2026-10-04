@@ -172,6 +172,8 @@ drawable white_handle_right
 drawable widget_card_4x4_bg
 id accountBalance
 id accountCurrencyPicker
+id accountGuidelineContainer
+id accountGuidelineScrollView
 id accountIcon
 id accountName
 id accountSummaryBackButton
@@ -397,6 +399,7 @@ id count_today
 id countryRecyclerView
 id countrySelectorBox
 id currencyChartsContainer
+id currencyCheckboxesContainer
 id currencyContainer
 id currencyDetailsContainer
 id currencyHeader
@@ -523,6 +526,7 @@ id hueSeekBar
 id hueText
 id imagePreview
 id imgFromArrow
+id imgMultiCurrencyArrow
 id imgToArrow
 id income_main
 id indicatorMinus
@@ -592,6 +596,10 @@ id monthly_expenses_main
 id moreButton
 id moreOptionsButton
 id moveSelectedBtn
+id multiCurrencyBreakdownContainer
+id multiCurrencyExpandedContent
+id multiCurrencyHeaderRow
+id multiCurrencyTotalContainer
 id nameRowDeleteButton
 id nameRowEditButton
 id nameRowText
@@ -743,6 +751,7 @@ id shareSelectedBtn
 id snoozeAction
 id spendingByCategorySectionTitle
 id spinnerFromAccount
+id spinnerTargetCurrency
 id spinnerToAccount
 id startTimeBox
 id statBalance
@@ -849,6 +858,7 @@ id txNamesTopBar
 id txNote
 id txtAccountCurrency
 id txtAccountDate
+id txtAccountGuidelineInfo
 id txtCashCalcTitle
 id txtCashOutHeader
 id txtConvertTitle
@@ -873,6 +883,11 @@ id txtLanguageTitle
 id txtLanguageValue
 id txtLocationPermissionTitle
 id txtLocationPermissionValue
+id txtMultiCurrencyDetails
+id txtMultiCurrencyFinalTotal
+id txtMultiCurrencyHeaderTitle
+id txtMultiCurrencyRateInfo
+id txtMultiCurrencySummaryValue
 id txtOnlineStatus
 id txtPairAndRate
 id txtRateChange
@@ -967,6 +982,7 @@ layout dialog_notebook_note
 layout dialog_select_country
 layout dialog_transaction_note
 layout item_account
+layout item_account_guideline
 layout item_account_summary_row
 layout item_cash_denom_row
 layout item_category
