@@ -236,6 +236,15 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
         db.update(TABLE_TRANSACTIONS, values, COL_ACCOUNT + "=?", new String[]{accountName});
     }
 
+    /** Updates the account name for all transactions associated with an account. */
+    public void updateAccountNameInTransactions(String oldName, String newName) {
+        if (oldName == null || newName == null || oldName.equalsIgnoreCase(newName)) return;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_ACCOUNT, newName);
+        db.update(TABLE_TRANSACTIONS, values, COL_ACCOUNT + "=?", new String[]{oldName});
+    }
+
     /** Moves a transaction back out of the Deleted Transactions folder. */
     public void restoreTransaction(long id) {
         SQLiteDatabase db = getWritableDatabase();

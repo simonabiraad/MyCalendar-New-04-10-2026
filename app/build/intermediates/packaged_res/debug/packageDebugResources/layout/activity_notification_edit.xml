@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="New Event"
             android:textColor="@color/light_green"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginEnd="40dp" />
     </LinearLayout>

@@ -477,18 +477,53 @@ public class SecureBoxActivity extends AppCompatActivity {
             return new VH(b);
         }
 
+        private int getIconForCategoryKey(String key) {
+            if (key == null) return R.drawable.ic_menu_sticky_note_color;
+            switch (key.toLowerCase(Locale.US)) {
+                case "all_notes":
+                    return R.drawable.ic_menu_notebook_color;
+                case "password_notes":
+                case "password":
+                    return R.drawable.ic_menu_password_color;
+                case "family_notes":
+                case "family":
+                    return R.drawable.ic_menu_profile_color;
+                case "work_notes":
+                case "work":
+                    return R.drawable.ic_cat_business_color;
+                default:
+                    return R.drawable.ic_menu_sticky_note_color;
+            }
+        }
+
         @Override public void onBindViewHolder(@NonNull VH h, int pos) {
             com.google.android.material.button.MaterialButton b = (com.google.android.material.button.MaterialButton) h.itemView;
             b.setAllCaps(false);
-            b.setTextColor(Color.BLACK);
+            b.setTextColor(Color.WHITE);
+            b.setTypeface(Typeface.DEFAULT_BOLD);
             b.setSingleLine(true);
             b.setMaxLines(1);
-            applyFontSettings(b, 13);
+            applyFontSettings(b, 15);
 
             CategoryItem itm = categoryList.get(pos);
             b.setText(itm.name);
-            b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(itm.color));
-            b.setAlpha(activeCategoryKey.equals(itm.key) ? 1.0f : 0.6f);
+
+            int bgColor = itm.color;
+            if (!activeCategoryKey.equals(itm.key)) {
+                int alphaBg = (bgColor & 0x00FFFFFF) | 0x99000000;
+                b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(alphaBg));
+            } else {
+                b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(bgColor));
+            }
+            b.setAlpha(1.0f);
+
+            int iconRes = getIconForCategoryKey(itm.key);
+            b.setIconResource(iconRes);
+            b.setIconTint(android.content.res.ColorStateList.valueOf(Color.WHITE));
+            b.setIconSize((int) (18 * h.itemView.getContext().getResources().getDisplayMetrics().density));
+            b.setIconPadding((int) (6 * h.itemView.getContext().getResources().getDisplayMetrics().density));
+            b.setIconGravity(com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START);
+
             b.setOnClickListener(v -> selectCategory(itm.key, itm.color));
             b.setOnLongClickListener(v -> { showCategoryOptionsDialog(itm.key, b); return true; });
         }

@@ -846,6 +846,29 @@ public class ExpensesActivity extends AppCompatActivity {
         monthlyButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(currentFilter == FILTER_MONTHLY ? activeColor : inactiveColor));
         yearlyButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(currentFilter == FILTER_YEARLY ? activeColor : inactiveColor));
 
+        allButton.setTextColor(Color.WHITE);
+        dailyButton.setTextColor(Color.WHITE);
+        weeklyButton.setTextColor(Color.WHITE);
+        monthlyButton.setTextColor(Color.WHITE);
+        yearlyButton.setTextColor(Color.WHITE);
+
+        Button subAllBtn = findViewById(R.id.subAllButton);
+        if (subAllBtn != null) subAllBtn.setTextColor(Color.WHITE);
+
+        Button subTodayBtn = findViewById(R.id.subTodayButton);
+        if (subTodayBtn != null) subTodayBtn.setTextColor(Color.WHITE);
+
+        Button subWeeklyBtn = findViewById(R.id.subWeeklyRangeButton);
+        if (subWeeklyBtn != null) subWeeklyBtn.setTextColor(Color.WHITE);
+
+        Button subMonthlyBtn = findViewById(R.id.subMonthlyRangeButton);
+        if (subMonthlyBtn != null) subMonthlyBtn.setTextColor(Color.WHITE);
+
+        Button subYearlyBtn = findViewById(R.id.subYearlyRangeButton);
+        if (subYearlyBtn != null) subYearlyBtn.setTextColor(Color.WHITE);
+
+        if (topExpensesButton != null) topExpensesButton.setTextColor(Color.WHITE);
+
         if (currentFilter == FILTER_CUSTOM_RANGE) {
             // If custom range is active, we might want to show a toast or update a label
             String start = new SimpleDateFormat("dd/MM", Locale.getDefault()).format(new java.util.Date(customStartDate));
@@ -923,35 +946,130 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onEditClick(Account account, int position) {
                 View editView = getLayoutInflater().inflate(R.layout.dialog_add_account, null);
+                TextView titleTv = editView.findViewById(R.id.dialogTitle);
+                if (titleTv != null) {
+                    titleTv.setText("Edit Account");
+                }
+
                 android.widget.EditText nameInput = editView.findViewById(R.id.editAccountName);
                 android.widget.EditText balanceInput = editView.findViewById(R.id.editAccountBalance);
-                
+                android.widget.TextView txtAccountCurrency = editView.findViewById(R.id.txtAccountCurrency);
+                android.widget.TextView txtAccountDate = editView.findViewById(R.id.txtAccountDate);
+                android.view.View indicatorPlus = editView.findViewById(R.id.indicatorPlus);
+                android.view.View indicatorMinus = editView.findViewById(R.id.indicatorMinus);
+
                 nameInput.setText(account.getName());
-                balanceInput.setText(String.format(Locale.US, "%,.2f", account.getBalance()));
-                
-                editView.findViewById(R.id.accountCurrencyPicker).setVisibility(View.GONE);
-            
-                ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
-                        .setTitle("Edit Account")
+                double absBal = Math.abs(account.getBalance());
+                balanceInput.setText(String.format(Locale.US, "%,.2f", absBal));
+
+                final String[] selectedCurrency = {account.getCurrency() != null ? account.getCurrency() : "USD"};
+                txtAccountCurrency.setText("Currency: " + selectedCurrency[0]);
+
+                editView.findViewById(R.id.accountCurrencyPicker).setOnClickListener(v1 -> {
+                    List<CountryManager.Country> countries = CountryManager.getCountries();
+                    String[] items = new String[countries.size()];
+                    for (int i = 0; i < countries.size(); i++) {
+                        items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
+                    }
+                    ThemeManager.showDialog(new AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
+                            .setTitle("Select Currency")
+                            .setItems(items, (dialog1, which) -> {
+                                selectedCurrency[0] = countries.get(which).currency;
+                                txtAccountCurrency.setText("Currency: " + selectedCurrency[0]);
+                            }), ExpensesActivity.this);
+                });
+
+                final java.util.Calendar selectedCal = java.util.Calendar.getInstance();
+                final java.text.SimpleDateFormat dialogSdf = new java.text.SimpleDateFormat("dd-MMM-yyyy", java.util.Locale.getDefault());
+                txtAccountDate.setText(dialogSdf.format(selectedCal.getTime()));
+
+                final boolean[] isPositive = {account.getBalance() >= 0};
+                int accentColor = ThemeManager.getMainAccentColor(ExpensesActivity.this);
+                if (isPositive[0]) {
+                    indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
+                    indicatorMinus.setBackgroundTintList(null);
+                } else {
+                    indicatorMinus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(ExpensesActivity.this, R.color.expense_red)));
+                    indicatorPlus.setBackgroundTintList(null);
+                }
+
+                TextView btnCancelAcc = editView.findViewById(R.id.btnCancelAccount);
+                if (btnCancelAcc != null) btnCancelAcc.setTextColor(accentColor);
+                TextView btnSaveAcc = editView.findViewById(R.id.btnSaveAccount);
+                if (btnSaveAcc != null) btnSaveAcc.setTextColor(accentColor);
+
+                androidx.appcompat.app.AlertDialog editDialog = new androidx.appcompat.app.AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
                         .setView(editView)
-                        .setPositiveButton("Save", (d, w) -> {
-                            String newName = nameInput.getText().toString();
-                            String balanceStr = balanceInput.getText().toString();
-                            if (!newName.isEmpty()) {
-                                account.setName(newName);
-                                if (!balanceStr.isEmpty()) {
-                                    try {
-                                        account.setBalance(Double.parseDouble(balanceStr.replace(",", "")));
-                                    } catch (NumberFormatException ignored) {}
-                                }
-                                adapter.notifyItemChanged(position);
-                                if (topExpensesButton.getText().toString().equals(account.getName())) {
-                                    topExpensesButton.setText(newName);
-                                }
-                                saveAccounts();
+                        .create();
+
+                if (editDialog.getWindow() != null) {
+                    editDialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+                }
+
+                editView.findViewById(R.id.typePlusContainer).setOnClickListener(v1 -> {
+                    isPositive[0] = true;
+                    indicatorPlus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ThemeManager.getMainAccentColor(ExpensesActivity.this)));
+                    indicatorMinus.setBackgroundTintList(null);
+                });
+
+                editView.findViewById(R.id.typeMinusContainer).setOnClickListener(v1 -> {
+                    isPositive[0] = false;
+                    indicatorMinus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(ExpensesActivity.this, R.color.expense_red)));
+                    indicatorPlus.setBackgroundTintList(null);
+                });
+
+                editView.findViewById(R.id.dateSelectionBox).setOnClickListener(v1 -> {
+                    new android.app.DatePickerDialog(ExpensesActivity.this, (view, year, month, dayOfMonth) -> {
+                        selectedCal.set(year, month, dayOfMonth);
+                        txtAccountDate.setText(dialogSdf.format(selectedCal.getTime()));
+                    }, selectedCal.get(java.util.Calendar.YEAR), selectedCal.get(java.util.Calendar.MONTH), selectedCal.get(java.util.Calendar.DAY_OF_MONTH)).show();
+                });
+
+                editView.findViewById(R.id.btnCancelAccount).setOnClickListener(v1 -> editDialog.dismiss());
+
+                editView.findViewById(R.id.btnSaveAccount).setOnClickListener(v1 -> {
+                    String newName = nameInput.getText().toString().trim();
+                    String balanceStr = balanceInput.getText().toString().trim();
+
+                    if (newName.isEmpty()) {
+                        Toast.makeText(ExpensesActivity.this, "Please enter account name", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String oldName = account.getName();
+                    account.setName(newName);
+
+                    double parsedBal = account.getBalance();
+                    if (!balanceStr.isEmpty()) {
+                        try {
+                            parsedBal = Double.parseDouble(balanceStr.replace(",", ""));
+                            if (!isPositive[0]) {
+                                parsedBal = -Math.abs(parsedBal);
+                            } else {
+                                parsedBal = Math.abs(parsedBal);
                             }
-                        })
-                        .setNegativeButton("Cancel", null), ExpensesActivity.this);
+                        } catch (NumberFormatException ignored) {}
+                    }
+                    account.setBalance(parsedBal);
+                    account.setCurrency(selectedCurrency[0]);
+
+                    if (!oldName.equalsIgnoreCase(newName)) {
+                        transactionDbHelper.updateAccountNameInTransactions(oldName, newName);
+                    }
+
+                    saveAccounts();
+                    adapter.notifyItemChanged(position);
+
+                    if (topExpensesButton.getText().toString().equals(oldName)) {
+                        topExpensesButton.setText(newName);
+                        saveActiveAccount(newName);
+                    }
+
+                    refreshTransactionsList();
+                    editDialog.dismiss();
+                });
+
+                editDialog.show();
             }
 
             @Override
@@ -1278,10 +1396,18 @@ public class ExpensesActivity extends AppCompatActivity {
         int accent = ThemeManager.getMainAccentColor(this);
         if (topExpensesButton != null) {
             topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+            topExpensesButton.setTextColor(Color.WHITE);
         }
         View cashInBtn = findViewById(R.id.cashInButton);
         if (cashInBtn != null) {
             cashInBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+            if (cashInBtn instanceof Button) {
+                ((Button) cashInBtn).setTextColor(Color.WHITE);
+            }
+        }
+        View cashOutBtn = findViewById(R.id.cashOutButton);
+        if (cashOutBtn instanceof Button) {
+            ((Button) cashOutBtn).setTextColor(Color.WHITE);
         }
         View toggleFooterBtn = findViewById(R.id.toggleFooterButton);
         if (toggleFooterBtn instanceof ImageButton) {
@@ -1293,17 +1419,33 @@ public class ExpensesActivity extends AppCompatActivity {
         }
         TextView cashInTotal = findViewById(R.id.cashInTotalText);
         if (cashInTotal != null) {
-            cashInTotal.setTextColor(accent);
+            cashInTotal.setTextColor(Color.WHITE);
+        }
+        TextView cashOutTotal = findViewById(R.id.cashOutTotalText);
+        if (cashOutTotal != null) {
+            cashOutTotal.setTextColor(Color.WHITE);
+        }
+        TextView balanceTotal = findViewById(R.id.balanceTotalText);
+        if (balanceTotal != null) {
+            balanceTotal.setTextColor(Color.WHITE);
+        }
+        TextView labelTotalCashIn = findViewById(R.id.labelTotalCashIn);
+        if (labelTotalCashIn != null) {
+            labelTotalCashIn.setTextColor(Color.WHITE);
         }
         View prevRow = findViewById(R.id.previousBalanceRow);
         if (prevRow instanceof ViewGroup) {
             TextView tv = (TextView) ((ViewGroup) prevRow).getChildAt(0);
-            if (tv != null) tv.setTextColor(accent);
+            if (tv != null) tv.setTextColor(Color.WHITE);
+            TextView valTv = findViewById(R.id.previousBalanceTotalText);
+            if (valTv != null) valTv.setTextColor(Color.WHITE);
         }
         View finalRow = findViewById(R.id.finalBalanceRow);
         if (finalRow instanceof ViewGroup) {
             TextView tv = (TextView) ((ViewGroup) finalRow).getChildAt(0);
-            if (tv != null) tv.setTextColor(accent);
+            if (tv != null) tv.setTextColor(Color.WHITE);
+            TextView valTv = findViewById(R.id.finalBalanceTotalText);
+            if (valTv != null) valTv.setTextColor(Color.WHITE);
         }
 
         com.google.android.material.navigation.NavigationView navView = findViewById(R.id.expensesNavigationView);

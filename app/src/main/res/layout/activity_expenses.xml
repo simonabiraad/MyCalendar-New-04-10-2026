@@ -33,6 +33,7 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:text="@string/expenses"
+            android:textColor="#FFFFFF"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintBottom_toBottomOf="@id/expensesMenuButton"
             app:layout_constraintStart_toEndOf="@id/expensesMenuButton"
@@ -113,6 +114,7 @@
                 android:insetRight="0dp"
                 android:padding="0dp"
                 android:text="@string/all_expenses"
+                android:textColor="#FFFFFF"
                 android:textSize="@dimen/_8ssp"
                 app:cornerRadius="20dp" />
 
@@ -126,6 +128,7 @@
                 android:insetRight="0dp"
                 android:padding="0dp"
                 android:text="@string/label_daily"
+                android:textColor="#FFFFFF"
                 android:textSize="@dimen/_8ssp"
                 app:cornerRadius="20dp" />
 
@@ -139,6 +142,7 @@
                 android:insetRight="0dp"
                 android:padding="0dp"
                 android:text="@string/label_weekly"
+                android:textColor="#FFFFFF"
                 android:textSize="@dimen/_8ssp"
                 app:cornerRadius="20dp" />
 
@@ -152,6 +156,7 @@
                 android:insetRight="0dp"
                 android:padding="0dp"
                 android:text="@string/label_monthly"
+                android:textColor="#FFFFFF"
                 android:textSize="@dimen/_8ssp"
                 app:cornerRadius="20dp" />
 
@@ -165,6 +170,7 @@
                 android:insetRight="0dp"
                 android:padding="0dp"
                 android:text="@string/yearly"
+                android:textColor="#FFFFFF"
                 android:textSize="@dimen/_8ssp"
                 app:cornerRadius="20dp" />
 
@@ -191,6 +197,7 @@
                 android:padding="0dp"
                 android:text="All"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 app:cornerRadius="20dp" />
 
@@ -217,6 +224,7 @@
                 android:padding="0dp"
                 android:text="@string/label_today"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 app:cornerRadius="20dp" />
 
@@ -243,6 +251,7 @@
                 android:padding="0dp"
                 android:text="27-07-2026 to 02-08-2026"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 app:cornerRadius="20dp" />
 
@@ -269,6 +278,7 @@
                 android:padding="0dp"
                 android:text="01-07-2026 to 31-07-2026"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 app:cornerRadius="20dp" />
 
@@ -295,6 +305,7 @@
                 android:padding="0dp"
                 android:text="01-01-2026 to 31-12-2026"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 app:cornerRadius="20dp" />
 
@@ -317,7 +328,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="Description"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -334,7 +345,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="Cash In"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -351,7 +362,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="Cash Out"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -368,7 +379,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="Balance"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -391,7 +402,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No transactions yet"
-            android:textColor="@color/text_secondary"
+            android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/transactionsRecyclerView"
@@ -418,6 +429,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/light_green"
                 android:text="@string/menu_cash_in"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:cornerRadius="30dp" />
@@ -429,6 +441,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/chili_red"
                 android:text="@string/menu_cash_out"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:cornerRadius="30dp" />
@@ -463,8 +476,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!-- ... existing content ... -->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -483,14 +494,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TOTAL Cash In"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_8ssp" />
 
                     <TextView
                         android:id="@+id/cashInTotalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/income_green"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         android:text="0.00" />
@@ -507,14 +518,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TOTAL Cash Out"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_8ssp" />
 
                     <TextView
                         android:id="@+id/cashOutTotalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/expense_red"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         android:text="0.00" />
@@ -531,14 +542,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Balance"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_8ssp" />
 
                     <TextView
                         android:id="@+id/balanceTotalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         android:text="0.00" />
@@ -565,7 +576,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Previous Balance"
-                    android:textColor="@color/light_green"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
 
@@ -574,7 +585,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.00"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -592,7 +603,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Final Balance"
-                    android:textColor="@color/light_green"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
 
@@ -601,7 +612,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.00"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
             </LinearLayout>

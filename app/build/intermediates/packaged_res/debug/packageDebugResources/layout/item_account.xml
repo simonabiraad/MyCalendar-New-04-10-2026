@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:text="Account Name"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="#FFFFFF"
             android:layout_marginStart="8dp" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:text="0.00"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white" />
+            android:textColor="#FFFFFF" />
 
         <!-- Edit Mode: Delete -->
         <ImageButton

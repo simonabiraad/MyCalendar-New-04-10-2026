@@ -11,7 +11,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="USD"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cash In"
-            android:textColor="@color/text_secondary"
+            android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="0.00"
-            android:textColor="@color/income_green"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cash Out"
-            android:textColor="@color/text_secondary"
+            android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="0.00"
-            android:textColor="@color/expense_red"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Net"
-            android:textColor="@color/text_secondary"
+            android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="0.00"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
