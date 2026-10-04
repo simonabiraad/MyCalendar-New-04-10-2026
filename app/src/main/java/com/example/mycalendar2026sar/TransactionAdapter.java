@@ -99,6 +99,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 rowHolder.cashOut.setText("");
             } else {
                 rowHolder.cashOut.setText(formattedAmount);
+                rowHolder.cashOut.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.expense_red));
                 rowHolder.cashIn.setText("");
             }
 

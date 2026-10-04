@@ -1,4 +1,4 @@
-#Sun Oct 04 15:13:46 EEST 2026
+#Sun Oct 04 15:25:48 EEST 2026
 base.0=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\SAR\\StudioProjects\\MyCalendar-New-25-09-2026\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex

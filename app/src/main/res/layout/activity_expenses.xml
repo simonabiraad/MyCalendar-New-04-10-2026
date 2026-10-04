@@ -501,7 +501,7 @@
                         android:id="@+id/cashInTotalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/income_green"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         android:text="0.00" />
@@ -525,7 +525,7 @@
                         android:id="@+id/cashOutTotalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/expense_red"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         android:text="0.00" />

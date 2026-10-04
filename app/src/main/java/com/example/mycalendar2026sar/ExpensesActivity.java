@@ -1419,11 +1419,11 @@ public class ExpensesActivity extends AppCompatActivity {
         }
         TextView cashInTotal = findViewById(R.id.cashInTotalText);
         if (cashInTotal != null) {
-            cashInTotal.setTextColor(Color.WHITE);
+            cashInTotal.setTextColor(accent);
         }
         TextView cashOutTotal = findViewById(R.id.cashOutTotalText);
         if (cashOutTotal != null) {
-            cashOutTotal.setTextColor(Color.WHITE);
+            cashOutTotal.setTextColor(ContextCompat.getColor(this, R.color.expense_red));
         }
         TextView balanceTotal = findViewById(R.id.balanceTotalText);
         if (balanceTotal != null) {
