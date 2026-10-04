@@ -593,15 +593,23 @@ public class ExpensesActivity extends AppCompatActivity {
         View totalsFooterContainer = findViewById(R.id.totalsFooterContainer);
         android.widget.ImageButton toggleFooterButton = findViewById(R.id.toggleFooterButton);
         
-        toggleFooterButton.setOnClickListener(v -> {
-            if (totalsFooterContainer.getVisibility() == View.VISIBLE) {
-                totalsFooterContainer.setVisibility(View.GONE);
-                toggleFooterButton.setImageResource(R.drawable.ic_arrow_down);
-            } else {
-                totalsFooterContainer.setVisibility(View.VISIBLE);
-                toggleFooterButton.setImageResource(android.R.drawable.arrow_up_float);
-            }
-        });
+        SharedPreferences prefs = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE);
+        boolean isExpanded = prefs.getBoolean("TotalsFooterExpanded", false);
+        if (totalsFooterContainer != null) {
+            totalsFooterContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
+        if (toggleFooterButton != null) {
+            toggleFooterButton.setImageResource(isExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+            toggleFooterButton.setOnClickListener(v -> {
+                boolean currentlyVisible = totalsFooterContainer != null && totalsFooterContainer.getVisibility() == View.VISIBLE;
+                boolean newExpanded = !currentlyVisible;
+                if (totalsFooterContainer != null) {
+                    totalsFooterContainer.setVisibility(newExpanded ? View.VISIBLE : View.GONE);
+                }
+                toggleFooterButton.setImageResource(newExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+                prefs.edit().putBoolean("TotalsFooterExpanded", newExpanded).apply();
+            });
+        }
     }
 
     private void showExpensesOverflowMenu(View anchor) {
@@ -1427,9 +1435,23 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        syncFooterPanelState();
         applyColors();
         loadAccounts();
         refreshTransactionsList();
+    }
+
+    private void syncFooterPanelState() {
+        View totalsFooterContainer = findViewById(R.id.totalsFooterContainer);
+        android.widget.ImageButton toggleFooterButton = findViewById(R.id.toggleFooterButton);
+        SharedPreferences prefs = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE);
+        boolean isExpanded = prefs.getBoolean("TotalsFooterExpanded", false);
+        if (totalsFooterContainer != null) {
+            totalsFooterContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
+        if (toggleFooterButton != null) {
+            toggleFooterButton.setImageResource(isExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+        }
     }
 
     private void applyColors() {
@@ -1649,23 +1671,68 @@ public class ExpensesActivity extends AppCompatActivity {
             }
         }
 
-        if (userAccounts.isEmpty()) {
-            accountGuidelineScrollView.setVisibility(View.GONE);
-            return;
-        }
-
-        accountGuidelineScrollView.setVisibility(View.VISIBLE);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (Account a : userAccounts) {
-            View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
-            TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
+        if (!userAccounts.isEmpty()) {
+            accountGuidelineScrollView.setVisibility(View.VISIBLE);
+            for (Account a : userAccounts) {
+                View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
+                TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
 
-            String formattedAmt = formatAccountAmount(a.getBalance(), a.getCurrency());
-            String infoStr = a.getName() + " — " + formattedAmt;
-            txtInfo.setText(infoStr);
+                String formattedAmt = formatAccountAmount(a.getBalance(), a.getCurrency());
+                String infoStr = a.getName() + " — " + formattedAmt;
+                txtInfo.setText(infoStr);
 
-            accountGuidelineContainer.addView(itemView);
+                accountGuidelineContainer.addView(itemView);
+            }
+        } else {
+            // Divide Expenses amounts by currency for all currencies present in the table below
+            List<Transaction> all = transactionDbHelper.getAllTransactionsAscending();
+            java.util.Set<String> currencies = new java.util.TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+
+            for (Transaction t : all) {
+                if (t != null && t.getCurrency() != null && !t.getCurrency().trim().isEmpty()) {
+                    currencies.add(t.getCurrency().trim().toUpperCase(Locale.US));
+                }
+            }
+
+            if (currencies.isEmpty()) {
+                accountGuidelineScrollView.setVisibility(View.GONE);
+                return;
+            }
+
+            accountGuidelineScrollView.setVisibility(View.VISIBLE);
+
+            for (String curr : currencies) {
+                IncomeCalculator.IncomeBreakdown inc = IncomeCalculator.calculateIncomeForCurrency(curr, accounts, all);
+                double in = inc.getTotalIncome();
+
+                double out = 0;
+                for (Transaction t : all) {
+                    if (t != null && curr.equalsIgnoreCase(t.getCurrency()) && !t.isCashIn()) {
+                        out += t.getAmount();
+                    }
+                }
+
+                double net = in - out;
+                if (net == 0 && in == 0 && out == 0) {
+                    continue; // Skip currencies with no entries
+                }
+
+                View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
+                TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
+
+                String displayName = curr.equalsIgnoreCase("EUR") ? "EURO" : curr;
+                String formattedAmt = formatAccountAmount(net, curr);
+                String infoStr = displayName + " — " + formattedAmt;
+                txtInfo.setText(infoStr);
+
+                accountGuidelineContainer.addView(itemView);
+            }
+
+            if (accountGuidelineContainer.getChildCount() == 0) {
+                accountGuidelineScrollView.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -243,7 +243,6 @@ int id archiveHistoryTitle 0x0
 int id archiveSelectedBtn 0x0
 int id attachmentsRecyclerView 0x0
 int id backButton 0x0
-int id balanceText 0x0
 int id balanceTotalText 0x0
 int id balanceTrendTitle 0x0
 int id blueSeekBar 0x0
@@ -813,8 +812,6 @@ int id toolbar 0x0
 int id topBar 0x0
 int id topExpensesButton 0x0
 int id topTitle 0x0
-int id totalCashInText 0x0
-int id totalCashOutText 0x0
 int id totalOverviewCard 0x0
 int id totalOverviewContainer 0x0
 int id totalsFooterContainer 0x0

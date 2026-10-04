@@ -38,7 +38,6 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
 
     private GridView calendarGrid;
     private TextView dateRangeText, accountSubtitle;
-    private TextView totalCashInText, totalCashOutText, balanceText;
     private Calendar currentMonth;
     private CalendarAdapter adapter;
     private TransactionDbHelper dbHelper;
@@ -67,9 +66,8 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         calendarGrid = findViewById(R.id.calendarGrid);
         dateRangeText = findViewById(R.id.dateRangeText);
         accountSubtitle = findViewById(R.id.calendarAccountSubtitle);
-        totalCashInText = findViewById(R.id.totalCashInText);
-        totalCashOutText = findViewById(R.id.totalCashOutText);
-        balanceText = findViewById(R.id.balanceText);
+
+        setupFooterToggle();
 
         findViewById(R.id.backButton).setOnClickListener(v -> handleBackNavigation());
         findViewById(R.id.prevMonth).setOnClickListener(v -> {
@@ -105,8 +103,12 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
     }
 
     private void handleBackNavigation() {
-        if (!activeAccount.equals("Expenses")) {
+        if (!activeAccount.equalsIgnoreCase("Expenses")) {
             activeAccount = "Expenses";
+            getSharedPreferences("ExpensesPrefs", MODE_PRIVATE)
+                    .edit()
+                    .putString("ActiveAccount", "Expenses")
+                    .apply();
             updateUI();
         } else {
             finish();
@@ -135,6 +137,10 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
                 .setTitle("Select Account")
                 .setItems(items, (dialog, which) -> {
                     activeAccount = items[which];
+                    getSharedPreferences("ExpensesPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("ActiveAccount", activeAccount)
+                            .apply();
                     updateUI();
                 })
                 .show();
@@ -152,20 +158,63 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         if (!hasExpenses) {
             accountList.add(0, new Account("Expenses", 0.0));
         }
+
+        String savedAcc = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString("ActiveAccount", "Expenses");
+        if (getIntent() != null && getIntent().hasExtra("active_account")) {
+            savedAcc = getIntent().getStringExtra("active_account");
+        }
+        if (savedAcc != null && !savedAcc.isEmpty()) {
+            activeAccount = savedAcc;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        syncFooterPanelState();
         applyColors();
         updateUI();
+    }
+
+    private void setupFooterToggle() {
+        View totalsFooterContainer = findViewById(R.id.totalsFooterContainer);
+        android.widget.ImageButton toggleFooterButton = findViewById(R.id.toggleFooterButton);
+
+        android.content.SharedPreferences prefs = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE);
+        boolean isExpanded = prefs.getBoolean("TotalsFooterExpanded", false);
+        if (totalsFooterContainer != null) {
+            totalsFooterContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
+        if (toggleFooterButton != null) {
+            toggleFooterButton.setImageResource(isExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+            toggleFooterButton.setOnClickListener(v -> {
+                boolean currentlyVisible = totalsFooterContainer != null && totalsFooterContainer.getVisibility() == View.VISIBLE;
+                boolean newExpanded = !currentlyVisible;
+                if (totalsFooterContainer != null) {
+                    totalsFooterContainer.setVisibility(newExpanded ? View.VISIBLE : View.GONE);
+                }
+                toggleFooterButton.setImageResource(newExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+                prefs.edit().putBoolean("TotalsFooterExpanded", newExpanded).apply();
+            });
+        }
+    }
+
+    private void syncFooterPanelState() {
+        View totalsFooterContainer = findViewById(R.id.totalsFooterContainer);
+        android.widget.ImageButton toggleFooterButton = findViewById(R.id.toggleFooterButton);
+        android.content.SharedPreferences prefs = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE);
+        boolean isExpanded = prefs.getBoolean("TotalsFooterExpanded", false);
+        if (totalsFooterContainer != null) {
+            totalsFooterContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
+        if (toggleFooterButton != null) {
+            toggleFooterButton.setImageResource(isExpanded ? android.R.drawable.arrow_up_float : R.drawable.ic_arrow_down);
+        }
     }
 
     private void applyColors() {
         int accent = ThemeManager.getMainAccentColor(this);
         if (accountSubtitle != null) accountSubtitle.setTextColor(accent);
-        if (totalCashInText != null) totalCashInText.setTextColor(accent);
-        if (balanceText != null) balanceText.setTextColor(accent);
         View backBtn = findViewById(R.id.backButton);
         if (backBtn instanceof android.widget.ImageView) {
             ((android.widget.ImageView) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
@@ -201,8 +250,9 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
             // INDEPENDENCE: Filter by account if not in summary mode
             if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equals(activeAccount))) continue;
             
-            // Skip the aggregate row in calendar grid
+            // Skip the aggregate row / initial account opening rows in day cells
             if ("Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+            if (isSummaryMode && "Income".equalsIgnoreCase(t.getTitle())) continue;
 
             String key = keySdf.format(new Date(t.getTimestamp()));
             DaySummary summary = daySummaries.get(key);
@@ -241,26 +291,86 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
     }
 
     private void updateTotals() {
-        double globalCashIn = 0, globalCashOut = 0;
+        View totalsFooterContainer = findViewById(R.id.totalsFooterContainer);
+        if (totalsFooterContainer instanceof ViewGroup) {
+            ((ViewGroup) totalsFooterContainer).removeAllViews();
+        }
+
         boolean isSummaryMode = activeAccount.equalsIgnoreCase("Expenses");
 
         List<Transaction> all = dbHelper.getAllTransactionsAscending();
-        for (Transaction t : all) {
-            // INDEPENDENCE: Filter by account if not in summary mode
-            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equals(activeAccount))) continue;
-            
-            if ("Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+        List<Account> accounts = BalanceManager.loadAccounts(this);
 
-            if (t.isCashIn()) {
-                globalCashIn += t.getAmount();
-            } else {
-                globalCashOut += t.getAmount();
+        java.util.Map<String, Double> cashOutMap = new HashMap<>();
+        java.util.Set<String> allCurrencies = new java.util.TreeSet<>();
+
+        for (Account a : accounts) {
+            if (a != null && a.getCurrency() != null && !a.getCurrency().trim().isEmpty()) {
+                allCurrencies.add(a.getCurrency().trim().toUpperCase(Locale.US));
             }
         }
 
-        totalCashInText.setText(String.format(Locale.US, "%,.2f", globalCashIn));
-        totalCashOutText.setText(String.format(Locale.US, "%,.2f", globalCashOut));
-        balanceText.setText(String.format(Locale.US, "%,.2f", globalCashIn - globalCashOut));
+        for (Transaction t : all) {
+            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equals(activeAccount))) continue;
+            if ("Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+            if (isSummaryMode && "Income".equalsIgnoreCase(t.getTitle())) continue;
+
+            String curr = t.getCurrency() != null ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+            allCurrencies.add(curr);
+
+            if (!t.isCashIn()) {
+                Double prevOut = cashOutMap.get(curr);
+                double prevVal = (prevOut != null) ? prevOut : 0.0;
+                cashOutMap.put(curr, prevVal + t.getAmount());
+            }
+        }
+
+        if (allCurrencies.isEmpty()) {
+            allCurrencies.add("USD");
+        }
+
+        if (totalsFooterContainer instanceof ViewGroup) {
+            ViewGroup footerGroup = (ViewGroup) totalsFooterContainer;
+            for (String curr : allCurrencies) {
+                IncomeCalculator.IncomeBreakdown inc;
+                if (!isSummaryMode) {
+                    List<Account> filteredAccs = new ArrayList<>();
+                    for (Account a : accounts) {
+                        if (a != null && a.getName() != null && a.getName().equalsIgnoreCase(activeAccount)) {
+                            filteredAccs.add(a);
+                        }
+                    }
+                    inc = IncomeCalculator.calculateIncomeForCurrency(curr, filteredAccs, all);
+                } else {
+                    inc = IncomeCalculator.calculateIncomeForCurrency(curr, accounts, all);
+                }
+
+                double in = inc.getTotalIncome();
+                Double prevOut = cashOutMap.get(curr);
+                double out = (prevOut != null) ? prevOut : 0.0;
+                double bal = in - out;
+
+                View row = getLayoutInflater().inflate(R.layout.item_summary_stat_row, footerGroup, false);
+                TextView titleTv = row.findViewById(R.id.statTitle);
+                TextView inTv = row.findViewById(R.id.statIn);
+                TextView outTv = row.findViewById(R.id.statOut);
+                TextView balTv = row.findViewById(R.id.statBalance);
+
+                if (titleTv != null) titleTv.setText(curr);
+
+                if ("LBP".equalsIgnoreCase(curr)) {
+                    if (inTv != null) inTv.setText(CurrencyFormatter.formatLbpAmount(in));
+                    if (outTv != null) outTv.setText(CurrencyFormatter.formatLbpAmount(out));
+                    if (balTv != null) balTv.setText(CurrencyFormatter.formatLbpAmount(bal));
+                } else {
+                    if (inTv != null) inTv.setText(String.format(Locale.US, "%,.2f", in));
+                    if (outTv != null) outTv.setText(String.format(Locale.US, "%,.2f", out));
+                    if (balTv != null) balTv.setText(String.format(Locale.US, "%,.2f", bal));
+                }
+
+                footerGroup.addView(row);
+            }
+        }
     }
 
     private void showDayDetails(Date date) {
@@ -290,7 +400,7 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         btnIn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new DialogAdapter(summary.transactions));
+        recyclerView.setAdapter(new DialogAdapter(summary.transactions, dialog, this));
 
         btnIn.setOnClickListener(v -> {
             dialog.dismiss();
@@ -303,6 +413,28 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void showTransactionOptions(Transaction t, BottomSheetDialog parentDialog) {
+        if (t == null) return;
+        String[] options = {"Edit Transaction", "Delete Transaction"};
+        ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle(t.getTitle())
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        if (parentDialog != null) parentDialog.dismiss();
+                        Intent intent = new Intent(this, AddTransactionActivity.class);
+                        intent.putExtra("transaction_id", t.getId());
+                        startActivity(intent);
+                    } else if (which == 1) {
+                        if (parentDialog != null) parentDialog.dismiss();
+                        double delta = t.isCashIn() ? -t.getAmount() : t.getAmount();
+                        BalanceManager.updateAccountBalance(this, t.getAccount(), delta);
+                        dbHelper.deleteTransaction(t.getId());
+                        updateUI();
+                    }
+                })
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void startAddTransaction(Date date, String type) {
@@ -380,9 +512,13 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
 
     private static class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.ViewHolder> {
         private final List<Transaction> transactions;
+        private final BottomSheetDialog parentDialog;
+        private final ExpensesCalendarActivity activity;
 
-        DialogAdapter(List<Transaction> transactions) {
+        DialogAdapter(List<Transaction> transactions, BottomSheetDialog parentDialog, ExpensesCalendarActivity activity) {
             this.transactions = transactions;
+            this.parentDialog = parentDialog;
+            this.activity = activity;
         }
 
         @NonNull
@@ -398,19 +534,35 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
             holder.note.setText(t.getTitle());
             int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
             holder.cashIn.setTextColor(accent);
-            if (t.getType().equals(Transaction.TYPE_CASH_IN)) {
-                holder.cashIn.setText(String.format(Locale.US, "%,.2f", t.getAmount()));
+
+            String curr = t.getCurrency() != null ? t.getCurrency() : "USD";
+            String formatted = CurrencyFormatter.formatAmount(t.getAmount(), curr);
+
+            if (t.isCashIn()) {
+                holder.cashIn.setText(formatted);
                 holder.cashOut.setText("");
             } else {
                 holder.cashIn.setText("");
-                holder.cashOut.setText(String.format(Locale.US, "%,.2f", t.getAmount()));
+                holder.cashOut.setText(formatted);
             }
+
+            holder.itemView.setOnClickListener(v -> {
+                if (activity != null) activity.showTransactionOptions(t, parentDialog);
+            });
+            holder.itemView.setOnLongClickListener(v -> {
+                if (activity != null) activity.showTransactionOptions(t, parentDialog);
+                return true;
+            });
         }
 
-        @Override public int getItemCount() { return transactions.size(); }
+        @Override
+        public int getItemCount() {
+            return transactions.size();
+        }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
             TextView note, cashIn, cashOut;
+
             ViewHolder(View itemView) {
                 super(itemView);
                 note = itemView.findViewById(R.id.txNote);

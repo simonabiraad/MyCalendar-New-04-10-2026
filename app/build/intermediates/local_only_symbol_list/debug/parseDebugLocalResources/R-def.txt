@@ -245,7 +245,6 @@ id archiveHistoryTitle
 id archiveSelectedBtn
 id attachmentsRecyclerView
 id backButton
-id balanceText
 id balanceTotalText
 id balanceTrendTitle
 id blueSeekBar
@@ -815,8 +814,6 @@ id toolbar
 id topBar
 id topExpensesButton
 id topTitle
-id totalCashInText
-id totalCashOutText
 id totalOverviewCard
 id totalOverviewContainer
 id totalsFooterContainer
