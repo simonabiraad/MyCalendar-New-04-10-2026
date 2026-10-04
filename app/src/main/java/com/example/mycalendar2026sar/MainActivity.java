@@ -2540,8 +2540,12 @@ public class MainActivity extends AppCompatActivity {
         container.setOrientation(LinearLayout.VERTICAL);
         container.setPadding(32, 24, 32, 16);
 
+        boolean isNeon = ThemeManager.isNeonMode(this);
+        String styleOption = isNeon ? "Color Mode: Neon [Active]" : "Color Mode: Normal [Active]";
+
         // Color Options
         String[] options = {
+                styleOption,
                 "Main Theme (Buttons/Title)",
                 "Note Text Color",
                 "Checked Note Text Color",
@@ -2580,17 +2584,30 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, which, id) -> {
             dialog.dismiss();
-            if (which == options.length - 1) {
+            if (which == 0) {
+                String[] styles = {"Normal Colors (Standard Palette)", "Neon Colors (Brighter / Vibrant)"};
+                int checked = isNeon ? 1 : 0;
+                ThemeManager.showDialog(new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogTheme)
+                        .setTitle("Select Color Mode")
+                        .setSingleChoiceItems(styles, checked, (d, choice) -> {
+                            String mode = (choice == 1) ? "neon" : "normal";
+                            ThemeManager.setColorStyleMode(MainActivity.this, mode);
+                            refreshUIColors();
+                            Toast.makeText(MainActivity.this, (choice == 1 ? "Neon Colors" : "Normal Colors") + " active!", Toast.LENGTH_SHORT).show();
+                            d.dismiss();
+                        })
+                        .setNegativeButton("Cancel", null), MainActivity.this);
+            } else if (which == options.length - 1) {
                 resetColors();
             } else {
                 int category;
                 switch (which) {
-                    case 0: category = 0; break;  // Main Theme (Buttons/Title)
-                    case 1: category = 1; break;  // Note Text Color
-                    case 2: category = 2; break;  // Checked Note Text Color
-                    case 3: category = 3; break;  // Archive Folder Color
-                    case 4: category = 4; break;  // Deleted Folder Color
-                    case 5: category = 10; break; // App Background Color
+                    case 1: category = 0; break;  // Main Theme (Buttons/Title)
+                    case 2: category = 1; break;  // Note Text Color
+                    case 3: category = 2; break;  // Checked Note Text Color
+                    case 4: category = 3; break;  // Archive Folder Color
+                    case 5: category = 4; break;  // Deleted Folder Color
+                    case 6: category = 10; break; // App Background Color
                     default: return;
                 }
                 showColorPicker(category);

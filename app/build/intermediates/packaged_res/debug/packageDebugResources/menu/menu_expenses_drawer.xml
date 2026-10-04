@@ -58,7 +58,7 @@
         android:title="@string/menu_deleted_transactions" />
     <item
         android:id="@+id/nav_rate_us"
-        android:icon="@drawable/ic_menu_rate_color"
+        android:icon="@drawable/ic_menu_exchange_color"
         android:title="@string/menu_rate_us" />
     <item
         android:id="@+id/nav_recommend"

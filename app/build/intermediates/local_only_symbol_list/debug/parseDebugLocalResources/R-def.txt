@@ -116,6 +116,7 @@ drawable ic_menu_color_palette
 drawable ic_menu_crop_color
 drawable ic_menu_dark_mode
 drawable ic_menu_edit_color
+drawable ic_menu_exchange_color
 drawable ic_menu_exit_color
 drawable ic_menu_font_color
 drawable ic_menu_home_color
@@ -298,6 +299,8 @@ id btnDraw
 id btnEdit
 id btnEventColorArrow
 id btnMinus
+id btnModeNeon
+id btnModeNormal
 id btnMoveDown
 id btnMoveUp
 id btnNavNext
@@ -385,6 +388,7 @@ id chartHeader
 id chartTitle
 id clearDataRow
 id colorBox
+id colorModeContainer
 id colorPreview
 id completeAction
 id copySelectedBtn

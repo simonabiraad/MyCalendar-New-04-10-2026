@@ -81,6 +81,46 @@ public class ColorPickerDialog extends Dialog {
 
         updateAllFromColor(currentColor, false);
 
+        TextView btnModeNormal = findViewById(R.id.btnModeNormal);
+        TextView btnModeNeon = findViewById(R.id.btnModeNeon);
+
+        Runnable updateColorModeUI = () -> {
+            boolean isNeon = ThemeManager.isNeonMode(getContext());
+            int accent = ThemeManager.getMainAccentColor(getContext());
+            int inactiveText = Color.parseColor("#888888");
+
+            if (btnModeNormal != null) {
+                btnModeNormal.setBackgroundResource(!isNeon ? R.drawable.bg_period_selected : 0);
+                btnModeNormal.setBackgroundTintList(!isNeon ? android.content.res.ColorStateList.valueOf(accent) : null);
+                btnModeNormal.setTextColor(!isNeon ? Color.BLACK : inactiveText);
+            }
+            if (btnModeNeon != null) {
+                btnModeNeon.setBackgroundResource(isNeon ? R.drawable.bg_period_selected : 0);
+                btnModeNeon.setBackgroundTintList(isNeon ? android.content.res.ColorStateList.valueOf(accent) : null);
+                btnModeNeon.setTextColor(isNeon ? Color.BLACK : inactiveText);
+            }
+        };
+
+        updateColorModeUI.run();
+
+        if (btnModeNormal != null) {
+            btnModeNormal.setOnClickListener(v -> {
+                ThemeManager.setColorStyleMode(getContext(), "normal");
+                updateColorModeUI.run();
+                setupPresets();
+                updateAllFromColor(currentColor, false);
+            });
+        }
+
+        if (btnModeNeon != null) {
+            btnModeNeon.setOnClickListener(v -> {
+                ThemeManager.setColorStyleMode(getContext(), "neon");
+                updateColorModeUI.run();
+                setupPresets();
+                updateAllFromColor(ThemeManager.toNeonColor(currentColor), false);
+            });
+        }
+
         int mainTheme = ThemeManager.getMainAccentColor(getContext());
         TextView cancelBtn = findViewById(R.id.btnCancel);
         if (cancelBtn != null) cancelBtn.setTextColor(mainTheme);
@@ -257,18 +297,19 @@ public class ColorPickerDialog extends Dialog {
         int margin = (int) (4 * getContext().getResources().getDisplayMetrics().density);
 
         for (int c : presetColors) {
+            int finalColor = ThemeManager.isNeonMode(getContext()) ? ThemeManager.toNeonColor(c) : c;
             View swatch = new View(getContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
             lp.setMargins(margin, margin, margin, margin);
             swatch.setLayoutParams(lp);
 
             GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(c);
+            drawable.setColor(finalColor);
             drawable.setCornerRadius(size / 2f);
             drawable.setStroke((int) (1 * getContext().getResources().getDisplayMetrics().density), 0x66FFFFFF);
             swatch.setBackground(drawable);
 
-            swatch.setOnClickListener(v -> updateAllFromColor(c, false));
+            swatch.setOnClickListener(v -> updateAllFromColor(finalColor, false));
             presetsContainer.addView(swatch);
         }
     }

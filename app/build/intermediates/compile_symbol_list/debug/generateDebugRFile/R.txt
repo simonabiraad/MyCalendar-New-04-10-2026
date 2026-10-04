@@ -114,6 +114,7 @@ int drawable ic_menu_color_palette 0x0
 int drawable ic_menu_crop_color 0x0
 int drawable ic_menu_dark_mode 0x0
 int drawable ic_menu_edit_color 0x0
+int drawable ic_menu_exchange_color 0x0
 int drawable ic_menu_exit_color 0x0
 int drawable ic_menu_font_color 0x0
 int drawable ic_menu_home_color 0x0
@@ -296,6 +297,8 @@ int id btnDraw 0x0
 int id btnEdit 0x0
 int id btnEventColorArrow 0x0
 int id btnMinus 0x0
+int id btnModeNeon 0x0
+int id btnModeNormal 0x0
 int id btnMoveDown 0x0
 int id btnMoveUp 0x0
 int id btnNavNext 0x0
@@ -383,6 +386,7 @@ int id chartHeader 0x0
 int id chartTitle 0x0
 int id clearDataRow 0x0
 int id colorBox 0x0
+int id colorModeContainer 0x0
 int id colorPreview 0x0
 int id completeAction 0x0
 int id copySelectedBtn 0x0

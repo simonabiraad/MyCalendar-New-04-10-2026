@@ -28,7 +28,7 @@
     <string name="menu_backup_restore">Backup and Restore</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_deleted_transactions">Deleted Transactions</string>
-    <string name="menu_rate_us">Rate Us</string>
+    <string name="menu_rate_us">Exchange</string>
     <string name="add_accounts_title">Add Accounts</string>
     <string name="add_income">Add Income</string>
     <string name="add_expense">Add Expenses</string>

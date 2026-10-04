@@ -23,15 +23,78 @@ public class ThemeManager {
 
     public static final String COLOR_PREFS_NAME = "AppColors";
     public static final String KEY_MAIN_THEME = "color_main_theme";
+    public static final String KEY_COLOR_STYLE = "color_style_mode"; // "normal" or "neon"
+
+    /**
+     * Converts any base color into its bright, glowing Neon version.
+     */
+    public static int toNeonColor(int baseColor) {
+        float[] hsv = new float[3];
+        android.graphics.Color.colorToHSV(baseColor, hsv);
+
+        float hue = hsv[0]; // 0 to 360
+
+        if (hue >= 80 && hue <= 150) {
+            // Green -> Neon Green (#39FF14)
+            return 0xFF39FF14;
+        } else if (hue >= 180 && hue <= 250) {
+            // Blue/Cyan -> Neon Blue / Neon Cyan
+            if (hue <= 200) {
+                return 0xFF00F5D4; // Neon Cyan
+            } else {
+                return 0xFF00E5FF; // Neon Blue
+            }
+        } else if (hue >= 40 && hue < 80) {
+            // Yellow -> Neon Yellow (#FFE500)
+            return 0xFFFFE500;
+        } else if (hue >= 15 && hue < 40) {
+            // Orange -> Neon Orange (#FF5F00)
+            return 0xFFFF5F00;
+        } else if (hue >= 260 && hue <= 320) {
+            // Purple / Magenta -> Neon Purple (#DF00FF)
+            return 0xFFDF00FF;
+        } else if (hue < 15 || hue > 330) {
+            // Red -> Neon Red (#FF0055)
+            return 0xFFFF0055;
+        } else {
+            hsv[1] = Math.max(hsv[1], 0.9f);
+            hsv[2] = 1.0f;
+            return android.graphics.Color.HSVToColor(android.graphics.Color.alpha(baseColor), hsv);
+        }
+    }
+
+    /**
+     * Checks if Neon Color mode is currently active.
+     */
+    public static boolean isNeonMode(Context context) {
+        if (context == null) return false;
+        SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
+        return "neon".equalsIgnoreCase(colorPrefs.getString(KEY_COLOR_STYLE, "normal"));
+    }
+
+    /**
+     * Sets the global color style mode ("normal" or "neon").
+     */
+    public static void setColorStyleMode(Context context, String styleMode) {
+        if (context == null) return;
+        SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
+        colorPrefs.edit().putString(KEY_COLOR_STYLE, styleMode).apply();
+    }
 
     /**
      * Gets the global main accent color set in "Main Theme (Buttons/Title)".
+     * Automatically converts to Neon version if Neon mode is active.
      */
     public static int getMainAccentColor(Context context) {
         if (context == null) return 0xFF4CAF50;
         SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
         int defaultColor = ContextCompat.getColor(context, R.color.light_green);
-        return colorPrefs.getInt(KEY_MAIN_THEME, defaultColor);
+        int baseColor = colorPrefs.getInt(KEY_MAIN_THEME, defaultColor);
+
+        if (isNeonMode(context)) {
+            return toNeonColor(baseColor);
+        }
+        return baseColor;
     }
 
     /**
