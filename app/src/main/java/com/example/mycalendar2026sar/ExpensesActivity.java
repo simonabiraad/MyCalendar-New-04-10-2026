@@ -1058,6 +1058,48 @@ public class ExpensesActivity extends AppCompatActivity {
                         transactionDbHelper.updateAccountNameInTransactions(oldName, newName);
                     }
 
+                    // Sync the account's opening transaction in SQLite so that re-calculations match the edited amount
+                    List<Transaction> allTx = transactionDbHelper.getAllTransactionsAscending();
+                    Transaction openingTx = null;
+                    for (Transaction t : allTx) {
+                        if (t != null && t.getAccount() != null &&
+                            (t.getAccount().equalsIgnoreCase(oldName) || t.getAccount().equalsIgnoreCase(newName)) &&
+                            "Income".equalsIgnoreCase(t.getTitle())) {
+                            openingTx = t;
+                            break;
+                        }
+                    }
+
+                    double absAmount = Math.abs(parsedBal);
+                    String txType = isPositive[0] ? Transaction.TYPE_CASH_IN : Transaction.TYPE_CASH_OUT;
+
+                    if (openingTx != null) {
+                        transactionDbHelper.updateTransaction(
+                                openingTx.getId(),
+                                "Income",
+                                absAmount,
+                                selectedCurrency[0],
+                                txType,
+                                selectedCal.getTimeInMillis(),
+                                newName,
+                                openingTx.getNotes(),
+                                openingTx.getVoiceNotePath(),
+                                openingTx.getBillAttachments()
+                        );
+                    } else if (absAmount > 0) {
+                        transactionDbHelper.addTransaction(
+                                "Income",
+                                absAmount,
+                                selectedCurrency[0],
+                                txType,
+                                selectedCal.getTimeInMillis(),
+                                newName,
+                                "",
+                                "",
+                                ""
+                        );
+                    }
+
                     saveAccounts();
                     adapter.notifyItemChanged(position);
 
