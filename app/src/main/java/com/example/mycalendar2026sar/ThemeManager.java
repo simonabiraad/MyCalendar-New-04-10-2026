@@ -60,7 +60,7 @@ public class ThemeManager {
         Window window = dialog.getWindow();
         if (window != null && window.getDecorView() != null) {
             styleSwitchesInView(window.getDecorView(), context);
-            applyBlackCursorToAllEditTexts(window.getDecorView());
+            applyThemeCursorToAllEditTexts(window.getDecorView());
         }
     }
 
@@ -77,7 +77,7 @@ public class ThemeManager {
         Window window = dialog.getWindow();
         if (window != null && window.getDecorView() != null) {
             styleSwitchesInView(window.getDecorView(), context);
-            applyBlackCursorToAllEditTexts(window.getDecorView());
+            applyThemeCursorToAllEditTexts(window.getDecorView());
         }
     }
 
@@ -154,54 +154,70 @@ public class ThemeManager {
     }
 
     /**
-     * Ensures an EditText's cursor and handles are permanently black (#000000) regardless of Main Theme color.
+     * Applies cursor and selection handle tinting based on Dark Mode state and Main Theme color:
+     * - When Dark Mode is enabled: Cursor & handles are WHITE (#FFFFFF).
+     * - When Dark Mode is disabled (normal mode): Cursor & handles follow the color selected in Main Theme.
      */
-    public static void applyBlackCursor(android.widget.EditText editText) {
+    public static void applyThemeCursor(android.widget.EditText editText) {
         if (editText == null) return;
         Context context = editText.getContext();
+        boolean isDark = isDarkMode(context);
+        int cursorColor = isDark ? 0xFFFFFFFF : getMainAccentColor(context);
+
         try {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                android.graphics.drawable.GradientDrawable blackCursor = new android.graphics.drawable.GradientDrawable();
-                blackCursor.setColor(0xFF000000);
-                blackCursor.setSize((int) (2 * context.getResources().getDisplayMetrics().density), 0);
-                editText.setTextCursorDrawable(blackCursor);
+                android.graphics.drawable.GradientDrawable cursorDrawable = new android.graphics.drawable.GradientDrawable();
+                cursorDrawable.setColor(cursorColor);
+                cursorDrawable.setSize((int) (2 * context.getResources().getDisplayMetrics().density), 0);
+                editText.setTextCursorDrawable(cursorDrawable);
 
-                android.graphics.drawable.Drawable hMid = androidx.core.content.ContextCompat.getDrawable(context, R.drawable.black_handle);
-                android.graphics.drawable.Drawable hLeft = androidx.core.content.ContextCompat.getDrawable(context, R.drawable.black_handle_left);
-                android.graphics.drawable.Drawable hRight = androidx.core.content.ContextCompat.getDrawable(context, R.drawable.black_handle_right);
+                android.graphics.drawable.Drawable hMid = androidx.core.content.ContextCompat.getDrawable(context, isDark ? R.drawable.white_handle : R.drawable.black_handle);
+                android.graphics.drawable.Drawable hLeft = androidx.core.content.ContextCompat.getDrawable(context, isDark ? R.drawable.white_handle_left : R.drawable.black_handle_left);
+                android.graphics.drawable.Drawable hRight = androidx.core.content.ContextCompat.getDrawable(context, isDark ? R.drawable.white_handle_right : R.drawable.black_handle_right);
                 if (hMid != null) {
-                    hMid.setTint(0xFF000000);
+                    hMid = hMid.mutate();
+                    hMid.setTint(cursorColor);
                     editText.setTextSelectHandle(hMid);
                 }
                 if (hLeft != null) {
-                    hLeft.setTint(0xFF000000);
+                    hLeft = hLeft.mutate();
+                    hLeft.setTint(cursorColor);
                     editText.setTextSelectHandleLeft(hLeft);
                 }
                 if (hRight != null) {
-                    hRight.setTint(0xFF000000);
+                    hRight = hRight.mutate();
+                    hRight.setTint(cursorColor);
                     editText.setTextSelectHandleRight(hRight);
                 }
             } else {
                 java.lang.reflect.Field f = android.widget.TextView.class.getDeclaredField("mCursorDrawableRes");
                 f.setAccessible(true);
-                f.set(editText, R.drawable.black_cursor);
+                f.set(editText, isDark ? R.drawable.white_cursor : R.drawable.black_cursor);
             }
         } catch (Exception ignored) {}
     }
 
     /**
-     * Recursively traverses a View tree and applies black cursor to all EditTexts.
+     * Recursively traverses a View tree and applies theme-appropriate cursor to all EditTexts.
      */
-    public static void applyBlackCursorToAllEditTexts(View view) {
+    public static void applyThemeCursorToAllEditTexts(View view) {
         if (view == null) return;
         if (view instanceof android.widget.EditText) {
-            applyBlackCursor((android.widget.EditText) view);
+            applyThemeCursor((android.widget.EditText) view);
         } else if (view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) view;
             for (int i = 0; i < vg.getChildCount(); i++) {
-                applyBlackCursorToAllEditTexts(vg.getChildAt(i));
+                applyThemeCursorToAllEditTexts(vg.getChildAt(i));
             }
         }
+    }
+
+    public static void applyBlackCursor(android.widget.EditText editText) {
+        applyThemeCursor(editText);
+    }
+
+    public static void applyBlackCursorToAllEditTexts(View view) {
+        applyThemeCursorToAllEditTexts(view);
     }
 
     /**

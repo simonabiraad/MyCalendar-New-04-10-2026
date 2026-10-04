@@ -191,6 +191,7 @@ public class TaskActivity extends AppCompatActivity {
         });
 
         taskInput = findViewById(R.id.taskInput);
+        ThemeManager.applyThemeCursor(taskInput);
         recyclerView = findViewById(R.id.taskRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(false);
@@ -241,6 +242,9 @@ public class TaskActivity extends AppCompatActivity {
         android.widget.ImageButton voiceBtn = findViewById(R.id.voiceTaskButton);
         if (voiceBtn != null) {
             voiceBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
+        if (taskInput != null) {
+            ThemeManager.applyThemeCursor(taskInput);
         }
         if (adapter != null) {
             adapter.notifyDataSetChanged();

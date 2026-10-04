@@ -364,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
         monthYearText = findViewById(R.id.monthYearText);
         noteInput = findViewById(R.id.noteInput);
         noteInput.setTextColor(ContextCompat.getColor(this, R.color.white));
+        ThemeManager.applyThemeCursor(noteInput);
         remarkLabel = findViewById(R.id.remarkLabel);
         dayRemarksContainer = findViewById(R.id.dayRemarksContainer);
         remarkHistoryContainer = findViewById(R.id.remarkHistoryContainer);
@@ -1011,7 +1012,7 @@ public class MainActivity extends AppCompatActivity {
         remarkLabel.setText(getString(R.string.remark_for, displaySdf.format(selectedDate.getTime())));
 
         loadRemarksForSelectedDate();
-        if (!noteInput.hasFocus() && !isKeyboardModeActive) {
+        if (!noteInput.hasFocus() && !isKeyboardModeActive && noteInput.getText().length() == 0) {
             noteInput.setText("");
         }
     }
@@ -2779,6 +2780,7 @@ public class MainActivity extends AppCompatActivity {
         if (input != null) {
             input.setTextColor(defaultWhiteColor);
             applyFontSettings(input, 14);
+            ThemeManager.applyThemeCursor(input);
         }
 
         ImageButton notifyBtn = findViewById(R.id.notificationSettingsButton);

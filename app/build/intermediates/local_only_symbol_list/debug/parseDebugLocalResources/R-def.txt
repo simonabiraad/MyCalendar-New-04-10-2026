@@ -164,6 +164,10 @@ drawable task_input_border
 drawable today_circle
 drawable transaction_row_bg
 drawable weekday_pill_bg
+drawable white_cursor
+drawable white_handle
+drawable white_handle_left
+drawable white_handle_right
 drawable widget_card_4x4_bg
 id accountBalance
 id accountCurrencyPicker

@@ -24,40 +24,52 @@
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_cat_shop_color.xml"
     },
     {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_white_cursor.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/white_cursor.xml"
+    },
+    {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_notif_plus_color.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_notif_plus_color.xml"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_white_handle_right.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/white_handle_right.xml"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_item_summary_stat_row.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_summary_stat_row.xml"
     },
     {
-        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xhdpi_ic_launcher_monochrome.webp.flat",
-        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-xhdpi\\ic_launcher_monochrome.webp"
-    },
-    {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_cash_calc_top_border.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\cash_calc_top_border.xml"
     },
     {
-        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\xml_sar_widget_4x4_info.xml.flat",
-        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\xml\\sar_widget_4x4_info.xml"
+        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xhdpi_ic_launcher_monochrome.webp.flat",
+        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-xhdpi\\ic_launcher_monochrome.webp"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\xml_sar_widget_4x4_info.xml.flat",
+        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\xml\\sar_widget_4x4_info.xml"
+    },
+    {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_bg_swap_circle.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\bg_swap_circle.xml"
     },
     {
-        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_calendar_widget.xml.flat",
-        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\calendar_widget.xml"
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_white_handle_left.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/white_handle_left.xml"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_home_color.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_home_color.xml"
+    },
+    {
+        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_calendar_widget.xml.flat",
+        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\calendar_widget.xml"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_accounts_color.xml.flat",
@@ -204,12 +216,12 @@
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\bg_period_active.xml"
     },
     {
-        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_restore_color.xml.flat",
-        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_restore_color.xml"
-    },
-    {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_activity_income.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\activity_income.xml"
+    },
+    {
+        "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_restore_color.xml.flat",
+        "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_restore_color.xml"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_widget_small_summary.xml.flat",
@@ -268,10 +280,6 @@
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_arrow_down.xml"
     },
     {
-        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_today_circle.xml.flat",
-        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/today_circle.xml"
-    },
-    {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_item_account.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_account.xml"
     },
@@ -286,6 +294,10 @@
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
         "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_white_handle.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/white_handle.xml"
     },
     {
         "merged": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_cat_bill_color.xml.flat",
