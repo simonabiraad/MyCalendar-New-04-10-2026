@@ -472,7 +472,9 @@ int id editNotes 0x0
 int id editOnlineAmount 0x0
 int id editStartTime 0x0
 int id editTitle 0x0
+int id editTitleContainer 0x0
 int id editTitleHeader 0x0
+int id editTitleIcon 0x0
 int id editTopBar 0x0
 int id editTopButton 0x0
 int id editTransferAmount 0x0
@@ -489,6 +491,7 @@ int id eventTitle 0x0
 int id eventsContainer 0x0
 int id eventsHeader 0x0
 int id eventsRecyclerView 0x0
+int id eventsTitleContainer 0x0
 int id eventsTitleIcon 0x0
 int id eventsTitleText 0x0
 int id expense_type_main 0x0

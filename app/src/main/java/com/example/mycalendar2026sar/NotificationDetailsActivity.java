@@ -836,6 +836,10 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         if (playVoiceBtn instanceof android.widget.ImageButton) {
             ((android.widget.ImageButton) playVoiceBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
         }
+        android.widget.ImageView editTitleIcon = findViewById(R.id.editTitleIcon);
+        if (editTitleIcon != null) {
+            editTitleIcon.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        }
         androidx.appcompat.widget.SwitchCompat switchAllDay = findViewById(R.id.switchAllDay);
         if (switchAllDay != null) {
             ThemeManager.styleSwitch(switchAllDay, this);

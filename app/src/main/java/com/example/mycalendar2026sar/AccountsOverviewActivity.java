@@ -17,14 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Screen showing a list of all account cards with their current balance
- * and this month's cash-in / cash-out totals.
- * Displays separate independent Total Balance for each currency.
+ * and this month's cash-in / cash-out totals separated by currency.
  */
 public class AccountsOverviewActivity extends AppCompatActivity {
 
@@ -50,6 +51,24 @@ public class AccountsOverviewActivity extends AppCompatActivity {
         loadData();
     }
 
+    public static class AccountRowItem {
+        public Account account;
+        public String displayName;
+        public String currency;
+        public double balance;
+        public double monthIn;
+        public double monthOut;
+
+        public AccountRowItem(Account account, String displayName, String currency, double balance, double monthIn, double monthOut) {
+            this.account = account;
+            this.displayName = displayName;
+            this.currency = currency;
+            this.balance = balance;
+            this.monthIn = monthIn;
+            this.monthOut = monthOut;
+        }
+    }
+
     private void loadData() {
         List<Account> accounts = BalanceManager.loadAccounts(this);
 
@@ -58,25 +77,77 @@ public class AccountsOverviewActivity extends AppCompatActivity {
             BalanceManager.saveAccounts(this, accounts);
         }
 
-        // Group total balances by currency independently without combining them
-        Map<String, Double> currencyTotals = new LinkedHashMap<>();
+        List<Transaction> allTransactions = TransactionDbHelper.getInstance(this).getAllTransactionsAscending();
+
+        // 1. Collect all unique currencies (including standard USD, EUR, LBP)
+        Set<String> currencies = new LinkedHashSet<>();
+        currencies.add("USD");
+        currencies.add("EUR");
+        currencies.add("LBP");
+
         for (Account a : accounts) {
-            String curr = a.getCurrency();
-            if (curr == null || curr.trim().isEmpty()) {
-                curr = "USD";
+            if (a != null && a.getCurrency() != null && !a.getCurrency().trim().isEmpty()) {
+                currencies.add(a.getCurrency().trim().toUpperCase(Locale.US));
             }
-            curr = curr.toUpperCase(Locale.US).trim();
-            currencyTotals.put(curr, currencyTotals.getOrDefault(curr, 0.0) + a.getBalance());
+        }
+        for (Transaction t : allTransactions) {
+            if (t != null && t.getCurrency() != null && !t.getCurrency().trim().isEmpty()) {
+                currencies.add(t.getCurrency().trim().toUpperCase(Locale.US));
+            }
         }
 
+        // 2. Calculate Total Balance for EACH currency (Top Section)
+        Map<String, Double> totalBalancesByCurrency = new LinkedHashMap<>();
+        for (String curr : currencies) {
+            double total = 0.0;
+            // Add custom account balances matching this currency
+            for (Account a : accounts) {
+                if (a == null) continue;
+                String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
+                        ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                if (curr.equalsIgnoreCase(accCurr)) {
+                    if (!a.getName().equalsIgnoreCase("Expenses")) {
+                        total += a.getBalance();
+                    }
+                }
+            }
+            // Add transaction signed amounts for transactions in this currency
+            for (Transaction t : allTransactions) {
+                if (t == null) continue;
+                String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                        ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                if (curr.equalsIgnoreCase(txCurr)) {
+                    String accName = t.getAccount() == null ? "" : t.getAccount().trim();
+                    if (accName.isEmpty() || accName.equalsIgnoreCase("Expenses")) {
+                        total += t.getSignedAmount();
+                    } else {
+                        // Check if transaction currency differs from target account's default currency
+                        Account targetAcc = null;
+                        for (Account a : accounts) {
+                            if (a != null && a.getName() != null && a.getName().equalsIgnoreCase(accName)) {
+                                targetAcc = a;
+                                break;
+                            }
+                        }
+                        if (targetAcc == null) {
+                            total += t.getSignedAmount();
+                        } else {
+                            String targetAccCurr = (targetAcc.getCurrency() != null && !targetAcc.getCurrency().trim().isEmpty())
+                                    ? targetAcc.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+                            if (!targetAccCurr.equalsIgnoreCase(curr)) {
+                                total += t.getSignedAmount();
+                            }
+                        }
+                    }
+                }
+            }
+            totalBalancesByCurrency.put(curr, total);
+        }
+
+        // Render Top Section
         totalOverviewContainer.removeAllViews();
-
-        if (currencyTotals.isEmpty()) {
-            currencyTotals.put("USD", 0.0);
-        }
-
         int index = 0;
-        for (Map.Entry<String, Double> entry : currencyTotals.entrySet()) {
+        for (Map.Entry<String, Double> entry : totalBalancesByCurrency.entrySet()) {
             String curr = entry.getKey();
             double total = entry.getValue();
 
@@ -97,13 +168,13 @@ public class AccountsOverviewActivity extends AppCompatActivity {
             TextView valueTv = new TextView(this);
             valueTv.setTypeface(null, android.graphics.Typeface.BOLD);
             valueTv.setTextColor(ContextCompat.getColor(this, R.color.light_green));
-            valueTv.setTextSize(currencyTotals.size() > 1 ? 24 : 28);
+            valueTv.setTextSize(totalBalancesByCurrency.size() > 1 ? 24 : 28);
 
             String formattedValue;
             if ("LBP".equalsIgnoreCase(curr)) {
-                formattedValue = CurrencyFormatter.formatLbpAmount(total);
+                formattedValue = CurrencyFormatter.formatLbpAmount(total) + " LBP";
             } else {
-                formattedValue = String.format(Locale.US, "%,.2f", total);
+                formattedValue = String.format(Locale.US, "%,.2f %s", total, curr);
             }
             valueTv.setText(formattedValue);
 
@@ -114,7 +185,7 @@ public class AccountsOverviewActivity extends AppCompatActivity {
             index++;
         }
 
-        // This-month cash-in / cash-out per account
+        // 3. Calculate This-Month cash-in / cash-out per account & currency (Lower Section)
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -123,26 +194,74 @@ public class AccountsOverviewActivity extends AppCompatActivity {
         cal.set(Calendar.MILLISECOND, 0);
         long monthStart = cal.getTimeInMillis();
 
-        List<Transaction> all = TransactionDbHelper.getInstance(this).getAllTransactionsAscending();
-        Map<String, double[]> monthTotals = new java.util.HashMap<>(); // name -> [in, out]
-        for (Transaction t : all) {
-            if (t.getTimestamp() < monthStart) continue;
-            String acc = t.getAccount() == null ? "" : t.getAccount();
-            if (acc.isEmpty()) acc = "Expenses";
-            
-            double[] totals = monthTotals.get(acc);
-            if (totals == null) {
-                totals = new double[]{0, 0};
-                monthTotals.put(acc, totals);
-            }
-            if (t.isCashIn()) {
-                totals[0] += t.getAmount();
+        List<AccountRowItem> rowItems = new ArrayList<>();
+
+        for (Account a : accounts) {
+            if (a == null) continue;
+            String accName = a.getName() == null ? "Expenses" : a.getName().trim();
+            if (accName.isEmpty()) accName = "Expenses";
+
+            String defaultCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
+                    ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+
+            Map<String, double[]> currMap = new LinkedHashMap<>(); // currency -> [balance, monthIn, monthOut]
+
+            if (accName.equalsIgnoreCase("Expenses")) {
+                // Ensure standard currencies (USD, EUR, LBP) exist for Expenses
+                for (String c : currencies) {
+                    currMap.put(c, new double[]{0, 0, 0});
+                }
             } else {
-                totals[1] += t.getAmount();
+                currMap.put(defaultCurr, new double[]{a.getBalance(), 0, 0});
+            }
+
+            for (Transaction t : allTransactions) {
+                if (t == null) continue;
+                String tAcc = t.getAccount() == null ? "" : t.getAccount().trim();
+                if (tAcc.isEmpty()) tAcc = "Expenses";
+
+                if (tAcc.equalsIgnoreCase(accName)) {
+                    String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                            ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+
+                    double[] data = currMap.get(txCurr);
+                    if (data == null) {
+                        data = new double[]{0, 0, 0};
+                        currMap.put(txCurr, data);
+                    }
+
+                    if (accName.equalsIgnoreCase("Expenses")) {
+                        data[0] += t.getSignedAmount();
+                    } else if (!txCurr.equalsIgnoreCase(defaultCurr)) {
+                        data[0] += t.getSignedAmount();
+                    }
+
+                    if (t.getTimestamp() >= monthStart) {
+                        if (t.isCashIn()) {
+                            data[1] += t.getAmount();
+                        } else {
+                            data[2] += t.getAmount();
+                        }
+                    }
+                }
+            }
+
+            for (Map.Entry<String, double[]> entry : currMap.entrySet()) {
+                String c = entry.getKey();
+                double[] d = entry.getValue();
+
+                String displayName;
+                if (accName.equalsIgnoreCase("Expenses")) {
+                    displayName = c + " Expenses";
+                } else {
+                    displayName = currMap.size() > 1 ? (accName + " (" + c + ")") : accName;
+                }
+
+                rowItems.add(new AccountRowItem(a, displayName, c, d[0], d[1], d[2]));
             }
         }
 
-        recyclerView.setAdapter(new OverviewAdapter(accounts, monthTotals, account -> {
+        recyclerView.setAdapter(new OverviewAdapter(rowItems, account -> {
             Intent intent = new Intent(this, ExpensesActivity.class);
             intent.putExtra("active_account", account.getName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -152,17 +271,15 @@ public class AccountsOverviewActivity extends AppCompatActivity {
     }
 
     private static class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.ViewHolder> {
-        private final List<Account> accounts;
-        private final Map<String, double[]> monthTotals;
+        private final List<AccountRowItem> items;
         private final OnAccountClickListener listener;
 
         interface OnAccountClickListener {
             void onAccountClick(Account account);
         }
 
-        OverviewAdapter(List<Account> accounts, Map<String, double[]> monthTotals, OnAccountClickListener listener) {
-            this.accounts = new ArrayList<>(accounts);
-            this.monthTotals = monthTotals;
+        OverviewAdapter(List<AccountRowItem> items, OnAccountClickListener listener) {
+            this.items = items;
             this.listener = listener;
         }
 
@@ -176,36 +293,27 @@ public class AccountsOverviewActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Account account = accounts.get(position);
-            holder.name.setText(account.getName());
+            AccountRowItem item = items.get(position);
+            holder.name.setText(item.displayName);
 
-            String curr = account.getCurrency();
-            if (curr == null || curr.trim().isEmpty()) curr = "USD";
-
-            if ("LBP".equalsIgnoreCase(curr)) {
-                holder.balance.setText(CurrencyFormatter.formatLbpAmount(account.getBalance()));
-            } else {
-                holder.balance.setText(String.format(Locale.US, "%,.2f", account.getBalance()));
-            }
-
-            double[] totals = monthTotals.get(account.getName());
-            double in = totals != null ? totals[0] : 0;
-            double out = totals != null ? totals[1] : 0;
+            String curr = item.currency;
 
             if ("LBP".equalsIgnoreCase(curr)) {
-                holder.in.setText("This month In: " + CurrencyFormatter.formatLbpAmount(in));
-                holder.out.setText("This month Out: " + CurrencyFormatter.formatLbpAmount(out));
+                holder.balance.setText(CurrencyFormatter.formatLbpAmount(item.balance) + " LBP");
+                holder.in.setText("This month In: " + CurrencyFormatter.formatLbpAmount(item.monthIn) + " LBP");
+                holder.out.setText("This month Out: " + CurrencyFormatter.formatLbpAmount(item.monthOut) + " LBP");
             } else {
-                holder.in.setText(String.format(Locale.US, "This month In: %,.2f", in));
-                holder.out.setText(String.format(Locale.US, "This month Out: %,.2f", out));
+                holder.balance.setText(String.format(Locale.US, "%,.2f %s", item.balance, curr));
+                holder.in.setText(String.format(Locale.US, "This month In: %,.2f %s", item.monthIn, curr));
+                holder.out.setText(String.format(Locale.US, "This month Out: %,.2f %s", item.monthOut, curr));
             }
 
-            holder.itemView.setOnClickListener(v -> listener.onAccountClick(account));
+            holder.itemView.setOnClickListener(v -> listener.onAccountClick(item.account));
         }
 
         @Override
         public int getItemCount() {
-            return accounts.size();
+            return items.size();
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {

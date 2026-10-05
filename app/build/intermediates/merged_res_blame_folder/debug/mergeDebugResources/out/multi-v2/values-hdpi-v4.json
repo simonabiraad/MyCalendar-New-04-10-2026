@@ -4,7 +4,7 @@
             "outputFile": "com.example.mycalendar2026sar.app-mergeDebugResources-41:/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\SAR\\.gradle\\gradle-9.2.1\\caches\\9.5.0\\transforms\\346f772e08427b2a64a0454804419cc0\\transformed\\appcompat-1.6.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "source": "C:\\Users\\simon\\.gradle\\caches\\9.5.0\\transforms\\346f772e08427b2a64a0454804419cc0\\transformed\\appcompat-1.6.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -57,19 +57,20 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/selectionBar">
 
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
             android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back_color"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,9 +78,9 @@
             android:id="@+id/secureBoxTitleContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -106,14 +107,13 @@
             android:id="@+id/addCategoryHeaderButton"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_notif_plus_color"
-            app:layout_constraintBottom_toBottomOf="@id/secureBoxTitleContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/secureBoxTitleContainer" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

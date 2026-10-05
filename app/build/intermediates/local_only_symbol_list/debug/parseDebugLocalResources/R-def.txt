@@ -474,7 +474,9 @@ id editNotes
 id editOnlineAmount
 id editStartTime
 id editTitle
+id editTitleContainer
 id editTitleHeader
+id editTitleIcon
 id editTopBar
 id editTopButton
 id editTransferAmount
@@ -491,6 +493,7 @@ id eventTitle
 id eventsContainer
 id eventsHeader
 id eventsRecyclerView
+id eventsTitleContainer
 id eventsTitleIcon
 id eventsTitleText
 id expense_type_main
