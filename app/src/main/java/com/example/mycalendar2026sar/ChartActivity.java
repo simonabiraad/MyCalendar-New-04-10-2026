@@ -41,6 +41,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -233,16 +234,7 @@ public class ChartActivity extends AppCompatActivity {
         }
     }
 
-    private String formatAmountWithSymbol(double amount, String currency, String symbol) {
-        if ("LBP".equalsIgnoreCase(currency)) {
-            return CurrencyFormatter.formatLbpAmount(amount) + " LBP";
-        }
-        if (symbol.equalsIgnoreCase(currency)) {
-            return String.format(Locale.US, "%,.2f %s", amount, currency);
-        } else {
-            return String.format(Locale.US, "%,.2f %s", amount, symbol);
-        }
-    }
+
 
     private void setupCurrencyPieChart(PieChart chart, LinearLayout container, Map<String, Double> incomeSourcesMap, double totalIncome, String currency) {
         ArrayList<PieEntry> entries = new ArrayList<>();
@@ -389,7 +381,20 @@ public class ChartActivity extends AppCompatActivity {
         }
     }
 
-    private String getCurrencySymbol(String currency) {
+    public static int getCurrencyColor(String currency) {
+        if (currency == null) return Color.parseColor("#34A853");
+        switch (currency.toUpperCase(Locale.US)) {
+            case "USD": return Color.parseColor("#34A853"); // Green
+            case "EUR": return Color.parseColor("#4285F4"); // Blue
+            case "LBP": return Color.parseColor("#FBBC05"); // Yellow
+            case "GBP": return Color.parseColor("#8E24AA"); // Purple
+            case "JPY":
+            case "CNY": return Color.parseColor("#EA4335"); // Red
+            default: return Color.parseColor("#00ACC1");   // Teal
+        }
+    }
+
+    public static String getCurrencySymbol(String currency) {
         if (currency == null) return "$";
         switch (currency.toUpperCase()) {
             case "USD": return "$";
@@ -399,6 +404,17 @@ public class ChartActivity extends AppCompatActivity {
             case "CNY": return "¥";
             case "LBP": return "LBP";
             default: return currency;
+        }
+    }
+
+    public static String formatAmountWithSymbol(double amount, String currency, String symbol) {
+        if ("LBP".equalsIgnoreCase(currency)) {
+            return CurrencyFormatter.formatLbpAmount(amount) + " LBP";
+        }
+        if (symbol.equalsIgnoreCase(currency)) {
+            return String.format(Locale.US, "%,.2f %s", amount, currency);
+        } else {
+            return String.format(Locale.US, "%,.2f %s", amount, symbol);
         }
     }
 
@@ -785,46 +801,58 @@ public class ChartActivity extends AppCompatActivity {
             return c1.compareTo(c2);
         });
 
-        int[] trendColors = {
-                Color.parseColor("#34A853"), // 🟢 Green -> 1st currency
-                Color.parseColor("#4285F4"), // 🔵 Blue -> 2nd currency
-                Color.parseColor("#FBBC05"), // 🟡 Yellow -> 3rd currency
-                Color.parseColor("#8E24AA"), // 🟣 Purple -> 4th currency
-                Color.parseColor("#EA4335")  // 🔴 Red -> 5th currency
-        };
+        // 2. Generate time/date points and labels for the selected period
+        List<String> dateLabels = new ArrayList<>();
+        List<Long> timeBounds = new ArrayList<>();
 
-        // 2. Populate legend underneath chart: ■ USD   ■ EUR   ■ LBP
-        if (legendContainer != null) {
-            int idx = 0;
-            for (String curr : currencies) {
-                int col = trendColors[idx % trendColors.length];
-                idx++;
+        SimpleDateFormat dayLabelSdf = new SimpleDateFormat("dd/MM", Locale.US);
+        SimpleDateFormat timeLabelSdf = new SimpleDateFormat("HH:mm", Locale.US);
 
-                TextView itemTv = new TextView(this);
-                itemTv.setText("■ " + curr);
-                itemTv.setTextColor(col);
-                itemTv.setTextSize(13f);
-                itemTv.setTypeface(Typeface.DEFAULT_BOLD);
-                itemTv.setPadding(0, 0, (int) (16 * getResources().getDisplayMetrics().density), 0);
-                legendContainer.addView(itemTv);
+        Calendar nowCal = Calendar.getInstance();
+        long nowMillis = nowCal.getTimeInMillis();
+
+        if (selectedPeriodDays == 1) {
+            Calendar startOfDay = (Calendar) nowCal.clone();
+            startOfDay.set(Calendar.HOUR_OF_DAY, 0);
+            startOfDay.set(Calendar.MINUTE, 0);
+            startOfDay.set(Calendar.SECOND, 0);
+            startOfDay.set(Calendar.MILLISECOND, 0);
+
+            long startTime = startOfDay.getTimeInMillis();
+            long interval = (nowMillis - startTime) / 5;
+            if (interval <= 0) interval = 3600000L;
+
+            for (int i = 0; i < 6; i++) {
+                long t = startTime + (i * interval);
+                if (t > nowMillis) t = nowMillis;
+                timeBounds.add(t);
+                dateLabels.add(timeLabelSdf.format(new Date(t)));
+            }
+        } else {
+            Calendar startCal = (Calendar) nowCal.clone();
+            startCal.set(Calendar.HOUR_OF_DAY, 0);
+            startCal.set(Calendar.MINUTE, 0);
+            startCal.set(Calendar.SECOND, 0);
+            startCal.set(Calendar.MILLISECOND, 0);
+            startCal.add(Calendar.DAY_OF_YEAR, -(selectedPeriodDays - 1));
+
+            for (int i = 0; i < selectedPeriodDays; i++) {
+                Calendar dayCal = (Calendar) startCal.clone();
+                dayCal.add(Calendar.DAY_OF_YEAR, i);
+                timeBounds.add(dayCal.getTimeInMillis());
+                dateLabels.add(dayLabelSdf.format(dayCal.getTime()));
             }
         }
 
-        // 3. Build line data sets for each currency
-        List<com.github.mikephil.charting.interfaces.datasets.ILineDataSet> dataSets = new ArrayList<>();
-        List<String> allLabels = new ArrayList<>();
+        int numPoints = dateLabels.size();
+
+        // 3. Compute balances and raw balance history arrays for each currency
+        Map<String, double[]> rawBalancesMap = new HashMap<>();
         StringBuilder summaryBalances = new StringBuilder();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM", Locale.getDefault());
-        long cutoff = System.currentTimeMillis() - (selectedPeriodDays * 24L * 60 * 60 * 1000);
-
-        Map<Integer, String> dataSetCurrencyMap = new HashMap<>();
-        int dataSetIdx = 0;
-
         for (String curr : currencies) {
-            int col = trendColors[dataSetIdx % trendColors.length];
+            int col = getCurrencyColor(curr);
 
-            // 1. Calculate Income and Expenses using exact same IncomeCalculator logic as previous graphics
             IncomeCalculator.IncomeBreakdown inc = IncomeCalculator.calculateIncomeForCurrency(curr, accounts, transactions);
             double totalIncome = inc.getTotalIncome();
 
@@ -844,59 +872,108 @@ public class ChartActivity extends AppCompatActivity {
 
             double currentCurrencyBalance = totalIncome - totalExpenses;
 
-            // Append balance summary for this currency matching previous graphics exactly
             String symbol = getCurrencySymbol(curr);
             if (summaryBalances.length() > 0) summaryBalances.append("\n");
             summaryBalances.append(curr).append(": ").append(formatAmountWithSymbol(currentCurrencyBalance, curr, symbol));
 
-            Map<String, Double> dailyBalances = new java.util.LinkedHashMap<>();
-            List<String> dateKeys = new ArrayList<>();
+            if (legendContainer != null) {
+                TextView itemTv = new TextView(this);
+                itemTv.setText("■ " + curr);
+                itemTv.setTextColor(col);
+                itemTv.setTextSize(13f);
+                itemTv.setTypeface(Typeface.DEFAULT_BOLD);
+                itemTv.setPadding(0, 0, (int) (16 * getResources().getDisplayMetrics().density), 0);
+                legendContainer.addView(itemTv);
+            }
 
-            double runningBalance = currentCurrencyBalance;
+            double[] rawBalances = new double[numPoints];
+            rawBalances[numPoints - 1] = currentCurrencyBalance;
 
-            for (Transaction t : transactions) {
-                if (t == null) continue;
-                String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
-                        ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+            for (int i = numPoints - 1; i > 0; i--) {
+                long tEnd = (i == numPoints - 1) ? Long.MAX_VALUE : timeBounds.get(i);
+                long tStart = timeBounds.get(i - 1);
 
-                if (curr.equalsIgnoreCase(txCurr)) {
-                    if (t.getTimestamp() >= cutoff) {
-                        String dateKey = sdf.format(new Date(t.getTimestamp()));
-                        if (!dailyBalances.containsKey(dateKey)) {
-                            dateKeys.add(dateKey);
+                double netIn = 0;
+                double netOut = 0;
+                for (Transaction t : transactions) {
+                    if (t == null) continue;
+                    String txCurr = (t.getCurrency() != null && !t.getCurrency().trim().isEmpty())
+                            ? t.getCurrency().trim().toUpperCase(Locale.US) : "USD";
+
+                    if (curr.equalsIgnoreCase(txCurr)) {
+                        long ts = t.getTimestamp();
+                        if (ts >= tStart && ts < tEnd) {
+                            String title = t.getTitle() != null ? t.getTitle().trim().toLowerCase(Locale.US) : "";
+                            if (!title.startsWith("transfer")) {
+                                if (t.isCashIn()) {
+                                    netIn += t.getAmount();
+                                } else {
+                                    netOut += t.getAmount();
+                                }
+                            }
                         }
-                        dailyBalances.put(dateKey, runningBalance);
                     }
                 }
+
+                double netChange = netIn - netOut;
+                rawBalances[i - 1] = rawBalances[i] - netChange;
             }
 
-            ArrayList<Entry> entries = new ArrayList<>();
-            for (int i = 0; i < dateKeys.size(); i++) {
-                String key = dateKeys.get(i);
-                Double val = dailyBalances.get(key);
-                entries.add(new Entry(i, val != null ? val.floatValue() : 0f));
-                if (!allLabels.contains(key)) {
-                    allLabels.add(key);
-                }
-            }
-
-            if (!entries.isEmpty()) {
-                LineDataSet dataSet = new LineDataSet(entries, curr);
-                dataSet.setColor(col);
-                dataSet.setCircleColor(col);
-                dataSet.setLineWidth(2.5f);
-                dataSet.setCircleRadius(3.5f);
-                dataSet.setDrawValues(false);
-                dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                dataSet.setHighLightColor(Color.WHITE);
-
-                dataSets.add(dataSet);
-                dataSetCurrencyMap.put(dataSetIdx, curr);
-                dataSetIdx++;
-            }
+            rawBalancesMap.put(curr, rawBalances);
         }
 
         currentBalanceTrendText.setText(summaryBalances.toString());
+
+        // 4. Build line datasets using vertical band scaling for separate currency display
+        List<com.github.mikephil.charting.interfaces.datasets.ILineDataSet> dataSets = new ArrayList<>();
+        int totalCurrencies = currencies.size();
+
+        for (int idx = 0; idx < totalCurrencies; idx++) {
+            String curr = currencies.get(idx);
+            int col = getCurrencyColor(curr);
+            double[] rawBalances = rawBalancesMap.get(curr);
+
+            if (rawBalances == null) continue;
+
+            double minVal = rawBalances[0];
+            double maxVal = rawBalances[0];
+            for (double b : rawBalances) {
+                if (b < minVal) minVal = b;
+                if (b > maxVal) maxVal = b;
+            }
+
+            double bandBottom = 10.0 + (totalCurrencies - 1 - idx) * (70.0 / Math.max(1, totalCurrencies));
+            double bandTop = bandBottom + (55.0 / Math.max(1, totalCurrencies));
+            double bandCenter = (bandBottom + bandTop) / 2.0;
+
+            ArrayList<Entry> entries = new ArrayList<>();
+            for (int i = 0; i < numPoints; i++) {
+                double raw = rawBalances[i];
+                float yNorm;
+                if (maxVal > minVal) {
+                    yNorm = (float) (bandBottom + ((raw - minVal) / (maxVal - minVal)) * (bandTop - bandBottom));
+                } else {
+                    yNorm = (float) bandCenter;
+                }
+                entries.add(new Entry(i, yNorm));
+            }
+
+            LineDataSet dataSet = new LineDataSet(entries, curr);
+            dataSet.setColor(col);
+            dataSet.setCircleColor(col);
+            dataSet.setLineWidth(2.5f);
+            dataSet.setCircleRadius(4.0f);
+            dataSet.setCircleHoleRadius(2.0f);
+            dataSet.setCircleHoleColor(Color.BLACK);
+            dataSet.setDrawCircles(true);
+            dataSet.setDrawCircleHole(true);
+            dataSet.setDrawValues(false);
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            dataSet.setHighLightColor(Color.WHITE);
+            dataSet.setHighlightLineWidth(1.2f);
+
+            dataSets.add(dataSet);
+        }
 
         if (dataSets.isEmpty()) {
             lineChart.setNoDataText("No trend data for this period");
@@ -909,27 +986,29 @@ public class ChartActivity extends AppCompatActivity {
         lineChart.getDescription().setEnabled(false);
 
         XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(allLabels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dateLabels));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.parseColor("#888888"));
+        xAxis.setTextColor(Color.parseColor("#AAAAAA"));
         xAxis.setDrawGridLines(true);
         xAxis.setGridColor(Color.parseColor("#22FFFFFF"));
         xAxis.setGridLineWidth(0.5f);
         xAxis.enableGridDashedLine(10f, 10f, 0f);
         xAxis.setGranularity(1f);
-        xAxis.setLabelCount(Math.min(allLabels.size(), 5));
+        xAxis.setLabelCount(Math.min(dateLabels.size(), 6));
 
         YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setTextColor(Color.parseColor("#888888"));
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMaximum(100f);
+        leftAxis.setDrawLabels(false);
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.parseColor("#22FFFFFF"));
+        leftAxis.setGridColor(Color.parseColor("#15FFFFFF"));
         leftAxis.setGridLineWidth(0.5f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
 
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
-        CustomMarkerView mv = new CustomMarkerView(this, R.layout.layout_chart_marker, allLabels, dataSetCurrencyMap);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.layout_chart_marker, dateLabels, currencies, rawBalancesMap);
         mv.setChartView(lineChart);
         lineChart.setMarker(mv);
 
@@ -940,31 +1019,56 @@ public class ChartActivity extends AppCompatActivity {
     private static class CustomMarkerView extends MarkerView {
         private final TextView tvDate, tvValue;
         private final List<String> labels;
-        private final Map<Integer, String> dataSetCurrencyMap;
+        private final List<String> currencies;
+        private final Map<String, double[]> rawBalancesMap;
 
-        public CustomMarkerView(android.content.Context context, int layoutResource, List<String> labels, Map<Integer, String> dataSetCurrencyMap) {
+        public CustomMarkerView(android.content.Context context, int layoutResource,
+                                List<String> labels, List<String> currencies,
+                                Map<String, double[]> rawBalancesMap) {
             super(context, layoutResource);
             this.labels = labels;
-            this.dataSetCurrencyMap = dataSetCurrencyMap;
+            this.currencies = currencies;
+            this.rawBalancesMap = rawBalancesMap;
             tvDate = findViewById(R.id.markerDate);
             tvValue = findViewById(R.id.markerValue);
         }
 
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            int index = (int) e.getX();
-            if (index >= 0 && index < labels.size()) {
-                tvDate.setText(labels.get(index));
-            }
-            int dataSetIdx = highlight.getDataSetIndex();
-            String curr = dataSetCurrencyMap.get(dataSetIdx);
-            if (curr == null) curr = "USD";
-
-            if ("LBP".equalsIgnoreCase(curr)) {
-                tvValue.setText(CurrencyFormatter.formatLbpAmount(e.getY()) + " LBP");
+            int xIndex = (int) e.getX();
+            if (xIndex >= 0 && xIndex < labels.size()) {
+                tvDate.setText("Date: " + labels.get(xIndex));
             } else {
-                tvValue.setText(String.format(Locale.US, "%,.2f %s", e.getY(), curr));
+                tvDate.setText("");
             }
+
+            int highlightedDataSetIdx = highlight.getDataSetIndex();
+
+            android.text.SpannableStringBuilder sb = new android.text.SpannableStringBuilder();
+            for (int i = 0; i < currencies.size(); i++) {
+                String curr = currencies.get(i);
+                double[] balances = rawBalancesMap.get(curr);
+                double val = (balances != null && xIndex >= 0 && xIndex < balances.length) ? balances[xIndex] : 0.0;
+
+                String symbol = ChartActivity.getCurrencySymbol(curr);
+                String formattedAmt = ChartActivity.formatAmountWithSymbol(val, curr, symbol);
+
+                int color = ChartActivity.getCurrencyColor(curr);
+
+                int start = sb.length();
+                String line = curr + ": " + formattedAmt;
+                if (i < currencies.size() - 1) line += "\n";
+
+                sb.append(line);
+                int end = sb.length();
+
+                sb.setSpan(new ForegroundColorSpan(color), start, end, 0);
+                if (i == highlightedDataSetIdx) {
+                    sb.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+                }
+            }
+
+            tvValue.setText(sb);
             super.refreshContent(e, highlight);
         }
 
