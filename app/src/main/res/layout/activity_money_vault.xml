@@ -56,8 +56,8 @@
         android:id="@+id/tabContainer"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/summary_border"
         android:orientation="horizontal"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
         <Button
-            android:id="@+id/tabSavingsVault"
+            android:id="@+id/tabSave"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -75,10 +75,28 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             android:padding="0dp"
+            android:text="Safe"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp" />
+
+        <Button
+            android:id="@+id/tabSavingsVault"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/gray"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             android:text="Savings Vault"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:textStyle="bold"
             app:cornerRadius="16dp" />
 
@@ -96,10 +114,168 @@
             android:text="Planned Payments"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:textStyle="bold"
             app:cornerRadius="16dp" />
     </LinearLayout>
+
+    <!-- Save Section (Flexible Savings System) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/saveSection"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavContainer"
+        app:layout_constraintTop_toBottomOf="@id/tabContainer">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Running Balance Summary Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="@color/card_bg"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="3dp"
+                    app:strokeColor="@color/border_color"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Safe"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <Spinner
+                                android:id="@+id/spinnerSaveCurrencySelector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_outline"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtSaveRunningTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Saved: $0.00 USD"
+                            android:textColor="@color/light_green"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <!-- Plus / Add Money & Withdraw Action Buttons -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnSaveAdd"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/light_green"
+                                android:insetLeft="0dp"
+                                android:insetTop="0dp"
+                                android:insetRight="0dp"
+                                android:insetBottom="0dp"
+                                android:padding="0dp"
+                                android:text="+ Safe"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="20dp" />
+
+                            <Button
+                                android:id="@+id/btnSaveWithdraw"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/chili_red"
+                                android:insetLeft="0dp"
+                                android:insetTop="0dp"
+                                android:insetRight="0dp"
+                                android:insetBottom="0dp"
+                                android:padding="0dp"
+                                android:text="- Withdraw"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="20dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- History Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Transaction History"
+                    android:textColor="@color/light_green"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- History RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSaveHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_save_transaction" />
+
+                <TextView
+                    android:id="@+id/txtEmptySaveHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="No transactions recorded yet.\nTap '+ Safe' to add money."
+                    android:textAlignment="center"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Savings Vault Section -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,7 +283,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottomNavContainer"
         app:layout_constraintTop_toBottomOf="@id/tabContainer">
 

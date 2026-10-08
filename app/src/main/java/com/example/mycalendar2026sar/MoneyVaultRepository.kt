@@ -536,4 +536,95 @@ class MoneyVaultRepository(private val context: Context) {
 
         return items
     }
+
+    // ==========================================
+    // FLEXIBLE SAVE TRANSACTIONS
+    // ==========================================
+
+    fun getLatestSaveBalance(currency: String): Double {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+            arrayOf(TransactionDbHelper.COL_SAVE_BALANCE_AFTER),
+            "${TransactionDbHelper.COL_SAVE_CURRENCY}=?",
+            arrayOf(currency),
+            null, null,
+            "${TransactionDbHelper.COL_SAVE_ID} DESC",
+            "1"
+        )
+        cursor?.use { c ->
+            if (c.moveToFirst()) {
+                return c.getDouble(0)
+            }
+        }
+        return 0.0
+    }
+
+    fun addSaveTransaction(amount: Double, type: SaveTransaction.Type, currency: String, note: String?): Long {
+        if (amount <= 0.0) return -1
+        val db = dbHelper.writableDatabase
+        var txId: Long = -1
+        db.beginTransaction()
+        try {
+            val currentBal = getLatestSaveBalance(currency)
+            val newBal = if (type == SaveTransaction.Type.SAVE) {
+                currentBal + amount
+            } else {
+                currentBal - amount
+            }
+
+            val values = ContentValues().apply {
+                put(TransactionDbHelper.COL_SAVE_AMOUNT, amount)
+                put(TransactionDbHelper.COL_SAVE_TYPE, type.name)
+                put(TransactionDbHelper.COL_SAVE_CURRENCY, currency)
+                put(TransactionDbHelper.COL_SAVE_TIMESTAMP, System.currentTimeMillis())
+                put(TransactionDbHelper.COL_SAVE_BALANCE_AFTER, newBal)
+                put(TransactionDbHelper.COL_SAVE_NOTE, note ?: "")
+            }
+            txId = db.insert(TransactionDbHelper.TABLE_SAVE_TRANSACTIONS, null, values)
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+        return txId
+    }
+
+    fun getAllSaveTransactions(currency: String): List<SaveTransaction> {
+        val list = mutableListOf<SaveTransaction>()
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+            null,
+            "${TransactionDbHelper.COL_SAVE_CURRENCY}=?",
+            arrayOf(currency),
+            null, null,
+            "${TransactionDbHelper.COL_SAVE_ID} DESC"
+        )
+        cursor?.use { c ->
+            val idIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_ID)
+            val amtIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_AMOUNT)
+            val typeIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_TYPE)
+            val currIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_CURRENCY)
+            val tsIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_TIMESTAMP)
+            val balIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_BALANCE_AFTER)
+            val noteIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_NOTE)
+
+            while (c.moveToNext()) {
+                val typeStr = c.getString(typeIdx)
+                val typeEnum = runCatching { SaveTransaction.Type.valueOf(typeStr) }.getOrDefault(SaveTransaction.Type.SAVE)
+                list.add(
+                    SaveTransaction(
+                        id = c.getLong(idIdx),
+                        amount = c.getDouble(amtIdx),
+                        type = typeEnum,
+                        currency = c.getString(currIdx),
+                        timestamp = c.getLong(tsIdx),
+                        balanceAfter = c.getDouble(balIdx),
+                        note = if (c.isNull(noteIdx)) null else c.getString(noteIdx)
+                    )
+                )
+            }
+        }
+        return list
+    }
 }

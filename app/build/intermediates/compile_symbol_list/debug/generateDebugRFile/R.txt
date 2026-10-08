@@ -331,10 +331,12 @@ int id btnReminderArrow 0x0
 int id btnRepeatArrow 0x0
 int id btnSave 0x0
 int id btnSaveAccount 0x0
+int id btnSaveAdd 0x0
 int id btnSaveContinue 0x0
 int id btnSaveEdit 0x0
 int id btnSaveExit 0x0
 int id btnSaveRate 0x0
+int id btnSaveWithdraw 0x0
 int id btnSelectCategory 0x0
 int id btnStatusArrow 0x0
 int id btnSummaryCalendar 0x0
@@ -494,6 +496,8 @@ int id etDescription 0x0
 int id etEndDate 0x0
 int id etPaymentDay 0x0
 int id etPaymentName 0x0
+int id etSaveAmount 0x0
+int id etSaveNote 0x0
 int id etStartDate 0x0
 int id etTotalAmount 0x0
 int id etTxAmount 0x0
@@ -755,9 +759,11 @@ int id rowTime 0x0
 int id rowTitle 0x0
 int id rvPaymentSchedule 0x0
 int id rvPlannedPayments 0x0
+int id rvSaveHistory 0x0
 int id rvSavingsVaults 0x0
 int id satSeekBar 0x0
 int id satText 0x0
+int id saveSection 0x0
 int id saveStickyNoteButton 0x0
 int id savingsVaultSection 0x0
 int id sbCameraNoteButton 0x0
@@ -785,6 +791,8 @@ int id spinnerFrequency 0x0
 int id spinnerFromAccount 0x0
 int id spinnerPaymentCurrency 0x0
 int id spinnerReminder 0x0
+int id spinnerSaveCurrency 0x0
+int id spinnerSaveCurrencySelector 0x0
 int id spinnerTargetCurrency 0x0
 int id spinnerToAccount 0x0
 int id spinnerVaultCurrency 0x0
@@ -830,6 +838,7 @@ int id tabContainer 0x0
 int id tabDaily 0x0
 int id tabMonthly 0x0
 int id tabPlannedPayments 0x0
+int id tabSave 0x0
 int id tabSavingsVault 0x0
 int id tabWeekly 0x0
 int id tabYearly 0x0
@@ -911,6 +920,7 @@ int id txtDenomination 0x0
 int id txtDialogTitle 0x0
 int id txtDueDate 0x0
 int id txtEmptyPlanned 0x0
+int id txtEmptySaveHistory 0x0
 int id txtEmptySavings 0x0
 int id txtEventLocation 0x0
 int id txtEventTime 0x0
@@ -940,6 +950,12 @@ int id txtPaymentName 0x0
 int id txtProgressPercentage 0x0
 int id txtRateChange 0x0
 int id txtRowTotal 0x0
+int id txtSaveBalanceAfter 0x0
+int id txtSaveDateTime 0x0
+int id txtSaveDialogTitle 0x0
+int id txtSaveNote 0x0
+int id txtSaveRunningTotal 0x0
+int id txtSaveTypeAmount 0x0
 int id txtScheduleAmount 0x0
 int id txtScheduleTitle 0x0
 int id txtSelectedCountryName 0x0
@@ -1032,6 +1048,7 @@ int layout calendar_day_item 0x0
 int layout calendar_widget 0x0
 int layout dialog_accounts 0x0
 int layout dialog_add_account 0x0
+int layout dialog_add_save_transaction 0x0
 int layout dialog_add_transaction 0x0
 int layout dialog_add_withdraw_vault 0x0
 int layout dialog_calculator 0x0
@@ -1067,6 +1084,7 @@ int layout item_notification_event 0x0
 int layout item_payment_schedule 0x0
 int layout item_planned_payment 0x0
 int layout item_report_category_row 0x0
+int layout item_save_transaction 0x0
 int layout item_savings_vault 0x0
 int layout item_summary_account_card 0x0
 int layout item_summary_stat_row 0x0

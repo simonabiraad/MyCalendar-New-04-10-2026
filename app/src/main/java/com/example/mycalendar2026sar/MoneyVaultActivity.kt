@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -29,20 +30,33 @@ class MoneyVaultActivity : AppCompatActivity() {
 
     private val viewModel: MoneyVaultViewModel by viewModels()
 
+    private lateinit var tabSave: Button
     private lateinit var tabSavingsVault: Button
     private lateinit var tabPlannedPayments: Button
+
+    private lateinit var saveSection: View
     private lateinit var savingsVaultSection: View
     private lateinit var plannedPaymentsSection: View
+
+    private lateinit var spinnerSaveCurrencySelector: Spinner
+    private lateinit var txtSaveRunningTotal: TextView
+    private lateinit var btnSaveAdd: Button
+    private lateinit var btnSaveWithdraw: Button
+    private lateinit var rvSaveHistory: RecyclerView
+    private lateinit var txtEmptySaveHistory: TextView
+
     private lateinit var rvSavingsVaults: RecyclerView
     private lateinit var rvPlannedPayments: RecyclerView
     private lateinit var txtEmptySavings: TextView
     private lateinit var txtEmptyPlanned: TextView
 
+    private lateinit var saveHistoryAdapter: SaveHistoryAdapter
     private lateinit var savingsAdapter: SavingsVaultAdapter
     private lateinit var plannedAdapter: PlannedPaymentAdapter
 
-    private var activeTab = 0 // 0: Savings Vault, 1: Planned Payments
+    private var activeTab = 0 // 0: Save, 1: Savings Vault, 2: Planned Payments
     private val availableCurrencies = arrayOf("USD", "EUR", "LBP", "SAR", "AED", "GBP", "CAD", "AUD", "CHF", "JPY")
+    private var selectedSaveCurrency = "USD"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,28 +72,60 @@ class MoneyVaultActivity : AppCompatActivity() {
         val initialTab = intent.getIntExtra("initialTab", 0)
         switchTab(initialTab)
 
-        viewModel.loadData()
+        viewModel.loadData(selectedSaveCurrency)
     }
 
     private fun initViews() {
+        tabSave = findViewById(R.id.tabSave)
         tabSavingsVault = findViewById(R.id.tabSavingsVault)
         tabPlannedPayments = findViewById(R.id.tabPlannedPayments)
+
+        saveSection = findViewById(R.id.saveSection)
         savingsVaultSection = findViewById(R.id.savingsVaultSection)
         plannedPaymentsSection = findViewById(R.id.plannedPaymentsSection)
+
+        spinnerSaveCurrencySelector = findViewById(R.id.spinnerSaveCurrencySelector)
+        txtSaveRunningTotal = findViewById(R.id.txtSaveRunningTotal)
+        btnSaveAdd = findViewById(R.id.btnSaveAdd)
+        btnSaveWithdraw = findViewById(R.id.btnSaveWithdraw)
+        rvSaveHistory = findViewById(R.id.rvSaveHistory)
+        txtEmptySaveHistory = findViewById(R.id.txtEmptySaveHistory)
+
         rvSavingsVaults = findViewById(R.id.rvSavingsVaults)
         rvPlannedPayments = findViewById(R.id.rvPlannedPayments)
         txtEmptySavings = findViewById(R.id.txtEmptySavings)
         txtEmptyPlanned = findViewById(R.id.txtEmptyPlanned)
+
+        // Setup Save Currency Spinner
+        val currencyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerSaveCurrencySelector.adapter = currencyAdapter
+
+        spinnerSaveCurrencySelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedSaveCurrency = availableCurrencies[position]
+                viewModel.loadSaveData(selectedSaveCurrency)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     private fun setupListeners() {
         findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
         findViewById<View>(R.id.btnAdd).setOnClickListener {
-            if (activeTab == 0) showCreateVaultDialog() else showCreatePlannedPaymentDialog()
+            when (activeTab) {
+                0 -> showSaveTransactionDialog(SaveTransaction.Type.SAVE)
+                1 -> showCreateVaultDialog()
+                2 -> showCreatePlannedPaymentDialog()
+            }
         }
 
-        tabSavingsVault.setOnClickListener { switchTab(0) }
-        tabPlannedPayments.setOnClickListener { switchTab(1) }
+        tabSave.setOnClickListener { switchTab(0) }
+        tabSavingsVault.setOnClickListener { switchTab(1) }
+        tabPlannedPayments.setOnClickListener { switchTab(2) }
+
+        btnSaveAdd.setOnClickListener { showSaveTransactionDialog(SaveTransaction.Type.SAVE) }
+        btnSaveWithdraw.setOnClickListener { showSaveTransactionDialog(SaveTransaction.Type.WITHDRAW) }
     }
 
     private fun switchTab(tabIndex: Int) {
@@ -87,20 +133,20 @@ class MoneyVaultActivity : AppCompatActivity() {
         val accentColor = ThemeManager.getMainAccentColor(this)
         val grayColor = ContextCompat.getColor(this, R.color.gray)
 
-        if (tabIndex == 0) {
-            tabSavingsVault.backgroundTintList = ColorStateList.valueOf(accentColor)
-            tabPlannedPayments.backgroundTintList = ColorStateList.valueOf(grayColor)
-            savingsVaultSection.visibility = View.VISIBLE
-            plannedPaymentsSection.visibility = View.GONE
-        } else {
-            tabSavingsVault.backgroundTintList = ColorStateList.valueOf(grayColor)
-            tabPlannedPayments.backgroundTintList = ColorStateList.valueOf(accentColor)
-            savingsVaultSection.visibility = View.GONE
-            plannedPaymentsSection.visibility = View.VISIBLE
-        }
+        tabSave.backgroundTintList = ColorStateList.valueOf(if (tabIndex == 0) accentColor else grayColor)
+        tabSavingsVault.backgroundTintList = ColorStateList.valueOf(if (tabIndex == 1) accentColor else grayColor)
+        tabPlannedPayments.backgroundTintList = ColorStateList.valueOf(if (tabIndex == 2) accentColor else grayColor)
+
+        saveSection.visibility = if (tabIndex == 0) View.VISIBLE else View.GONE
+        savingsVaultSection.visibility = if (tabIndex == 1) View.VISIBLE else View.GONE
+        plannedPaymentsSection.visibility = if (tabIndex == 2) View.VISIBLE else View.GONE
     }
 
     private fun setupRecyclerViews() {
+        rvSaveHistory.layoutManager = LinearLayoutManager(this)
+        saveHistoryAdapter = SaveHistoryAdapter()
+        rvSaveHistory.adapter = saveHistoryAdapter
+
         rvSavingsVaults.layoutManager = LinearLayoutManager(this)
         savingsAdapter = SavingsVaultAdapter()
         rvSavingsVaults.adapter = savingsAdapter
@@ -111,6 +157,15 @@ class MoneyVaultActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        viewModel.currentSaveBalance.observe(this) { bal ->
+            txtSaveRunningTotal.text = "Saved: ${CurrencyFormatter.formatAmount(bal ?: 0.0, selectedSaveCurrency)}"
+        }
+
+        viewModel.saveTransactions.observe(this) { list ->
+            saveHistoryAdapter.submitList(list, selectedSaveCurrency)
+            txtEmptySaveHistory.visibility = if (list.isNullOrEmpty()) View.VISIBLE else View.GONE
+        }
+
         viewModel.vaults.observe(this) { vaults ->
             savingsAdapter.submitList(vaults)
             txtEmptySavings.visibility = if (vaults.isEmpty()) View.VISIBLE else View.GONE
@@ -126,14 +181,57 @@ class MoneyVaultActivity : AppCompatActivity() {
         }
 
         viewModel.toastMessage.observe(this) { msg ->
-            if (!msg.isNull_or_blank()) {
+            if (!msg.isNullOrBlank()) {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun String?.isNull_or_blank(): Boolean {
-        return this == null || this.trim().isEmpty()
+    // ==========================================
+    // DIALOG: ADD / WITHDRAW TO FLEXIBLE SAVE
+    // ==========================================
+
+    private fun showSaveTransactionDialog(type: SaveTransaction.Type) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_add_save_transaction, null)
+        val txtTitle = view.findViewById<TextView>(R.id.txtSaveDialogTitle)
+        val etAmount = view.findViewById<EditText>(R.id.etSaveAmount)
+        val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerSaveCurrency)
+        val etNote = view.findViewById<EditText>(R.id.etSaveNote)
+
+        val isSave = type == SaveTransaction.Type.SAVE
+        txtTitle.text = if (isSave) "Safe" else "Withdraw Money"
+
+        val currencyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCurrency.adapter = currencyAdapter
+
+        val curIndex = availableCurrencies.indexOf(selectedSaveCurrency)
+        if (curIndex >= 0) spinnerCurrency.setSelection(curIndex)
+
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setView(view)
+                .setPositiveButton(if (isSave) "Save" else "Withdraw") { _, _ ->
+                    val amountStr = etAmount.text.toString().trim()
+                    val amount = amountStr.toDoubleOrNull()
+                    val currency = spinnerCurrency.selectedItem.toString()
+                    val note = etNote.text.toString().trim()
+
+                    if (amount == null || amount <= 0.0) {
+                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    viewModel.addSaveTransaction(
+                        amount = amount,
+                        type = type,
+                        currency = currency,
+                        note = if (note.isEmpty()) null else note
+                    )
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
     }
 
     // ==========================================
@@ -173,7 +271,7 @@ class MoneyVaultActivity : AppCompatActivity() {
     }
 
     // ==========================================
-    // ADD / WITHDRAW MONEY DIALOG
+    // ADD / WITHDRAW MONEY DIALOG (FOR VAULTS)
     // ==========================================
 
     private fun showAddWithdrawDialog(vault: SavingsVault, type: VaultTransaction.Type) {
@@ -211,8 +309,6 @@ class MoneyVaultActivity : AppCompatActivity() {
 
     private fun showVaultHistoryDialog(vault: SavingsVault) {
         val historyList = MoneyVaultRepository(this).getVaultTransactions(vault.id)
-        val view = LayoutInflater.from(this).inflate(R.layout.activity_money_vault, null)
-        
         val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setTitle("${vault.name} History")
 
@@ -358,6 +454,63 @@ class MoneyVaultActivity : AppCompatActivity() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    // ==========================================
+    // ADAPTER: SAVE HISTORY
+    // ==========================================
+
+    private inner class SaveHistoryAdapter : RecyclerView.Adapter<SaveHistoryAdapter.ViewHolder>() {
+
+        private val items = mutableListOf<SaveTransaction>()
+        private var currency = "USD"
+        private val dateTimeSdf = SimpleDateFormat("MMMM d, yyyy — hh:mm a", Locale.US)
+
+        fun submitList(newItems: List<SaveTransaction>, curr: String) {
+            items.clear()
+            items.addAll(newItems)
+            currency = curr
+            notifyDataSetChanged()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_save_transaction, parent, false)
+            return ViewHolder(v)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val item = items[position]
+            val isSave = item.type == SaveTransaction.Type.SAVE
+
+            holder.txtSaveDateTime.text = dateTimeSdf.format(item.timestamp)
+
+            val formattedAmt = CurrencyFormatter.formatAmount(item.amount, currency)
+            holder.txtSaveTypeAmount.text = if (isSave) "Save +$formattedAmt" else "Withdraw -$formattedAmt"
+            holder.txtSaveTypeAmount.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    if (isSave) R.color.light_green else R.color.chili_red
+                )
+            )
+
+            holder.txtSaveBalanceAfter.text = "Balance: ${CurrencyFormatter.formatAmount(item.balanceAfter, currency)}"
+
+            if (!item.note.isNullOrBlank()) {
+                holder.txtSaveNote.text = item.note
+                holder.txtSaveNote.visibility = View.VISIBLE
+            } else {
+                holder.txtSaveNote.visibility = View.GONE
+            }
+        }
+
+        override fun getItemCount(): Int = items.size
+
+        inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val txtSaveDateTime: TextView = v.findViewById(R.id.txtSaveDateTime)
+            val txtSaveTypeAmount: TextView = v.findViewById(R.id.txtSaveTypeAmount)
+            val txtSaveBalanceAfter: TextView = v.findViewById(R.id.txtSaveBalanceAfter)
+            val txtSaveNote: TextView = v.findViewById(R.id.txtSaveNote)
+        }
     }
 
     // ==========================================
@@ -614,7 +767,7 @@ class MoneyVaultActivity : AppCompatActivity() {
                 )
             )
 
-            holder.txtTxNote.text = if (tx.note.isNull_or_blank()) (if (isAdd) "Deposit" else "Withdrawal") else tx.note
+            holder.txtTxNote.text = if (tx.note.isNullOrBlank()) (if (isAdd) "Deposit" else "Withdrawal") else tx.note
             holder.txtTxDate.text = sdf.format(tx.date)
 
             val prefix = if (isAdd) "+" else "-"

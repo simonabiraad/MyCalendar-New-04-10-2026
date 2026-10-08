@@ -333,10 +333,12 @@ id btnReminderArrow
 id btnRepeatArrow
 id btnSave
 id btnSaveAccount
+id btnSaveAdd
 id btnSaveContinue
 id btnSaveEdit
 id btnSaveExit
 id btnSaveRate
+id btnSaveWithdraw
 id btnSelectCategory
 id btnStatusArrow
 id btnSummaryCalendar
@@ -496,6 +498,8 @@ id etDescription
 id etEndDate
 id etPaymentDay
 id etPaymentName
+id etSaveAmount
+id etSaveNote
 id etStartDate
 id etTotalAmount
 id etTxAmount
@@ -757,9 +761,11 @@ id rowTime
 id rowTitle
 id rvPaymentSchedule
 id rvPlannedPayments
+id rvSaveHistory
 id rvSavingsVaults
 id satSeekBar
 id satText
+id saveSection
 id saveStickyNoteButton
 id savingsVaultSection
 id sbCameraNoteButton
@@ -787,6 +793,8 @@ id spinnerFrequency
 id spinnerFromAccount
 id spinnerPaymentCurrency
 id spinnerReminder
+id spinnerSaveCurrency
+id spinnerSaveCurrencySelector
 id spinnerTargetCurrency
 id spinnerToAccount
 id spinnerVaultCurrency
@@ -832,6 +840,7 @@ id tabContainer
 id tabDaily
 id tabMonthly
 id tabPlannedPayments
+id tabSave
 id tabSavingsVault
 id tabWeekly
 id tabYearly
@@ -913,6 +922,7 @@ id txtDenomination
 id txtDialogTitle
 id txtDueDate
 id txtEmptyPlanned
+id txtEmptySaveHistory
 id txtEmptySavings
 id txtEventLocation
 id txtEventTime
@@ -942,6 +952,12 @@ id txtPaymentName
 id txtProgressPercentage
 id txtRateChange
 id txtRowTotal
+id txtSaveBalanceAfter
+id txtSaveDateTime
+id txtSaveDialogTitle
+id txtSaveNote
+id txtSaveRunningTotal
+id txtSaveTypeAmount
 id txtScheduleAmount
 id txtScheduleTitle
 id txtSelectedCountryName
@@ -1034,6 +1050,7 @@ layout calendar_day_item
 layout calendar_widget
 layout dialog_accounts
 layout dialog_add_account
+layout dialog_add_save_transaction
 layout dialog_add_transaction
 layout dialog_add_withdraw_vault
 layout dialog_calculator
@@ -1069,6 +1086,7 @@ layout item_notification_event
 layout item_payment_schedule
 layout item_planned_payment
 layout item_report_category_row
+layout item_save_transaction
 layout item_savings_vault
 layout item_summary_account_card
 layout item_summary_stat_row

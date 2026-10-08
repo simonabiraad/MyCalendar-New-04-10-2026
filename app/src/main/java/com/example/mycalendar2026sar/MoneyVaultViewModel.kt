@@ -21,12 +21,40 @@ class MoneyVaultViewModel(application: Application) : AndroidViewModel(applicati
     private val _paymentSchedules = MutableLiveData<Map<Long, List<PaymentScheduleItem>>>()
     val paymentSchedules: LiveData<Map<Long, List<PaymentScheduleItem>>> = _paymentSchedules
 
+    private val _saveTransactions = MutableLiveData<List<SaveTransaction>>()
+    val saveTransactions: LiveData<List<SaveTransaction>> = _saveTransactions
+
+    private val _currentSaveBalance = MutableLiveData<Double>()
+    val currentSaveBalance: LiveData<Double> = _currentSaveBalance
+
     private val _toastMessage = MutableLiveData<String>()
     val toastMessage: LiveData<String> = _toastMessage
 
-    fun loadData() {
+    fun loadData(currency: String = "USD") {
+        loadSaveData(currency)
         loadVaults()
         loadPlannedPayments()
+    }
+
+    fun loadSaveData(currency: String = "USD") {
+        _currentSaveBalance.value = repository.getLatestSaveBalance(currency)
+        _saveTransactions.value = repository.getAllSaveTransactions(currency)
+    }
+
+    fun addSaveTransaction(amount: Double, type: SaveTransaction.Type, currency: String = "USD", note: String? = null): Boolean {
+        if (amount <= 0.0) {
+            _toastMessage.value = "Amount must be greater than zero"
+            return false
+        }
+        val txId = repository.addSaveTransaction(amount, type, currency, note)
+        if (txId > 0) {
+            _toastMessage.value = if (type == SaveTransaction.Type.SAVE) "Money saved" else "Money withdrawn"
+            loadSaveData(currency)
+            return true
+        } else {
+            _toastMessage.value = "Failed to record transaction"
+            return false
+        }
     }
 
     fun loadVaults() {

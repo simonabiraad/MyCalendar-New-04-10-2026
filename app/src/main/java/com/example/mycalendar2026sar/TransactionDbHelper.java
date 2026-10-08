@@ -17,7 +17,7 @@ import java.util.List;
 public class TransactionDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "mycalendar.db";
-    private static final int DB_VERSION = 9;
+    private static final int DB_VERSION = 10;
 
     public static final String TABLE_TRANSACTIONS = "transactions";
     public static final String COL_ID = "_id";
@@ -94,6 +94,16 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
     public static final String COL_PSI_STATUS = "status";
     public static final String COL_PSI_PAID_TIMESTAMP = "paid_timestamp";
     public static final String COL_PSI_CASH_OUT_TX_ID = "cash_out_tx_id";
+
+    // Flexible Save Transactions Table
+    public static final String TABLE_SAVE_TRANSACTIONS = "save_transactions";
+    public static final String COL_SAVE_ID = "_id";
+    public static final String COL_SAVE_AMOUNT = "amount";
+    public static final String COL_SAVE_TYPE = "type";
+    public static final String COL_SAVE_CURRENCY = "currency";
+    public static final String COL_SAVE_TIMESTAMP = "timestamp";
+    public static final String COL_SAVE_BALANCE_AFTER = "balance_after";
+    public static final String COL_SAVE_NOTE = "note";
 
     private static TransactionDbHelper instance;
 
@@ -193,6 +203,9 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
         if (oldVersion < 9) {
             createMoneyVaultTables(db);
         }
+        if (oldVersion < 10) {
+            createSaveTable(db);
+        }
     }
 
     private void createMoneyVaultTables(SQLiteDatabase db) {
@@ -233,6 +246,19 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
                 COL_PSI_STATUS + " TEXT NOT NULL, " +
                 COL_PSI_PAID_TIMESTAMP + " INTEGER DEFAULT 0, " +
                 COL_PSI_CASH_OUT_TX_ID + " INTEGER DEFAULT -1)");
+
+        createSaveTable(db);
+    }
+
+    private void createSaveTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SAVE_TRANSACTIONS + " (" +
+                COL_SAVE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_SAVE_AMOUNT + " REAL NOT NULL, " +
+                COL_SAVE_TYPE + " TEXT NOT NULL, " +
+                COL_SAVE_CURRENCY + " TEXT NOT NULL DEFAULT 'USD', " +
+                COL_SAVE_TIMESTAMP + " INTEGER NOT NULL, " +
+                COL_SAVE_BALANCE_AFTER + " REAL NOT NULL, " +
+                COL_SAVE_NOTE + " TEXT)");
     }
 
     /** Adds a saved transaction name/payee if it doesn't already exist. Ignores duplicates. */

@@ -16,10 +16,6 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\sticky_note_item.xml"
     },
     {
-        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_activity_expenses.xml.flat",
-        "source": "com.example.mycalendar2026sar.app-main-45:/layout/activity_expenses.xml"
-    },
-    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_font_color.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_font_color.xml"
     },
@@ -70,6 +66,10 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_swap_vert.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_swap_vert.xml"
+    },
+    {
+        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_dialog_add_save_transaction.xml.flat",
+        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\dialog_add_save_transaction.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_sticky_note_color.xml.flat",
@@ -158,6 +158,10 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_widget_card_4x4_bg.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\widget_card_4x4_bg.xml"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_dialog_add_save_transaction.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/layout/dialog_add_save_transaction.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_exchange_color.xml.flat",
@@ -812,8 +816,16 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\activity_expenses_settings.xml"
     },
     {
+        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_item_save_transaction.xml.flat",
+        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_save_transaction.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_settings_color.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_settings_color.xml"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_activity_money_vault.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/layout/activity_money_vault.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
