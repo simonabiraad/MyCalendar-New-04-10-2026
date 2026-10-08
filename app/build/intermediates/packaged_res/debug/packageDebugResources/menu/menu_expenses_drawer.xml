@@ -57,6 +57,10 @@
         android:icon="@drawable/ic_menu_trash_color"
         android:title="@string/menu_deleted_transactions" />
     <item
+        android:id="@+id/nav_money_vault"
+        android:icon="@drawable/ic_menu_password_color"
+        android:title="Money Vault" />
+    <item
         android:id="@+id/nav_rate_us"
         android:icon="@drawable/ic_menu_exchange_color"
         android:title="@string/menu_rate_us" />

@@ -26,17 +26,37 @@
 
         <Button
             android:id="@+id/topExpensesButton"
-            android:layout_width="@dimen/_75sdp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_6sdp"
             android:backgroundTint="@color/light_green"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="@string/expenses"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintBottom_toBottomOf="@id/expensesMenuButton"
             app:layout_constraintStart_toEndOf="@id/expensesMenuButton"
+            app:layout_constraintTop_toTopOf="@id/expensesMenuButton" />
+
+        <Button
+            android:id="@+id/topMoneyVaultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:backgroundTint="@color/light_green"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="🔐 Money Vault"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@id/expensesMenuButton"
+            app:layout_constraintStart_toEndOf="@id/topExpensesButton"
             app:layout_constraintTop_toTopOf="@id/expensesMenuButton" />
 
         <ImageButton
@@ -49,20 +69,6 @@
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_menu_print_color"
-            app:layout_constraintBottom_toBottomOf="@id/expensesChartButton"
-            app:layout_constraintEnd_toStartOf="@id/aiAssistantButton"
-            app:layout_constraintTop_toTopOf="@id/expensesChartButton" />
-
-        <ImageButton
-            android:id="@+id/aiAssistantButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/voice_assistant"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_notif_voice_color"
             app:layout_constraintBottom_toBottomOf="@id/expensesChartButton"
             app:layout_constraintEnd_toStartOf="@id/expensesChartButton"
             app:layout_constraintTop_toTopOf="@id/expensesChartButton" />
@@ -576,6 +582,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:id="@+id/cashButtonsContainer"

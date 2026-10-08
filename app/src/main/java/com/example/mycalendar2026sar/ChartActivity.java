@@ -214,7 +214,9 @@ public class ChartActivity extends AppCompatActivity {
             PieChart currencyPieChart = currencyView.findViewById(R.id.currencyPieChart);
             LinearLayout detailsContainer = currencyView.findViewById(R.id.currencyDetailsContainer);
 
-            header.setText(currency + " Breakdown");
+            String headerTitle = "EUR".equalsIgnoreCase(currency) ? "Euro Breakdown" : currency + " Breakdown";
+            header.setText(headerTitle);
+            header.setTextColor(ThemeManager.getMainAccentColor(this));
 
             if ("LBP".equalsIgnoreCase(currency)) {
                 tvIncome.setText(CurrencyFormatter.formatLbpAmount(totalIncome) + " LBP");

@@ -318,6 +318,11 @@ public class ExpensesActivity extends AppCompatActivity {
             popup.show();
         });
 
+        View topMoneyVaultButton = findViewById(R.id.topMoneyVaultButton);
+        if (topMoneyVaultButton != null) {
+            topMoneyVaultButton.setOnClickListener(v -> startActivity(new Intent(ExpensesActivity.this, MoneyVaultActivity.class)));
+        }
+
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_remove_ads) {
@@ -348,6 +353,8 @@ public class ExpensesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ExpensesSettingsActivity.class));
             } else if (id == R.id.nav_deleted_transactions) {
                 startActivity(new Intent(this, DeletedTransactionsActivity.class));
+            } else if (id == R.id.nav_money_vault) {
+                startActivity(new Intent(this, MoneyVaultActivity.class));
             } else if (id == R.id.nav_rate_us) {
                 startActivity(new Intent(this, RatesActivity.class));
             } else if (id == R.id.nav_recommend) {
@@ -578,7 +585,10 @@ public class ExpensesActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.aiAssistantButton).setOnClickListener(v -> showSpeechTranslationDialog());
+        View aiBtn = findViewById(R.id.aiAssistantButton);
+        if (aiBtn != null) {
+            aiBtn.setOnClickListener(v -> showSpeechTranslationDialog());
+        }
 
         topExpensesButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AccountsOverviewActivity.class);
@@ -876,7 +886,16 @@ public class ExpensesActivity extends AppCompatActivity {
         Button subYearlyBtn = findViewById(R.id.subYearlyRangeButton);
         if (subYearlyBtn != null) subYearlyBtn.setTextColor(Color.WHITE);
 
-        if (topExpensesButton != null) topExpensesButton.setTextColor(Color.WHITE);
+        if (topExpensesButton != null) {
+            topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(activeColor));
+            topExpensesButton.setTextColor(Color.WHITE);
+        }
+
+        Button topMoneyVaultBtn = findViewById(R.id.topMoneyVaultButton);
+        if (topMoneyVaultBtn != null) {
+            topMoneyVaultBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(activeColor));
+            topMoneyVaultBtn.setTextColor(Color.WHITE);
+        }
 
         if (currentFilter == FILTER_CUSTOM_RANGE) {
             // If custom range is active, we might want to show a toast or update a label
@@ -1462,6 +1481,11 @@ public class ExpensesActivity extends AppCompatActivity {
         if (topExpensesButton != null) {
             topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
             topExpensesButton.setTextColor(Color.WHITE);
+        }
+        Button topMoneyVaultBtn = findViewById(R.id.topMoneyVaultButton);
+        if (topMoneyVaultBtn != null) {
+            topMoneyVaultBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
+            topMoneyVaultBtn.setTextColor(Color.WHITE);
         }
         View cashInBtn = findViewById(R.id.cashInButton);
         if (cashInBtn != null) {

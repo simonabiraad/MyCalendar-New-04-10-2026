@@ -176,6 +176,12 @@
             android:finishOnTaskLaunch="true"
             android:theme="@style/Theme.MyCalendar2026SAR" />
 
+        <activity
+            android:name=".MoneyVaultActivity"
+            android:exported="false"
+            android:finishOnTaskLaunch="true"
+            android:theme="@style/Theme.MyCalendar2026SAR" />
+
         <service
             android:name=".QuickNoteNotificationService"
             android:enabled="true"
@@ -186,6 +192,7 @@
         </service>
 
         <receiver android:name=".ReminderReceiver" android:exported="false" />
+        <receiver android:name=".VaultReminderReceiver" android:exported="false" />
 
         <!-- Professional 4x4 SAR Dashboard Widget -->
         <receiver android:name=".SARCalendarWidget4x4" android:exported="false" android:label="SAR Dashboard (4x4)">

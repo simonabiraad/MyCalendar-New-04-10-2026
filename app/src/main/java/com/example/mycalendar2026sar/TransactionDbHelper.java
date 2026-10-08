@@ -17,7 +17,7 @@ import java.util.List;
 public class TransactionDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "mycalendar.db";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 9;
 
     public static final String TABLE_TRANSACTIONS = "transactions";
     public static final String COL_ID = "_id";
@@ -55,6 +55,45 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
     public static final String COL_NOTIF_COLOR = "color";
     public static final String COL_NOTIF_ALL_DAY = "all_day";
     public static final String COL_NOTIF_DELETED = "deleted";
+
+    // Money Vault Tables
+    public static final String TABLE_SAVINGS_VAULTS = "savings_vaults";
+    public static final String COL_VAULT_ID = "_id";
+    public static final String COL_VAULT_NAME = "name";
+    public static final String COL_VAULT_CURRENCY = "currency";
+    public static final String COL_VAULT_TARGET_AMOUNT = "target_amount";
+    public static final String COL_VAULT_CURRENT_AMOUNT = "current_amount";
+    public static final String COL_VAULT_CREATED_AT = "created_at";
+
+    public static final String TABLE_VAULT_TRANSACTIONS = "vault_transactions";
+    public static final String COL_VTX_ID = "_id";
+    public static final String COL_VTX_VAULT_ID = "vault_id";
+    public static final String COL_VTX_AMOUNT = "amount";
+    public static final String COL_VTX_CURRENCY = "currency";
+    public static final String COL_VTX_TYPE = "type";
+    public static final String COL_VTX_DATE = "date";
+    public static final String COL_VTX_NOTE = "note";
+
+    public static final String TABLE_PLANNED_PAYMENTS = "planned_payments";
+    public static final String COL_PP_ID = "_id";
+    public static final String COL_PP_NAME = "name";
+    public static final String COL_PP_TOTAL_AMOUNT = "total_amount";
+    public static final String COL_PP_CURRENCY = "currency";
+    public static final String COL_PP_START_DATE = "start_date";
+    public static final String COL_PP_END_DATE = "end_date";
+    public static final String COL_PP_FREQUENCY = "frequency";
+    public static final String COL_PP_PAYMENT_DAY = "payment_day";
+    public static final String COL_PP_REMINDER_DAYS_BEFORE = "reminder_days_before";
+    public static final String COL_PP_DESCRIPTION = "description";
+
+    public static final String TABLE_PAYMENT_SCHEDULE_ITEMS = "payment_schedule_items";
+    public static final String COL_PSI_ID = "_id";
+    public static final String COL_PSI_PLANNED_PAYMENT_ID = "planned_payment_id";
+    public static final String COL_PSI_DUE_DATE = "due_date";
+    public static final String COL_PSI_AMOUNT = "amount";
+    public static final String COL_PSI_STATUS = "status";
+    public static final String COL_PSI_PAID_TIMESTAMP = "paid_timestamp";
+    public static final String COL_PSI_CASH_OUT_TX_ID = "cash_out_tx_id";
 
     private static TransactionDbHelper instance;
 
@@ -105,6 +144,7 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
                 COL_NOTIF_COLOR + " TEXT, " +
                 COL_NOTIF_ALL_DAY + " INTEGER DEFAULT 0, " +
                 COL_NOTIF_DELETED + " INTEGER DEFAULT 0)");
+        createMoneyVaultTables(db);
     }
 
     @Override
@@ -150,6 +190,49 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
         if (oldVersion < 8) {
             db.execSQL("ALTER TABLE " + TABLE_NOTIFICATIONS + " ADD COLUMN " + COL_NOTIF_ALL_DAY + " INTEGER DEFAULT 0");
         }
+        if (oldVersion < 9) {
+            createMoneyVaultTables(db);
+        }
+    }
+
+    private void createMoneyVaultTables(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SAVINGS_VAULTS + " (" +
+                COL_VAULT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_VAULT_NAME + " TEXT NOT NULL, " +
+                COL_VAULT_CURRENCY + " TEXT NOT NULL, " +
+                COL_VAULT_TARGET_AMOUNT + " REAL, " +
+                COL_VAULT_CURRENT_AMOUNT + " REAL DEFAULT 0.0, " +
+                COL_VAULT_CREATED_AT + " INTEGER NOT NULL)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_VAULT_TRANSACTIONS + " (" +
+                COL_VTX_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_VTX_VAULT_ID + " INTEGER NOT NULL, " +
+                COL_VTX_AMOUNT + " REAL NOT NULL, " +
+                COL_VTX_CURRENCY + " TEXT NOT NULL, " +
+                COL_VTX_TYPE + " TEXT NOT NULL, " +
+                COL_VTX_DATE + " INTEGER NOT NULL, " +
+                COL_VTX_NOTE + " TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PLANNED_PAYMENTS + " (" +
+                COL_PP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_PP_NAME + " TEXT NOT NULL, " +
+                COL_PP_TOTAL_AMOUNT + " REAL NOT NULL, " +
+                COL_PP_CURRENCY + " TEXT NOT NULL, " +
+                COL_PP_START_DATE + " TEXT NOT NULL, " +
+                COL_PP_END_DATE + " TEXT NOT NULL, " +
+                COL_PP_FREQUENCY + " TEXT NOT NULL, " +
+                COL_PP_PAYMENT_DAY + " INTEGER NOT NULL, " +
+                COL_PP_REMINDER_DAYS_BEFORE + " INTEGER DEFAULT 0, " +
+                COL_PP_DESCRIPTION + " TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PAYMENT_SCHEDULE_ITEMS + " (" +
+                COL_PSI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_PSI_PLANNED_PAYMENT_ID + " INTEGER NOT NULL, " +
+                COL_PSI_DUE_DATE + " TEXT NOT NULL, " +
+                COL_PSI_AMOUNT + " REAL NOT NULL, " +
+                COL_PSI_STATUS + " TEXT NOT NULL, " +
+                COL_PSI_PAID_TIMESTAMP + " INTEGER DEFAULT 0, " +
+                COL_PSI_CASH_OUT_TX_ID + " INTEGER DEFAULT -1)");
     }
 
     /** Adds a saved transaction name/payee if it doesn't already exist. Ignores duplicates. */
