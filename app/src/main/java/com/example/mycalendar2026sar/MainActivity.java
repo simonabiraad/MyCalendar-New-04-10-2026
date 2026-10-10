@@ -2324,88 +2324,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchExpenses() {
-        boolean passwordDisabled = securityPrefs.getBoolean("exp_password_disabled", false);
-        if (passwordDisabled) {
-            startActivity(new Intent(this, ExpensesActivity.class));
-            return;
-        }
-
-        String customPass = securityPrefs.getString("custom_password", null);
-
-        if (customPass != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Expenses Access");
-            builder.setMessage("Enter your custom password:");
-
-            final EditText input = new EditText(this);
-            input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            builder.setView(input);
-
-            builder.setPositiveButton("Access", (dialog, which) -> {
-                String entered = input.getText().toString().trim();
-                if (entered.equals(customPass)) {
-                    startActivity(new Intent(this, ExpensesActivity.class));
-                } else {
-                    Toast.makeText(this, "Incorrect Password", Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setNegativeButton("Cancel", null);
-            ThemeManager.showDialog(builder, this);
-        } else {
-            java.util.concurrent.Executor executor = ContextCompat.getMainExecutor(this);
-            androidx.biometric.BiometricPrompt biometricPrompt = new androidx.biometric.BiometricPrompt(MainActivity.this,
-                    executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
-                @Override
-                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                    super.onAuthenticationError(errorCode, errString);
-                    if (errorCode != androidx.biometric.BiometricPrompt.ERROR_USER_CANCELED && 
-                        errorCode != androidx.biometric.BiometricPrompt.ERROR_NEGATIVE_BUTTON &&
-                        errorCode != androidx.biometric.BiometricPrompt.ERROR_CANCELED) {
-                        Toast.makeText(getApplicationContext(), "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
-                    super.onAuthenticationSucceeded(result);
-                    startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
-                }
-
-                @Override
-                public void onAuthenticationFailed() {
-                    super.onAuthenticationFailed();
-                    Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            androidx.biometric.BiometricPrompt.PromptInfo promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Expenses Access")
-                    .setSubtitle("Use your phone's PIN, Pattern, or Biometrics")
-                    .setAllowedAuthenticators(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL)
-                    .build();
-
-            biometricPrompt.authenticate(promptInfo);
-        }
+        SecurityHelper.authenticateIfExpensesProtected(this, () -> {
+            startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
+        });
     }
 
     private void showChangePasswordDialog() {
-        String[] options = {"Use Phone Lock Screen (Fingerprint/PIN)", "Set a New Custom Password", "Disable Password"};
-        ThemeManager.showDialog(new AlertDialog.Builder(this)
-                .setTitle("Secure Box Access Type")
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        securityPrefs.edit().remove("custom_password")
-                                .putBoolean("password_disabled", false)
-                                .putBoolean("sb_password_disabled", false)
-                                .putBoolean("exp_password_disabled", false).apply();
-                        Toast.makeText(this, "Security enabled for all features (Sync with phone lock).", Toast.LENGTH_SHORT).show();
-                    } else if (which == 1) {
-                        showSetCustomPasswordDialog();
-                    } else if (which == 2) {
-                        confirmDisablePassword();
-                    }
-                })
-                .setNegativeButton("Cancel", null), this);
+        SecurityHelper.showPasswordConfigurationDialog(this);
     }
 
     private void confirmDisablePassword() {

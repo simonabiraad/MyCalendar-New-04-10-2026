@@ -67,9 +67,11 @@ public class BottomNavigationHelper {
 
         expensesBtn.setOnClickListener(v -> {
             if (!(activity instanceof ExpensesActivity)) {
-                Intent intent = new Intent(activity, ExpensesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                activity.startActivity(intent);
+                SecurityHelper.authenticateIfExpensesProtected(activity, () -> {
+                    Intent intent = new Intent(activity, ExpensesActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    activity.startActivity(intent);
+                });
             }
         });
     }

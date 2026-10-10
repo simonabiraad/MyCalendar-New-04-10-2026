@@ -651,6 +651,7 @@ id nav_rate_us
 id nav_recommend
 id nav_remove_ads
 id nav_report_all
+id nav_set_password
 id nav_setting
 id nav_summary
 id nav_transaction_all

@@ -180,7 +180,7 @@
     <string name="action_event">All Events</string>
     <string name="action_privacy_policy">Privacy Policy</string>
     <string name="action_settings">Settings</string>
-    <string name="action_change_password">Change Password</string>
+    <string name="action_change_password">Set Password</string>
     <string name="action_notification_settings">Notification Settings</string>
     <string name="action_toggle_quick_bar">Toggle Quick Note Bar</string>
     <string name="action_themes">Themes</string>

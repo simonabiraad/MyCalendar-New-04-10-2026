@@ -97,7 +97,7 @@
     <string name="action_backup_data">Backup Data</string>
     <string name="action_change_colors">Change Colors</string>
     <string name="action_change_font">Change Font</string>
-    <string name="action_change_password">Change Password</string>
+    <string name="action_change_password">Set Password</string>
     <string name="action_event">All Events</string>
     <string name="action_exit">Exit</string>
     <string name="action_notification_settings">Notification Settings</string>

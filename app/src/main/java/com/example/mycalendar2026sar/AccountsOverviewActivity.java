@@ -262,11 +262,15 @@ public class AccountsOverviewActivity extends AppCompatActivity {
         }
 
         recyclerView.setAdapter(new OverviewAdapter(rowItems, account -> {
-            Intent intent = new Intent(this, ExpensesActivity.class);
-            intent.putExtra("active_account", account.getName());
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            if (account == null) return;
+            String accName = account.getName() != null ? account.getName().trim() : "Expenses";
+            SecurityHelper.authenticateIfAccountProtected(this, accName, () -> {
+                Intent intent = new Intent(this, ExpensesActivity.class);
+                intent.putExtra("active_account", account.getName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            });
         }));
     }
 

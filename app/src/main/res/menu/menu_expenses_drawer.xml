@@ -49,6 +49,10 @@
         android:icon="@drawable/ic_menu_backup_color"
         android:title="@string/menu_backup_restore" />
     <item
+        android:id="@+id/nav_set_password"
+        android:icon="@drawable/ic_menu_password_color"
+        android:title="Set Password" />
+    <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_menu_settings_color"
         android:title="@string/menu_setting" />

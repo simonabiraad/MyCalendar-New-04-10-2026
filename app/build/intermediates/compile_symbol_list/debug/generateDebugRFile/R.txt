@@ -650,6 +650,7 @@ int id nav_rate_us 0x0
 int id nav_recommend 0x0
 int id nav_remove_ads 0x0
 int id nav_report_all 0x0
+int id nav_set_password 0x0
 int id nav_setting 0x0
 int id nav_summary 0x0
 int id nav_transaction_all 0x0

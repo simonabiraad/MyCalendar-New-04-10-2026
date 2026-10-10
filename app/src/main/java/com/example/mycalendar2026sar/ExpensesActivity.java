@@ -349,12 +349,14 @@ public class ExpensesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CashCalculatorActivity.class));
             } else if (id == R.id.nav_backup_restore) {
                 showBackupRestoreDialog();
+            } else if (id == R.id.nav_set_password) {
+                SecurityHelper.showPasswordConfigurationDialog(this);
             } else if (id == R.id.nav_setting) {
                 startActivity(new Intent(this, ExpensesSettingsActivity.class));
             } else if (id == R.id.nav_deleted_transactions) {
                 startActivity(new Intent(this, DeletedTransactionsActivity.class));
             } else if (id == R.id.nav_money_vault) {
-                startActivity(new Intent(this, MoneyVaultActivity.class));
+                startActivity(new Intent(ExpensesActivity.this, MoneyVaultActivity.class));
             } else if (id == R.id.nav_rate_us) {
                 startActivity(new Intent(this, RatesActivity.class));
             } else if (id == R.id.nav_recommend) {
@@ -937,9 +939,14 @@ public class ExpensesActivity extends AppCompatActivity {
         adapter = new AccountAdapter(accountList, new AccountAdapter.OnAccountClickListener() {
             @Override
             public void onAccountClick(Account account) {
-                topExpensesButton.setText(account.getName());
-                saveActiveAccount(account.getName());
-                dialog.dismiss();
+                if (account == null) return;
+                String accName = account.getName() != null ? account.getName().trim() : "Expenses";
+                SecurityHelper.authenticateIfAccountProtected(ExpensesActivity.this, accName, () -> {
+                    topExpensesButton.setText(account.getName());
+                    saveActiveAccount(account.getName());
+                    refreshTransactionsList();
+                    dialog.dismiss();
+                });
             }
 
             @Override
@@ -1585,32 +1592,26 @@ public class ExpensesActivity extends AppCompatActivity {
         }
         BalanceManager.saveAccounts(this, accounts);
 
-        // Running balance logic (Respecting Currency)
+        // Running balance logic (Respecting Currency & Account Starting Balances)
         java.util.Map<Long, Double> balanceAfterById = new java.util.HashMap<>();
         String activeAccount = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString("ActiveAccount", "Expenses");
         boolean isSummaryMode = activeAccount.equalsIgnoreCase("Expenses");
-        
+
         java.util.Map<String, Double> runningMap = new java.util.HashMap<>(); // Currency -> Running Balance
-        if (!isSummaryMode) {
-            for (Account a : accounts) {
-                if (a != null && a.getName() != null && a.getName().equalsIgnoreCase(activeAccount)) {
-                    String accCurr = (a.getCurrency() != null && !a.getCurrency().trim().isEmpty())
-                            ? a.getCurrency().trim().toUpperCase(Locale.US) : "USD";
-                    Double currentVal = runningMap.get(accCurr);
-                    double current = (currentVal != null) ? currentVal : 0.0;
-                    runningMap.put(accCurr, current + a.getBalance());
-                }
-            }
-        }
-        
+
         for (Transaction t : allAscending) {
-            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equals(activeAccount))) continue;
-            if (isSummaryMode && "Income".equalsIgnoreCase(t.getTitle())) continue;
+            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equalsIgnoreCase(activeAccount))) continue;
             if (!isSummaryMode && "Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
 
             String curr = t.getCurrency();
-            double r = runningMap.getOrDefault(curr, 0.0);
-            r += t.getSignedAmount();
+            if (curr == null || curr.trim().isEmpty()) {
+                curr = "USD";
+            } else {
+                curr = curr.trim().toUpperCase(Locale.US);
+            }
+
+            Double rVal = runningMap.get(curr);
+            double r = (rVal != null ? rVal : 0.0) + t.getSignedAmount();
             runningMap.put(curr, r);
             balanceAfterById.put(t.getId(), r);
         }

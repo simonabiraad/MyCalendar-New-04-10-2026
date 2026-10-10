@@ -62,10 +62,15 @@ class MoneyVaultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_money_vault)
 
+        if (SecurityHelper.isMoneyVaultProtected(this)) {
+            SecurityHelper.authenticate(this, "Money Vault Access", null, Runnable { finish() })
+        }
+
         initViews()
         setupListeners()
         setupRecyclerViews()
         observeViewModel()
+        applyThemeColors()
 
         BottomNavigationHelper.setupBottomNavigation(this, R.id.navExpensesButton)
 
@@ -126,6 +131,17 @@ class MoneyVaultActivity : AppCompatActivity() {
 
         btnSaveAdd.setOnClickListener { showSaveTransactionDialog(SaveTransaction.Type.SAVE) }
         btnSaveWithdraw.setOnClickListener { showSaveTransactionDialog(SaveTransaction.Type.WITHDRAW) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyThemeColors()
+    }
+
+    private fun applyThemeColors() {
+        val accent = ThemeManager.getMainAccentColor(this)
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack?.imageTintList = ColorStateList.valueOf(accent)
     }
 
     private fun switchTab(tabIndex: Int) {
