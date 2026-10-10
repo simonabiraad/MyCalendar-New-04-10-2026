@@ -378,13 +378,23 @@ class MoneyVaultActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val cal = Calendar.getInstance()
         etStartDate.setText(sdf.format(cal.time))
-        cal.add(Calendar.YEAR, 1)
-        etEndDate.setText(sdf.format(cal.time))
+        val endCal = cal.clone() as Calendar
+        endCal.add(Calendar.MONTH, 11)
+        etEndDate.setText(sdf.format(endCal.time))
         etPaymentDay.setText(Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString())
 
         // Date Pickers
         etStartDate.setOnClickListener {
-            showDatePicker(etStartDate)
+            showDatePicker(etStartDate) { selectedDate ->
+                runCatching {
+                    val startParsed = sdf.parse(selectedDate)
+                    if (startParsed != null) {
+                        val c = Calendar.getInstance().apply { time = startParsed }
+                        c.add(Calendar.MONTH, 11)
+                        etEndDate.setText(sdf.format(c.time))
+                    }
+                }
+            }
         }
         etEndDate.setOnClickListener {
             showDatePicker(etEndDate)
@@ -449,7 +459,7 @@ class MoneyVaultActivity : AppCompatActivity() {
         )
     }
 
-    private fun showDatePicker(editText: EditText) {
+    private fun showDatePicker(editText: EditText, onDateSelected: ((String) -> Unit)? = null) {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val cal = Calendar.getInstance()
         val currentStr = editText.text.toString()
@@ -464,7 +474,9 @@ class MoneyVaultActivity : AppCompatActivity() {
                 val selectedCal = Calendar.getInstance().apply {
                     set(year, month, dayOfMonth)
                 }
-                editText.setText(sdf.format(selectedCal.time))
+                val formatted = sdf.format(selectedCal.time)
+                editText.setText(formatted)
+                onDateSelected?.invoke(formatted)
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
@@ -720,7 +732,7 @@ class MoneyVaultActivity : AppCompatActivity() {
             }
 
             holder.btnMarkAsPaid.setOnClickListener {
-                showMarkAsPaidDialog(item)
+                showMarkAsPaidDialog(payment, item)
             }
         }
 
@@ -735,14 +747,14 @@ class MoneyVaultActivity : AppCompatActivity() {
         }
     }
 
-    private fun showMarkAsPaidDialog(item: PaymentScheduleItem) {
+    private fun showMarkAsPaidDialog(payment: PlannedPayment, item: PaymentScheduleItem) {
         val accounts = BalanceManager.loadAccounts(this)
-        val accountNames = if (accounts.isNotEmpty()) accounts.map { it.name }.toTypedArray() else arrayOf("Main")
+        val accountNames = if (accounts.isNotEmpty()) accounts.map { it.name }.toTypedArray() else arrayOf("Expenses")
 
         ThemeManager.showDialog(
             AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Mark as Paid")
-                .setMessage("Deduct ${CurrencyFormatter.formatAmount(item.amount, "USD")} and record Cash Out?")
+                .setMessage("Deduct ${CurrencyFormatter.formatAmount(item.amount, payment.currency)} and record Cash Out?")
                 .setItems(accountNames) { _, which ->
                     val selectedAccount = accountNames[which]
                     val success = viewModel.markScheduleItemAsPaid(item.id, selectedAccount)

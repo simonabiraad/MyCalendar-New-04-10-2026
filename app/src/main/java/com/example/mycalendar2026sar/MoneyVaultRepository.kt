@@ -369,6 +369,56 @@ class MoneyVaultRepository(private val context: Context) {
                 )
             }
         }
+
+        // Cleanup: If a monthly payment schedule has > 12 items (from legacy creation),
+        // trim any extra unpaid 13th item from DB and adjust amounts for 12 items.
+        val payment = getPlannedPaymentById(plannedPaymentId)
+        if (payment != null && (payment.frequency.equals("Monthly", ignoreCase = true) || payment.frequency.isEmpty()) && list.size > 12) {
+            val writeDb = dbHelper.writableDatabase
+            while (list.size > 12) {
+                val lastItem = list.last()
+                if (lastItem.status != PaymentScheduleItem.Status.PAID) {
+                    writeDb.delete(
+                        TransactionDbHelper.TABLE_PAYMENT_SCHEDULE_ITEMS,
+                        "${TransactionDbHelper.COL_PSI_ID}=?",
+                        arrayOf(lastItem.id.toString())
+                    )
+                    list.removeAt(list.size - 1)
+                } else {
+                    break
+                }
+            }
+            // Recalculate amount per installment for remaining items
+            val n = list.size
+            if (n > 0) {
+                val rawBase = Math.floor((payment.totalAmount / n) * 100.0) / 100.0
+                val baseAmount = Math.round(rawBase * 100.0) / 100.0
+                var sumFirstNMinus1 = 0.0
+
+                for (i in 0 until n) {
+                    val item = list[i]
+                    val correctAmt = if (i == n - 1) {
+                        Math.round((payment.totalAmount - sumFirstNMinus1) * 100.0) / 100.0
+                    } else {
+                        sumFirstNMinus1 += baseAmount
+                        baseAmount
+                    }
+                    if (item.amount != correctAmt) {
+                        val values = ContentValues().apply {
+                            put(TransactionDbHelper.COL_PSI_AMOUNT, correctAmt)
+                        }
+                        writeDb.update(
+                            TransactionDbHelper.TABLE_PAYMENT_SCHEDULE_ITEMS,
+                            values,
+                            "${TransactionDbHelper.COL_PSI_ID}=?",
+                            arrayOf(item.id.toString())
+                        )
+                        list[i] = item.copy(amount = correctAmt)
+                    }
+                }
+            }
+        }
+
         return list
     }
 
@@ -492,6 +542,10 @@ class MoneyVaultRepository(private val context: Context) {
             scheduledCal.set(Calendar.DAY_OF_MONTH, dayToSet)
 
             dueDates.add(dateFormat.format(scheduledCal.time))
+
+            if (monthStep == 1 && dueDates.size >= 12) {
+                break
+            }
 
             currCal.add(Calendar.MONTH, monthStep)
             if (monthStep >= 12 && currCal.after(endCal) && dueDates.size <= 1) {
