@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -400,63 +402,77 @@ class MoneyVaultActivity : AppCompatActivity() {
             showDatePicker(etEndDate)
         }
 
-        ThemeManager.showDialog(
-            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("📅 Create Planned Payment")
-                .setView(view)
-                .setPositiveButton("Create") { _, _ ->
-                    val name = etPaymentName.text.toString().trim()
-                    val totalStr = etTotalAmount.text.toString().trim()
-                    val totalAmount = totalStr.toDoubleOrNull() ?: 0.0
-                    val currency = spinnerCurrency.selectedItem.toString()
-                    val startDate = etStartDate.text.toString().trim()
-                    val endDate = etEndDate.text.toString().trim()
-                    val frequency = spinnerFrequency.selectedItem.toString()
-                    val dayStr = etPaymentDay.text.toString().trim()
-                    val day = dayStr.toIntOrNull() ?: 1
-                    val reminderSel = spinnerReminder.selectedItem.toString()
-                    val desc = etDescription.text.toString().trim()
+        val dialogScrollView = view.findViewById<ScrollView>(R.id.dialogScrollView)
+        val scrollFocusListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus && dialogScrollView != null) {
+                dialogScrollView.postDelayed({
+                    dialogScrollView.smoothScrollTo(0, v.bottom + 150)
+                }, 150)
+            }
+        }
+        etPaymentName.onFocusChangeListener = scrollFocusListener
+        etTotalAmount.onFocusChangeListener = scrollFocusListener
+        etPaymentDay.onFocusChangeListener = scrollFocusListener
+        etDescription.onFocusChangeListener = scrollFocusListener
 
-                    val reminderDays = when (reminderSel) {
-                        "7 days before" -> 7
-                        "3 days before" -> 3
-                        "1 day before" -> 1
-                        else -> 0
-                    }
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setTitle("📅 Create Planned Payment")
+            .setView(view)
+            .setPositiveButton("Create") { _, _ ->
+                val name = etPaymentName.text.toString().trim()
+                val totalStr = etTotalAmount.text.toString().trim()
+                val totalAmount = totalStr.toDoubleOrNull() ?: 0.0
+                val currency = spinnerCurrency.selectedItem.toString()
+                val startDate = etStartDate.text.toString().trim()
+                val endDate = etEndDate.text.toString().trim()
+                val frequency = spinnerFrequency.selectedItem.toString()
+                val dayStr = etPaymentDay.text.toString().trim()
+                val day = dayStr.toIntOrNull() ?: 1
+                val reminderSel = spinnerReminder.selectedItem.toString()
+                val desc = etDescription.text.toString().trim()
 
-                    if (name.isEmpty()) {
-                        Toast.makeText(this, "Payment name is required", Toast.LENGTH_SHORT).show()
-                        return@setPositiveButton
-                    }
-                    if (totalAmount <= 0.0) {
-                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
-                        return@setPositiveButton
-                    }
-
-                    val payment = PlannedPayment(
-                        name = name,
-                        totalAmount = totalAmount,
-                        currency = currency,
-                        startDate = startDate,
-                        endDate = endDate,
-                        frequency = frequency,
-                        paymentDay = day,
-                        reminderDaysBefore = reminderDays,
-                        description = if (desc.isEmpty()) null else desc
-                    )
-
-                    val createdId = MoneyVaultRepository(this).createPlannedPayment(payment)
-                    if (createdId > 0) {
-                        val fullPayment = payment.copy(id = createdId)
-                        val items = MoneyVaultRepository(this).getScheduleItemsForPayment(createdId)
-                        VaultReminderManager.scheduleRemindersForPayment(this, fullPayment, items)
-                        Toast.makeText(this, "Planned payment created", Toast.LENGTH_SHORT).show()
-                        viewModel.loadPlannedPayments()
-                    }
+                val reminderDays = when (reminderSel) {
+                    "7 days before" -> 7
+                    "3 days before" -> 3
+                    "1 day before" -> 1
+                    else -> 0
                 }
-                .setNegativeButton("Cancel", null),
-            this
-        )
+
+                if (name.isEmpty()) {
+                    Toast.makeText(this, "Payment name is required", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (totalAmount <= 0.0) {
+                    Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                val payment = PlannedPayment(
+                    name = name,
+                    totalAmount = totalAmount,
+                    currency = currency,
+                    startDate = startDate,
+                    endDate = endDate,
+                    frequency = frequency,
+                    paymentDay = day,
+                    reminderDaysBefore = reminderDays,
+                    description = if (desc.isEmpty()) null else desc
+                )
+
+                val createdId = MoneyVaultRepository(this).createPlannedPayment(payment)
+                if (createdId > 0) {
+                    val fullPayment = payment.copy(id = createdId)
+                    val items = MoneyVaultRepository(this).getScheduleItemsForPayment(createdId)
+                    VaultReminderManager.scheduleRemindersForPayment(this, fullPayment, items)
+                    Toast.makeText(this, "Planned payment created", Toast.LENGTH_SHORT).show()
+                    viewModel.loadPlannedPayments()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        ThemeManager.showDialog(dialog, this)
     }
 
     private fun showDatePicker(editText: EditText, onDateSelected: ((String) -> Unit)? = null) {

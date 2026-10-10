@@ -154,6 +154,13 @@ public class ThemeManager {
         return dialog;
     }
 
+    public static AlertDialog showDialog(AlertDialog dialog, Context context) {
+        if (dialog == null) return null;
+        dialog.setOnShowListener(d -> styleDialogButtons(dialog, context));
+        dialog.show();
+        return dialog;
+    }
+
     /**
      * Helper method to show an android.app AlertDialog and automatically style its buttons & switches on show.
      */

@@ -461,6 +461,7 @@ int id dialogDateText 0x0
 int id dialogDayCashIn 0x0
 int id dialogDayCashOut 0x0
 int id dialogMessage 0x0
+int id dialogScrollView 0x0
 int id dialogTitle 0x0
 int id dialogTransactionList 0x0
 int id dotOnline 0x0

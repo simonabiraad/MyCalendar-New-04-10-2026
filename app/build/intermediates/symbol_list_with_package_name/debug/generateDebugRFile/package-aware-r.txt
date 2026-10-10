@@ -462,6 +462,7 @@ id dialogDateText
 id dialogDayCashIn
 id dialogDayCashOut
 id dialogMessage
+id dialogScrollView
 id dialogTitle
 id dialogTransactionList
 id dotOnline
