@@ -303,6 +303,8 @@ int id btnDialogCashIn 0x0
 int id btnDialogCashOut 0x0
 int id btnDraw 0x0
 int id btnEdit 0x0
+int id btnEditPayment 0x0
+int id btnEditVault 0x0
 int id btnEventColorArrow 0x0
 int id btnHistory 0x0
 int id btnMarkAsPaid 0x0

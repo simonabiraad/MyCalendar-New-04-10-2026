@@ -46,6 +46,7 @@ public class TransferActivity extends AppCompatActivity {
         spinnerFrom = findViewById(R.id.spinnerFromAccount);
         spinnerTo = findViewById(R.id.spinnerToAccount);
         editAmount = findViewById(R.id.editTransferAmount);
+        CurrencyFormatter.addAmountTextWatcher(editAmount);
         btnTransfer = findViewById(R.id.btnPerformTransfer);
         txtDate = findViewById(R.id.txtTransferDate);
         txtTime = findViewById(R.id.txtTransferTime);
@@ -143,11 +144,9 @@ public class TransferActivity extends AppCompatActivity {
             return;
         }
 
-        double amount;
-        try {
-            amount = Double.parseDouble(amountStr.replace(",", ""));
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid amount", Toast.LENGTH_SHORT).show();
+        double amount = CurrencyFormatter.parseAmount(amountStr);
+        if (amount <= 0) {
+            Toast.makeText(this, "Amount must be greater than 0", Toast.LENGTH_SHORT).show();
             return;
         }
 

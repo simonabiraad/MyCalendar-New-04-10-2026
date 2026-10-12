@@ -185,6 +185,7 @@ public class BackupManager {
                 }
             }
 
+            NotificationUtils.rescheduleAllNotifications(context);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -305,6 +305,8 @@ id btnDialogCashIn
 id btnDialogCashOut
 id btnDraw
 id btnEdit
+id btnEditPayment
+id btnEditVault
 id btnEventColorArrow
 id btnHistory
 id btnMarkAsPaid

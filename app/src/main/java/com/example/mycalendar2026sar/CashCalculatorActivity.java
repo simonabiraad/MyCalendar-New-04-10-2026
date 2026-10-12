@@ -338,8 +338,9 @@ public class CashCalculatorActivity extends AppCompatActivity {
         EditText searchInput = view.findViewById(R.id.searchCountry);
         androidx.recyclerview.widget.RecyclerView rv = view.findViewById(R.id.countryRecyclerView);
 
-        List<CountryManager.Country> allCountries = CountryManager.getCountries();
-        CountryAdapter adapter = new CountryAdapter(allCountries, callback);
+        List<CountryManager.Country> allCountries = CountryManager.getSortedCountries(this);
+        java.util.Set<String> usedCurrencies = CountryManager.getUsedCurrencies(this);
+        CountryAdapter adapter = new CountryAdapter(allCountries, usedCurrencies, callback);
         rv.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
@@ -365,12 +366,14 @@ public class CashCalculatorActivity extends AppCompatActivity {
     private class CountryAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<CountryAdapter.ViewHolder> {
         private final List<CountryManager.Country> fullList;
         private List<CountryManager.Country> filteredList;
+        private final java.util.Set<String> usedCurrencies;
         private final java.util.function.Consumer<CountryManager.Country> callback;
         private androidx.appcompat.app.AlertDialog dialog;
 
-        CountryAdapter(List<CountryManager.Country> list, java.util.function.Consumer<CountryManager.Country> callback) {
+        CountryAdapter(List<CountryManager.Country> list, java.util.Set<String> usedCurrencies, java.util.function.Consumer<CountryManager.Country> callback) {
             this.fullList = list;
             this.filteredList = new ArrayList<>(list);
+            this.usedCurrencies = usedCurrencies;
             this.callback = callback;
         }
 
@@ -397,7 +400,11 @@ public class CashCalculatorActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             CountryManager.Country c = filteredList.get(position);
             holder.flag.setText(c.flag);
-            holder.name.setText(String.format(Locale.US, "%s (%s)", c.name, c.code));
+            if (usedCurrencies != null && usedCurrencies.contains(c.currency)) {
+                holder.name.setText(String.format(Locale.US, "★ %s (%s)  — Your Currency", c.name, c.code));
+            } else {
+                holder.name.setText(String.format(Locale.US, "%s (%s)", c.name, c.code));
+            }
             holder.itemView.setOnClickListener(v -> {
                 callback.accept(c);
                 if (dialog != null) dialog.dismiss();

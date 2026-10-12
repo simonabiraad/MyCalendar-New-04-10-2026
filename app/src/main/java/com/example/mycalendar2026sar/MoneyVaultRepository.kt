@@ -105,6 +105,25 @@ class MoneyVaultRepository(private val context: Context) {
         }
     }
 
+    fun updateVault(vault: SavingsVault) {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put(TransactionDbHelper.COL_VAULT_NAME, vault.name)
+            put(TransactionDbHelper.COL_VAULT_CURRENCY, vault.currency)
+            if (vault.targetAmount != null && vault.targetAmount > 0) {
+                put(TransactionDbHelper.COL_VAULT_TARGET_AMOUNT, vault.targetAmount)
+            } else {
+                putNull(TransactionDbHelper.COL_VAULT_TARGET_AMOUNT)
+            }
+        }
+        db.update(
+            TransactionDbHelper.TABLE_SAVINGS_VAULTS,
+            values,
+            "${TransactionDbHelper.COL_VAULT_ID}=?",
+            arrayOf(vault.id.toString())
+        )
+    }
+
     fun addVaultTransaction(vaultId: Long, amount: Double, currency: String, type: VaultTransaction.Type, note: String?): Long {
         if (amount <= 0.0) return -1
         val db = dbHelper.writableDatabase
@@ -302,6 +321,50 @@ class MoneyVaultRepository(private val context: Context) {
                 "${TransactionDbHelper.COL_PP_ID}=?",
                 arrayOf(plannedPaymentId.toString())
             )
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    fun updatePlannedPayment(payment: PlannedPayment) {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val values = ContentValues().apply {
+                put(TransactionDbHelper.COL_PP_NAME, payment.name)
+                put(TransactionDbHelper.COL_PP_TOTAL_AMOUNT, payment.totalAmount)
+                put(TransactionDbHelper.COL_PP_CURRENCY, payment.currency)
+                put(TransactionDbHelper.COL_PP_START_DATE, payment.startDate)
+                put(TransactionDbHelper.COL_PP_END_DATE, payment.endDate)
+                put(TransactionDbHelper.COL_PP_FREQUENCY, payment.frequency)
+                put(TransactionDbHelper.COL_PP_PAYMENT_DAY, payment.paymentDay)
+                put(TransactionDbHelper.COL_PP_REMINDER_DAYS_BEFORE, payment.reminderDaysBefore)
+                put(TransactionDbHelper.COL_PP_DESCRIPTION, payment.description ?: "")
+            }
+            db.update(
+                TransactionDbHelper.TABLE_PLANNED_PAYMENTS,
+                values,
+                "${TransactionDbHelper.COL_PP_ID}=?",
+                arrayOf(payment.id.toString())
+            )
+
+            val scheduleItems = getScheduleItemsForPayment(payment.id)
+            if (scheduleItems.isNotEmpty()) {
+                val perInstallment = payment.totalAmount / scheduleItems.size
+                for (item in scheduleItems) {
+                    val itemValues = ContentValues().apply {
+                        put(TransactionDbHelper.COL_PSI_AMOUNT, perInstallment)
+                    }
+                    db.update(
+                        TransactionDbHelper.TABLE_PAYMENT_SCHEDULE_ITEMS,
+                        itemValues,
+                        "${TransactionDbHelper.COL_PSI_ID}=?",
+                        arrayOf(item.id.toString())
+                    )
+                }
+            }
+
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()

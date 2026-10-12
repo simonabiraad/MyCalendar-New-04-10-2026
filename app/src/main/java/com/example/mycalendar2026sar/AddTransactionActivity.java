@@ -422,10 +422,16 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     private void showCurrencyPicker() {
-        List<CountryManager.Country> countries = CountryManager.getCountries();
+        List<CountryManager.Country> countries = CountryManager.getSortedCountries(this);
+        java.util.Set<String> usedCurrencies = CountryManager.getUsedCurrencies(this);
         String[] items = new String[countries.size()];
         for (int i = 0; i < countries.size(); i++) {
-            items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
+            CountryManager.Country c = countries.get(i);
+            if (usedCurrencies.contains(c.currency)) {
+                items[i] = "★ " + c.currency + " (" + c.name + ")  — Your Currency";
+            } else {
+                items[i] = c.currency + " (" + c.name + ")";
+            }
         }
 
         ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)

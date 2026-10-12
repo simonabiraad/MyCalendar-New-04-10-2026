@@ -204,16 +204,23 @@ public class ReportAllActivity extends AppCompatActivity {
     }
 
     private void showCurrencyPicker() {
-        List<CountryManager.Country> countries = CountryManager.getCountries();
-        java.util.Set<String> uniqueCurrencies = new java.util.TreeSet<>();
-        for (CountryManager.Country c : countries) uniqueCurrencies.add(c.currency);
+        List<CountryManager.Country> countries = CountryManager.getSortedCountries(this);
+        java.util.Set<String> usedCurrencies = CountryManager.getUsedCurrencies(this);
         
-        final String[] items = uniqueCurrencies.toArray(new String[0]);
+        String[] items = new String[countries.size()];
+        for (int i = 0; i < countries.size(); i++) {
+            CountryManager.Country c = countries.get(i);
+            if (usedCurrencies.contains(c.currency)) {
+                items[i] = "★ " + c.currency + " (" + c.name + ")  — Your Currency";
+            } else {
+                items[i] = c.currency + " (" + c.name + ")";
+            }
+        }
 
         ThemeManager.showDialog(new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setTitle("Select Currency")
                 .setItems(items, (dialog, which) -> {
-                    selectedCurrency = items[which];
+                    selectedCurrency = countries.get(which).currency;
                     refresh();
                 }), this);
     }

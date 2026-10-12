@@ -253,6 +253,7 @@ public class EventsActivity extends AppCompatActivity {
                     event.setStatus(newStatus);
                     addHistoryLog(event, "Status changed to " + newStatus);
                     dbHelper.updateNotification(event);
+                    NotificationUtils.scheduleNotification(EventsActivity.this, event);
                     updateStatusBadge(statusBadge, newStatus);
                 });
 

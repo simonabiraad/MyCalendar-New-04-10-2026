@@ -336,6 +336,9 @@ public class MainActivity extends AppCompatActivity {
             requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
         }
         
+        NotificationUtils.checkAndPromptAlarmPermissions(this);
+        NotificationUtils.rescheduleAllNotifications(this);
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
@@ -1445,7 +1448,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ReminderReceiver.class);
         intent.putExtra("noteText", noteText);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), pendingIntent);
+        
+        if (alarmManager != null) {
+            boolean canExact = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                canExact = alarmManager.canScheduleExactAlarms();
+            }
+            if (canExact) {
+                Intent showIntent = new Intent(this, MainActivity.class);
+                PendingIntent showPendingIntent = PendingIntent.getActivity(this, requestCode, showIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(reminderTime.getTimeInMillis(), showPendingIntent);
+                alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
+            } else {
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), pendingIntent);
+            }
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String timeValue = sdf.format(reminderTime.getTime());
         reminderPreferences.edit().putString(reminderKey, timeValue).apply();

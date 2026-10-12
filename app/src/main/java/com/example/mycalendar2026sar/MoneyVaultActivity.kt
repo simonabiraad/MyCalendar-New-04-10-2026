@@ -216,6 +216,8 @@ class MoneyVaultActivity : AppCompatActivity() {
         val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerSaveCurrency)
         val etNote = view.findViewById<EditText>(R.id.etSaveNote)
 
+        CurrencyFormatter.addAmountTextWatcher(etAmount)
+
         val isSave = type == SaveTransaction.Type.SAVE
         txtTitle.text = if (isSave) "Safe" else "Withdraw Money"
 
@@ -231,11 +233,11 @@ class MoneyVaultActivity : AppCompatActivity() {
                 .setView(view)
                 .setPositiveButton(if (isSave) "Save" else "Withdraw") { _, _ ->
                     val amountStr = etAmount.text.toString().trim()
-                    val amount = amountStr.toDoubleOrNull()
+                    val amount = CurrencyFormatter.parseAmount(amountStr)
                     val currency = spinnerCurrency.selectedItem.toString()
                     val note = etNote.text.toString().trim()
 
-                    if (amount == null || amount <= 0.0) {
+                    if (amount <= 0.0) {
                         Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
                         return@setPositiveButton
                     }
@@ -262,6 +264,8 @@ class MoneyVaultActivity : AppCompatActivity() {
         val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerVaultCurrency)
         val etTarget = view.findViewById<EditText>(R.id.etVaultTarget)
 
+        CurrencyFormatter.addAmountTextWatcher(etTarget)
+
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCurrency.adapter = spinnerAdapter
@@ -274,7 +278,8 @@ class MoneyVaultActivity : AppCompatActivity() {
                     val name = etVaultName.text.toString().trim()
                     val currency = spinnerCurrency.selectedItem.toString()
                     val targetStr = etTarget.text.toString().trim()
-                    val targetAmount = targetStr.toDoubleOrNull()
+                    val parsedTarget = CurrencyFormatter.parseAmount(targetStr)
+                    val targetAmount = if (parsedTarget > 0.0) parsedTarget else null
 
                     if (name.isEmpty()) {
                         Toast.makeText(this, "Vault name is required", Toast.LENGTH_SHORT).show()
@@ -282,6 +287,55 @@ class MoneyVaultActivity : AppCompatActivity() {
                     }
 
                     viewModel.createVault(name, currency, targetAmount)
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
+    }
+
+    private fun showEditVaultDialog(vault: SavingsVault) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_create_vault, null)
+        val etVaultName = view.findViewById<EditText>(R.id.etVaultName)
+        val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerVaultCurrency)
+        val etTarget = view.findViewById<EditText>(R.id.etVaultTarget)
+
+        CurrencyFormatter.addAmountTextWatcher(etTarget)
+
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCurrency.adapter = spinnerAdapter
+
+        etVaultName.setText(vault.name)
+        val currIndex = availableCurrencies.indexOf(vault.currency)
+        if (currIndex >= 0) spinnerCurrency.setSelection(currIndex)
+        if (vault.targetAmount != null && vault.targetAmount > 0) {
+            etTarget.setText(CurrencyFormatter.formatRawAmount(vault.targetAmount))
+        } else {
+            etTarget.setText("")
+        }
+
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("✏️ Edit Savings Vault")
+                .setView(view)
+                .setPositiveButton("Save") { _, _ ->
+                    val name = etVaultName.text.toString().trim()
+                    val currency = spinnerCurrency.selectedItem.toString()
+                    val targetStr = etTarget.text.toString().trim()
+                    val parsedTarget = CurrencyFormatter.parseAmount(targetStr)
+                    val targetAmount = if (parsedTarget > 0.0) parsedTarget else null
+
+                    if (name.isEmpty()) {
+                        Toast.makeText(this, "Vault name is required", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    val updatedVault = vault.copy(
+                        name = name,
+                        currency = currency,
+                        targetAmount = targetAmount
+                    )
+                    viewModel.updateVault(updatedVault)
                 }
                 .setNegativeButton("Cancel", null),
             this
@@ -298,6 +352,8 @@ class MoneyVaultActivity : AppCompatActivity() {
         val etAmount = view.findViewById<EditText>(R.id.etTxAmount)
         val etNote = view.findViewById<EditText>(R.id.etTxNote)
 
+        CurrencyFormatter.addAmountTextWatcher(etAmount)
+
         val actionName = if (type == VaultTransaction.Type.ADD) "Add Money" else "Withdraw Money"
         txtTitle.text = "$actionName (${vault.name})"
 
@@ -306,10 +362,10 @@ class MoneyVaultActivity : AppCompatActivity() {
                 .setView(view)
                 .setPositiveButton(if (type == VaultTransaction.Type.ADD) "Deposit" else "Withdraw") { _, _ ->
                     val amountStr = etAmount.text.toString().trim()
-                    val amount = amountStr.toDoubleOrNull()
+                    val amount = CurrencyFormatter.parseAmount(amountStr)
                     val note = etNote.text.toString().trim()
 
-                    if (amount == null || amount <= 0.0) {
+                    if (amount <= 0.0) {
                         Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
                         return@setPositiveButton
                     }
@@ -360,6 +416,8 @@ class MoneyVaultActivity : AppCompatActivity() {
         val etPaymentDay = view.findViewById<EditText>(R.id.etPaymentDay)
         val spinnerReminder = view.findViewById<Spinner>(R.id.spinnerReminder)
         val etDescription = view.findViewById<EditText>(R.id.etDescription)
+
+        CurrencyFormatter.addAmountTextWatcher(etTotalAmount)
 
         // Setup Spinners
         val currAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
@@ -421,7 +479,7 @@ class MoneyVaultActivity : AppCompatActivity() {
             .setPositiveButton("Create") { _, _ ->
                 val name = etPaymentName.text.toString().trim()
                 val totalStr = etTotalAmount.text.toString().trim()
-                val totalAmount = totalStr.toDoubleOrNull() ?: 0.0
+                val totalAmount = CurrencyFormatter.parseAmount(totalStr)
                 val currency = spinnerCurrency.selectedItem.toString()
                 val startDate = etStartDate.text.toString().trim()
                 val endDate = etEndDate.text.toString().trim()
@@ -599,6 +657,7 @@ class MoneyVaultActivity : AppCompatActivity() {
             holder.btnWithdrawMoney.setOnClickListener { showAddWithdrawDialog(vault, VaultTransaction.Type.WITHDRAW) }
             holder.btnHistory.setOnClickListener { showVaultHistoryDialog(vault) }
 
+            holder.btnEditVault.setOnClickListener { showEditVaultDialog(vault) }
             holder.btnDeleteVault.setOnClickListener {
                 ThemeManager.showDialog(
                     AlertDialog.Builder(this@MoneyVaultActivity, R.style.CustomAlertDialogTheme)
@@ -616,6 +675,7 @@ class MoneyVaultActivity : AppCompatActivity() {
         inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val txtVaultName: TextView = v.findViewById(R.id.txtVaultName)
             val txtVaultCurrency: TextView = v.findViewById(R.id.txtVaultCurrency)
+            val btnEditVault: ImageButton = v.findViewById(R.id.btnEditVault)
             val btnDeleteVault: ImageButton = v.findViewById(R.id.btnDeleteVault)
             val txtTotalSaved: TextView = v.findViewById(R.id.txtTotalSaved)
             val txtTargetAmount: TextView = v.findViewById(R.id.txtTargetAmount)
@@ -679,6 +739,10 @@ class MoneyVaultActivity : AppCompatActivity() {
                 notifyItemChanged(position)
             }
 
+            holder.btnEditPayment.setOnClickListener {
+                showEditPlannedPaymentDialog(payment)
+            }
+
             holder.btnDeletePayment.setOnClickListener {
                 ThemeManager.showDialog(
                     AlertDialog.Builder(this@MoneyVaultActivity, R.style.CustomAlertDialogTheme)
@@ -696,6 +760,7 @@ class MoneyVaultActivity : AppCompatActivity() {
         inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val txtPaymentName: TextView = v.findViewById(R.id.txtPaymentName)
             val txtPaymentCurrency: TextView = v.findViewById(R.id.txtPaymentCurrency)
+            val btnEditPayment: ImageButton = v.findViewById(R.id.btnEditPayment)
             val btnDeletePayment: ImageButton = v.findViewById(R.id.btnDeletePayment)
             val txtTotalAmount: TextView = v.findViewById(R.id.txtTotalAmount)
             val txtFrequency: TextView = v.findViewById(R.id.txtFrequency)
@@ -705,6 +770,147 @@ class MoneyVaultActivity : AppCompatActivity() {
             val imgScheduleArrow: ImageView = v.findViewById(R.id.imgScheduleArrow)
             val rvPaymentSchedule: RecyclerView = v.findViewById(R.id.rvPaymentSchedule)
         }
+    }
+
+    private fun showEditPlannedPaymentDialog(existingPayment: PlannedPayment) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_create_planned_payment, null)
+        val etPaymentName = view.findViewById<EditText>(R.id.etPaymentName)
+        val etTotalAmount = view.findViewById<EditText>(R.id.etTotalAmount)
+        val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerPaymentCurrency)
+        val etStartDate = view.findViewById<EditText>(R.id.etStartDate)
+        val etEndDate = view.findViewById<EditText>(R.id.etEndDate)
+        val spinnerFrequency = view.findViewById<Spinner>(R.id.spinnerFrequency)
+        val etPaymentDay = view.findViewById<EditText>(R.id.etPaymentDay)
+        val spinnerReminder = view.findViewById<Spinner>(R.id.spinnerReminder)
+        val etDescription = view.findViewById<EditText>(R.id.etDescription)
+
+        CurrencyFormatter.addAmountTextWatcher(etTotalAmount)
+
+        val currAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
+        currAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCurrency.adapter = currAdapter
+
+        val frequencies = arrayOf("Monthly", "Every 3 months", "Every 6 months", "Yearly", "Custom")
+        val freqAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, frequencies)
+        freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerFrequency.adapter = freqAdapter
+
+        val reminders = arrayOf("On the due date", "1 day before", "3 days before", "7 days before")
+        val remAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, reminders)
+        remAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerReminder.adapter = remAdapter
+
+        etPaymentName.setText(existingPayment.name)
+        etTotalAmount.setText(CurrencyFormatter.formatRawAmount(existingPayment.totalAmount))
+
+        val currIndex = availableCurrencies.indexOf(existingPayment.currency)
+        if (currIndex >= 0) spinnerCurrency.setSelection(currIndex)
+
+        etStartDate.setText(existingPayment.startDate)
+        etEndDate.setText(existingPayment.endDate)
+
+        val freqIndex = frequencies.indexOf(existingPayment.frequency)
+        if (freqIndex >= 0) spinnerFrequency.setSelection(freqIndex)
+
+        etPaymentDay.setText(existingPayment.paymentDay.toString())
+
+        val remText = when (existingPayment.reminderDaysBefore) {
+            7 -> "7 days before"
+            3 -> "3 days before"
+            1 -> "1 day before"
+            else -> "On the due date"
+        }
+        val remIndex = reminders.indexOf(remText)
+        if (remIndex >= 0) spinnerReminder.setSelection(remIndex)
+
+        etDescription.setText(existingPayment.description ?: "")
+
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+
+        etStartDate.setOnClickListener {
+            showDatePicker(etStartDate) { selectedDate ->
+                runCatching {
+                    val startParsed = sdf.parse(selectedDate)
+                    if (startParsed != null) {
+                        val c = Calendar.getInstance().apply { time = startParsed }
+                        c.add(Calendar.MONTH, 11)
+                        etEndDate.setText(sdf.format(c.time))
+                    }
+                }
+            }
+        }
+        etEndDate.setOnClickListener {
+            showDatePicker(etEndDate)
+        }
+
+        val dialogScrollView = view.findViewById<ScrollView>(R.id.dialogScrollView)
+        val scrollFocusListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus && dialogScrollView != null) {
+                dialogScrollView.postDelayed({
+                    dialogScrollView.smoothScrollTo(0, v.bottom + 150)
+                }, 150)
+            }
+        }
+        etPaymentName.onFocusChangeListener = scrollFocusListener
+        etTotalAmount.onFocusChangeListener = scrollFocusListener
+        etPaymentDay.onFocusChangeListener = scrollFocusListener
+        etDescription.onFocusChangeListener = scrollFocusListener
+
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setTitle("✏️ Edit Planned Payment")
+            .setView(view)
+            .setPositiveButton("Save") { _, _ ->
+                val name = etPaymentName.text.toString().trim()
+                val totalStr = etTotalAmount.text.toString().trim()
+                val totalAmount = CurrencyFormatter.parseAmount(totalStr)
+                val currency = spinnerCurrency.selectedItem.toString()
+                val startDate = etStartDate.text.toString().trim()
+                val endDate = etEndDate.text.toString().trim()
+                val frequency = spinnerFrequency.selectedItem.toString()
+                val dayStr = etPaymentDay.text.toString().trim()
+                val day = dayStr.toIntOrNull() ?: 1
+                val reminderSel = spinnerReminder.selectedItem.toString()
+                val desc = etDescription.text.toString().trim()
+
+                val reminderDays = when (reminderSel) {
+                    "7 days before" -> 7
+                    "3 days before" -> 3
+                    "1 day before" -> 1
+                    else -> 0
+                }
+
+                if (name.isEmpty()) {
+                    Toast.makeText(this, "Payment name is required", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (totalAmount <= 0.0) {
+                    Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                val updated = existingPayment.copy(
+                    name = name,
+                    totalAmount = totalAmount,
+                    currency = currency,
+                    startDate = startDate,
+                    endDate = endDate,
+                    frequency = frequency,
+                    paymentDay = day,
+                    reminderDaysBefore = reminderDays,
+                    description = if (desc.isEmpty()) null else desc
+                )
+
+                val success = viewModel.updatePlannedPayment(updated)
+                if (success) {
+                    val items = MoneyVaultRepository(this).getScheduleItemsForPayment(existingPayment.id)
+                    VaultReminderManager.scheduleRemindersForPayment(this, updated, items)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        ThemeManager.showDialog(dialog, this)
     }
 
     // ==========================================
@@ -730,25 +936,33 @@ class MoneyVaultActivity : AppCompatActivity() {
                 PaymentScheduleItem.Status.PAID -> {
                     holder.txtStatusBadge.text = "Paid ✓"
                     holder.txtStatusBadge.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.light_green))
-                    holder.btnMarkAsPaid.visibility = View.GONE
-                    holder.txtPaidCheck.visibility = View.VISIBLE
+                    holder.btnMarkAsPaid.text = "Paid"
+                    holder.btnMarkAsPaid.visibility = View.VISIBLE
+                    holder.btnMarkAsPaid.setOnClickListener {
+                        Toast.makeText(holder.itemView.context, "This payment is already marked as paid.", Toast.LENGTH_SHORT).show()
+                    }
+                    holder.txtPaidCheck.visibility = View.GONE
                 }
                 PaymentScheduleItem.Status.OVERDUE -> {
                     holder.txtStatusBadge.text = "Overdue"
                     holder.txtStatusBadge.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.chili_red))
+                    holder.btnMarkAsPaid.text = "Mark as Paid"
                     holder.btnMarkAsPaid.visibility = View.VISIBLE
+                    holder.btnMarkAsPaid.setOnClickListener {
+                        showMarkAsPaidDialog(payment, item)
+                    }
                     holder.txtPaidCheck.visibility = View.GONE
                 }
                 PaymentScheduleItem.Status.UPCOMING -> {
                     holder.txtStatusBadge.text = "Upcoming"
                     holder.txtStatusBadge.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.text_secondary))
+                    holder.btnMarkAsPaid.text = "Mark as Paid"
                     holder.btnMarkAsPaid.visibility = View.VISIBLE
+                    holder.btnMarkAsPaid.setOnClickListener {
+                        showMarkAsPaidDialog(payment, item)
+                    }
                     holder.txtPaidCheck.visibility = View.GONE
                 }
-            }
-
-            holder.btnMarkAsPaid.setOnClickListener {
-                showMarkAsPaidDialog(payment, item)
             }
         }
 

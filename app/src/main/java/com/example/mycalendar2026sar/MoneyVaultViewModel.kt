@@ -97,6 +97,21 @@ class MoneyVaultViewModel(application: Application) : AndroidViewModel(applicati
         loadVaults()
     }
 
+    fun updateVault(vault: SavingsVault): Boolean {
+        if (vault.name.isBlank()) {
+            _toastMessage.value = "Vault name is required"
+            return false
+        }
+        if (vault.currency.isBlank()) {
+            _toastMessage.value = "Currency is required"
+            return false
+        }
+        repository.updateVault(vault)
+        _toastMessage.value = "Savings Vault updated"
+        loadVaults()
+        return true
+    }
+
     fun addVaultTransaction(vaultId: Long, amount: Double, currency: String, type: VaultTransaction.Type, note: String?): Boolean {
         if (amount <= 0.0) {
             _toastMessage.value = "Amount must be greater than zero"
@@ -148,6 +163,26 @@ class MoneyVaultViewModel(application: Application) : AndroidViewModel(applicati
         repository.deletePlannedPayment(paymentId)
         _toastMessage.value = "Planned payment deleted"
         loadPlannedPayments()
+    }
+
+    fun updatePlannedPayment(payment: PlannedPayment): Boolean {
+        if (payment.name.isBlank()) {
+            _toastMessage.value = "Payment name is required"
+            return false
+        }
+        if (payment.totalAmount <= 0.0) {
+            _toastMessage.value = "Total amount must be greater than zero"
+            return false
+        }
+        if (payment.currency.isBlank()) {
+            _toastMessage.value = "Currency is required"
+            return false
+        }
+
+        repository.updatePlannedPayment(payment)
+        _toastMessage.value = "Planned payment updated"
+        loadPlannedPayments()
+        return true
     }
 
     fun markScheduleItemAsPaid(scheduleItemId: Long, accountName: String): Boolean {

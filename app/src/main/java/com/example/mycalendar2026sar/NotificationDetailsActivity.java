@@ -281,6 +281,9 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                 addHistoryLog("Edited");
                 dbHelper.updateNotification(currentEvent);
             }
+            if (!NotificationUtils.isReminderDisabled(currentEvent.getReminder())) {
+                NotificationUtils.checkAndPromptAlarmPermissions(this);
+            }
             NotificationUtils.scheduleNotification(this, currentEvent);
             
             // Re-init main view
@@ -734,7 +737,15 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         intent.putExtra("eventId", currentEvent.getId());
         android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, (int) currentEvent.getId(), intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
         if (alarmManager != null) {
-            alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+                } else {
+                    alarmManager.setAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+                }
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            }
         }
     }
 

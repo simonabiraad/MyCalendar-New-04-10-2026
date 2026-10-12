@@ -995,16 +995,23 @@ public class ExpensesActivity extends AppCompatActivity {
 
                 nameInput.setText(account.getName());
                 double absBal = Math.abs(account.getBalance());
-                balanceInput.setText(String.format(Locale.US, "%,.2f", absBal));
+                balanceInput.setText(CurrencyFormatter.formatRawAmount(absBal));
+                CurrencyFormatter.addAmountTextWatcher(balanceInput);
 
                 final String[] selectedCurrency = {account.getCurrency() != null ? account.getCurrency() : "USD"};
                 txtAccountCurrency.setText("Currency: " + selectedCurrency[0]);
 
                 editView.findViewById(R.id.accountCurrencyPicker).setOnClickListener(v1 -> {
-                    List<CountryManager.Country> countries = CountryManager.getCountries();
+                    List<CountryManager.Country> countries = CountryManager.getSortedCountries(ExpensesActivity.this);
+                    java.util.Set<String> usedCurrencies = CountryManager.getUsedCurrencies(ExpensesActivity.this);
                     String[] items = new String[countries.size()];
                     for (int i = 0; i < countries.size(); i++) {
-                        items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
+                        CountryManager.Country c = countries.get(i);
+                        if (usedCurrencies.contains(c.currency)) {
+                            items[i] = "★ " + c.currency + " (" + c.name + ")  — Your Currency";
+                        } else {
+                            items[i] = c.currency + " (" + c.name + ")";
+                        }
                     }
                     ThemeManager.showDialog(new AlertDialog.Builder(ExpensesActivity.this, R.style.CustomAlertDialogTheme)
                             .setTitle("Select Currency")
@@ -1076,14 +1083,12 @@ public class ExpensesActivity extends AppCompatActivity {
 
                     double parsedBal = account.getBalance();
                     if (!balanceStr.isEmpty()) {
-                        try {
-                            parsedBal = Double.parseDouble(balanceStr.replace(",", ""));
-                            if (!isPositive[0]) {
-                                parsedBal = -Math.abs(parsedBal);
-                            } else {
-                                parsedBal = Math.abs(parsedBal);
-                            }
-                        } catch (NumberFormatException ignored) {}
+                        parsedBal = CurrencyFormatter.parseAmount(balanceStr);
+                        if (!isPositive[0]) {
+                            parsedBal = -Math.abs(parsedBal);
+                        } else {
+                            parsedBal = Math.abs(parsedBal);
+                        }
                     }
                     account.setBalance(parsedBal);
                     account.setCurrency(selectedCurrency[0]);
@@ -1187,10 +1192,16 @@ public class ExpensesActivity extends AppCompatActivity {
             final String[] selectedCurrency = {"USD"};
 
             addView.findViewById(R.id.accountCurrencyPicker).setOnClickListener(v1 -> {
-                List<CountryManager.Country> countries = CountryManager.getCountries();
+                List<CountryManager.Country> countries = CountryManager.getSortedCountries(this);
+                java.util.Set<String> usedCurrencies = CountryManager.getUsedCurrencies(this);
                 String[] items = new String[countries.size()];
                 for (int i = 0; i < countries.size(); i++) {
-                    items[i] = countries.get(i).currency + " (" + countries.get(i).name + ")";
+                    CountryManager.Country c = countries.get(i);
+                    if (usedCurrencies.contains(c.currency)) {
+                        items[i] = "★ " + c.currency + " (" + c.name + ")  — Your Currency";
+                    } else {
+                        items[i] = c.currency + " (" + c.name + ")";
+                    }
                 }
                 ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                         .setTitle("Select Currency")
@@ -1241,6 +1252,8 @@ public class ExpensesActivity extends AppCompatActivity {
                 }, selectedCal.get(java.util.Calendar.YEAR), selectedCal.get(java.util.Calendar.MONTH), selectedCal.get(java.util.Calendar.DAY_OF_MONTH)).show();
             });
 
+            CurrencyFormatter.addAmountTextWatcher(balanceInput);
+
             addView.findViewById(R.id.btnCancelAccount).setOnClickListener(v1 -> addDialog.dismiss());
 
             addView.findViewById(R.id.btnSaveAccount).setOnClickListener(v1 -> {
@@ -1250,9 +1263,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 if (!name.isEmpty()) {
                     double balance = 0.0;
                     if (!balanceStr.isEmpty()) {
-                        try {
-                            balance = Double.parseDouble(balanceStr.replace(",", ""));
-                        } catch (NumberFormatException ignored) {}
+                        balance = CurrencyFormatter.parseAmount(balanceStr);
                     }
 
                     // Add account with 0 balance first
