@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.mycalendar2026sar.CountryManagerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-14T09:31:39.579Z" hostname="UITSSF5476C9E9" time="0.01">
+<testsuite name="com.example.mycalendar2026sar.CountryManagerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-14T10:15:46.478Z" hostname="UITSSF5476C9E9" time="0.017">
   <properties/>
-  <testcase name="testGetCountries_MasterList" classname="com.example.mycalendar2026sar.CountryManagerTest" time="0.004"/>
-  <testcase name="testGetSortedCountries_NullContext_MasterListUnchanged" classname="com.example.mycalendar2026sar.CountryManagerTest" time="0.001"/>
+  <testcase name="testGetCountries_MasterList" classname="com.example.mycalendar2026sar.CountryManagerTest" time="0.006"/>
+  <testcase name="testGetSortedCountries_NullContext_MasterListUnchanged" classname="com.example.mycalendar2026sar.CountryManagerTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

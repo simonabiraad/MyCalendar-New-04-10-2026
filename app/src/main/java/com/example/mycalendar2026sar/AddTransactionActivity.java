@@ -344,24 +344,61 @@ public class AddTransactionActivity extends AppCompatActivity {
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
             }
         });
+
+        applyColors();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyColors();
+    }
+
+    private void applyColors() {
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        View mainView = findViewById(R.id.addTransactionMain);
+        if (mainView != null) {
+            mainView.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(mainView, this);
+        }
+
+        int themeTextColor = ThemeManager.getTextPrimaryColor(this);
+        if (titleView != null) titleView.setTextColor(themeTextColor);
+        if (txtDate != null) txtDate.setTextColor(themeTextColor);
+        if (txtTime != null) txtTime.setTextColor(themeTextColor);
+        if (txtCurrency != null) txtCurrency.setTextColor(themeTextColor);
+        if (editAmount != null) editAmount.setTextColor(themeTextColor);
+        if (editItems != null) editItems.setTextColor(themeTextColor);
+        if (editNotes != null) editNotes.setTextColor(themeTextColor);
+
+        // Keep text color inside the 5 specified buttons WHITE in both Light Mode and Dark Mode
+        if (btnCashIn != null) btnCashIn.setTextColor(Color.WHITE);
+        if (btnCashOut != null) btnCashOut.setTextColor(Color.WHITE);
+        Button btnAddBills = findViewById(R.id.btnAddBills);
+        if (btnAddBills != null) btnAddBills.setTextColor(Color.WHITE);
+        if (btnSaveContinue != null) btnSaveContinue.setTextColor(Color.WHITE);
+        if (btnSaveExit != null) btnSaveExit.setTextColor(Color.WHITE);
     }
 
     private void setMode(String type) {
         currentType = type;
         int activeColor = ContextCompat.getColor(this, R.color.light_green);
+        int redColor = ContextCompat.getColor(this, R.color.expense_red);
         int inactiveColor = ContextCompat.getColor(this, R.color.gray);
 
         if (Transaction.TYPE_CASH_IN.equals(type)) {
             titleView.setText("Cash in");
             btnCashIn.setBackgroundTintList(ColorStateList.valueOf(activeColor));
-            btnCashOut.setBackgroundTintList(ColorStateList.valueOf(inactiveColor));
+            btnCashOut.setBackgroundTintList(ColorStateList.valueOf(redColor));
             editAmount.setHint("Cash in amount");
         } else {
             titleView.setText("Cash out");
             btnCashIn.setBackgroundTintList(ColorStateList.valueOf(inactiveColor));
-            btnCashOut.setBackgroundTintList(ColorStateList.valueOf(activeColor));
+            btnCashOut.setBackgroundTintList(ColorStateList.valueOf(redColor));
             editAmount.setHint("Cash out amount");
         }
+        if (btnCashIn != null) btnCashIn.setTextColor(Color.WHITE);
+        if (btnCashOut != null) btnCashOut.setTextColor(Color.WHITE);
     }
 
     private void setupEditMode() {

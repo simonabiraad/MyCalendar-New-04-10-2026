@@ -214,10 +214,33 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
 
     private void applyColors() {
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+
+        View mainView = findViewById(R.id.expenses_calendar_main);
+        if (mainView != null) {
+            mainView.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(mainView, this);
+        }
+
         if (accountSubtitle != null) accountSubtitle.setTextColor(accent);
+
         View backBtn = findViewById(R.id.backButton);
-        if (backBtn instanceof android.widget.ImageView) {
-            ((android.widget.ImageView) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+        View moreBtn = findViewById(R.id.moreButton);
+
+        if (ThemeManager.isLightModeMonochromeIcons(this)) {
+            if (backBtn instanceof android.widget.ImageView) {
+                ((android.widget.ImageView) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(0xFF000000));
+            }
+            if (moreBtn instanceof android.widget.ImageView) {
+                ((android.widget.ImageView) moreBtn).setImageTintList(android.content.res.ColorStateList.valueOf(0xFF000000));
+            }
+        } else {
+            if (backBtn instanceof android.widget.ImageView) {
+                ((android.widget.ImageView) backBtn).setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            }
+            if (moreBtn instanceof android.widget.ImageView) {
+                ((android.widget.ImageView) moreBtn).setImageTintList(null);
+            }
         }
     }
 
