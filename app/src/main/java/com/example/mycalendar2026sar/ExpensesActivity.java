@@ -910,6 +910,15 @@ public class ExpensesActivity extends AppCompatActivity {
     private void showAccountsDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_accounts, null);
         int mainAccent = ThemeManager.getMainAccentColor(this);
+        int themeTextColor = ContextCompat.getColor(this, R.color.white);
+
+        android.widget.ImageView accountsLogo = dialogView.findViewById(R.id.imgAccountsLogo);
+        if (accountsLogo != null) {
+            accountsLogo.setImageTintList(android.content.res.ColorStateList.valueOf(themeTextColor));
+        }
+
+        androidx.appcompat.widget.SearchView searchView = dialogView.findViewById(R.id.accountsSearchView);
+
         View editBtn = dialogView.findViewById(R.id.editAccountsButton);
         if (editBtn instanceof android.view.ViewGroup) {
             android.view.ViewGroup vg = (android.view.ViewGroup) editBtn;
@@ -1165,20 +1174,31 @@ public class ExpensesActivity extends AppCompatActivity {
             adapter.setEditMode(!adapter.isEditMode());
         });
 
-        androidx.appcompat.widget.SearchView searchView = dialogView.findViewById(R.id.accountsSearchView);
-        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                adapter.filter(query);
-                return true;
+        searchView = dialogView.findViewById(R.id.accountsSearchView);
+        if (searchView != null) {
+            TextView searchText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+            if (searchText != null) {
+                searchText.setTextColor(themeTextColor);
+                searchText.setHintTextColor(ContextCompat.getColor(this, R.color.text_secondary));
             }
+            android.widget.ImageView searchIcon = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon);
+            if (searchIcon != null) {
+                searchIcon.setImageTintList(android.content.res.ColorStateList.valueOf(themeTextColor));
+            }
+            searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    adapter.filter(query);
+                    return true;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filter(newText);
-                return true;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    adapter.filter(newText);
+                    return true;
+                }
+            });
+        }
 
         dialogView.findViewById(R.id.addAccountButton).setOnClickListener(v -> {
             View addView = getLayoutInflater().inflate(R.layout.dialog_add_account, null);
@@ -1496,6 +1516,7 @@ public class ExpensesActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
         int accent = ThemeManager.getMainAccentColor(this);
+        int themeTextColor = ContextCompat.getColor(this, R.color.white);
         if (topExpensesButton != null) {
             topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
             topExpensesButton.setTextColor(Color.WHITE);
@@ -1534,25 +1555,25 @@ public class ExpensesActivity extends AppCompatActivity {
         }
         TextView balanceTotal = findViewById(R.id.balanceTotalText);
         if (balanceTotal != null) {
-            balanceTotal.setTextColor(Color.WHITE);
+            balanceTotal.setTextColor(themeTextColor);
         }
         TextView labelTotalCashIn = findViewById(R.id.labelTotalCashIn);
         if (labelTotalCashIn != null) {
-            labelTotalCashIn.setTextColor(Color.WHITE);
+            labelTotalCashIn.setTextColor(themeTextColor);
         }
         View prevRow = findViewById(R.id.previousBalanceRow);
         if (prevRow instanceof ViewGroup) {
             TextView tv = (TextView) ((ViewGroup) prevRow).getChildAt(0);
-            if (tv != null) tv.setTextColor(Color.WHITE);
+            if (tv != null) tv.setTextColor(themeTextColor);
             TextView valTv = findViewById(R.id.previousBalanceTotalText);
-            if (valTv != null) valTv.setTextColor(Color.WHITE);
+            if (valTv != null) valTv.setTextColor(themeTextColor);
         }
         View finalRow = findViewById(R.id.finalBalanceRow);
         if (finalRow instanceof ViewGroup) {
             TextView tv = (TextView) ((ViewGroup) finalRow).getChildAt(0);
-            if (tv != null) tv.setTextColor(Color.WHITE);
+            if (tv != null) tv.setTextColor(themeTextColor);
             TextView valTv = findViewById(R.id.finalBalanceTotalText);
-            if (valTv != null) valTv.setTextColor(Color.WHITE);
+            if (valTv != null) valTv.setTextColor(themeTextColor);
         }
 
         com.google.android.material.navigation.NavigationView navView = findViewById(R.id.expensesNavigationView);
@@ -1716,6 +1737,7 @@ public class ExpensesActivity extends AppCompatActivity {
             for (Account a : userAccounts) {
                 View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
                 TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
+                txtInfo.setTextColor(ContextCompat.getColor(this, R.color.white));
 
                 String formattedAmt = formatAccountAmount(a.getBalance(), a.getCurrency());
                 String infoStr = a.getName() + " — " + formattedAmt;
@@ -1759,6 +1781,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
                 View itemView = inflater.inflate(R.layout.item_account_guideline, accountGuidelineContainer, false);
                 TextView txtInfo = itemView.findViewById(R.id.txtAccountGuidelineInfo);
+                txtInfo.setTextColor(ContextCompat.getColor(this, R.color.white));
 
                 String displayName = curr.equalsIgnoreCase("EUR") ? "EURO" : curr;
                 String formattedAmt = formatAccountAmount(net, curr);
@@ -1866,7 +1889,7 @@ public class ExpensesActivity extends AppCompatActivity {
             for (String curr : availableList) {
                 android.widget.CheckBox cb = new android.widget.CheckBox(this);
                 cb.setText(curr);
-                cb.setTextColor(Color.WHITE);
+                cb.setTextColor(ContextCompat.getColor(this, R.color.white));
                 cb.setButtonTintList(android.content.res.ColorStateList.valueOf(mainAccent));
                 cb.setChecked(selectedCurrencies.contains(curr));
 

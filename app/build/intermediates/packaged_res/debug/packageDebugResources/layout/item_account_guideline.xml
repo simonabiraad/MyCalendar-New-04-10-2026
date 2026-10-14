@@ -15,7 +15,7 @@
         android:id="@+id/txtAccountGuidelineInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold" />
 

@@ -319,7 +319,7 @@ public class RatesActivity extends AppCompatActivity {
 
     private void updateBottomNavTextColors(Button activeBtn) {
         int activeColor = ThemeManager.getMainAccentColor(this);
-        int inactiveColor = Color.WHITE;
+        int inactiveColor = ContextCompat.getColor(this, R.color.white);
 
         if (navConvert != null) navConvert.setTextColor(navConvert == activeBtn ? activeColor : inactiveColor);
         if (navScan != null) navScan.setTextColor(navScan == activeBtn ? activeColor : inactiveColor);

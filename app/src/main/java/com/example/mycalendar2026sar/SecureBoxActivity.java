@@ -497,9 +497,10 @@ public class SecureBoxActivity extends AppCompatActivity {
         }
 
         @Override public void onBindViewHolder(@NonNull VH h, int pos) {
+            int btnTextColor = ContextCompat.getColor(SecureBoxActivity.this, R.color.white);
             com.google.android.material.button.MaterialButton b = (com.google.android.material.button.MaterialButton) h.itemView;
             b.setAllCaps(false);
-            b.setTextColor(Color.WHITE);
+            b.setTextColor(btnTextColor);
             b.setTypeface(Typeface.DEFAULT_BOLD);
             b.setSingleLine(true);
             b.setMaxLines(1);
@@ -519,7 +520,7 @@ public class SecureBoxActivity extends AppCompatActivity {
 
             int iconRes = getIconForCategoryKey(itm.key);
             b.setIconResource(iconRes);
-            b.setIconTint(android.content.res.ColorStateList.valueOf(Color.WHITE));
+            b.setIconTint(android.content.res.ColorStateList.valueOf(btnTextColor));
             b.setIconSize((int) (18 * h.itemView.getContext().getResources().getDisplayMetrics().density));
             b.setIconPadding((int) (6 * h.itemView.getContext().getResources().getDisplayMetrics().density));
             b.setIconGravity(com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START);
@@ -541,6 +542,8 @@ public class SecureBoxActivity extends AppCompatActivity {
             String t = "Note", c = itm.rawContent;
             if (itm.rawContent.contains(TITLE_SEP)) { String[] pts = itm.rawContent.split(TITLE_SEP); t = pts[0]; c = pts.length > 1 ? pts[1] : ""; }
             TextView tt = h.itemView.findViewById(R.id.noteTitle), ct = h.itemView.findViewById(R.id.noteText);
+            tt.setTextColor(0xFF000000);
+            ct.setTextColor(0xFF000000);
             MaterialCardView cv = h.itemView.findViewById(R.id.cardView); ImageView iv = h.itemView.findViewById(R.id.noteImage);
             tt.setText(t); applyFontSettings(tt, 14);
             if (c.startsWith("[IMG:")) { ct.setVisibility(View.GONE); iv.setVisibility(View.VISIBLE); iv.setImageURI(Uri.fromFile(new File(c.substring(5, c.length() - 1)))); }
@@ -757,11 +760,26 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private void refreshColors() {
         int m = ThemeManager.getMainAccentColor(this);
+        int defaultBg = ContextCompat.getColor(this, R.color.app_bg);
+        int savedBg = colorPrefs.getInt("color_app_background", defaultBg);
+        int bg = (!colorPrefs.contains("color_app_background") || savedBg == Color.BLACK) ? defaultBg : savedBg;
+
         View mainView = findViewById(R.id.main);
-        if (mainView != null) mainView.setBackgroundColor(colorPrefs.getInt("color_app_background", Color.BLACK));
+        if (mainView != null) mainView.setBackgroundColor(bg);
+
+        View bottomNav = findViewById(R.id.bottomNavContainer);
+        if (bottomNav != null) bottomNav.setBackgroundColor(bg);
+
         TextView t = findViewById(R.id.secureBoxTitle); if (t != null) { t.setTextColor(m); applyFontSettings(t, 24); }
         ImageView titleIcon = findViewById(R.id.secureBoxTitleIcon); if (titleIcon != null) { titleIcon.setImageTintList(ColorStateList.valueOf(m)); }
-        if (noteTitleInput != null) applyFontSettings(noteTitleInput, 18); if (noteContentInput != null) applyFontSettings(noteContentInput, 18);
+        if (noteTitleInput != null) {
+            applyFontSettings(noteTitleInput, 18);
+            noteTitleInput.setTextColor(ContextCompat.getColor(this, R.color.white));
+        }
+        if (noteContentInput != null) {
+            applyFontSettings(noteContentInput, 18);
+            noteContentInput.setTextColor(ContextCompat.getColor(this, R.color.white));
+        }
 
         View addCatBtn = findViewById(R.id.addCategoryHeaderButton);
         if (addCatBtn instanceof ImageButton) ((ImageButton) addCatBtn).setImageTintList(ColorStateList.valueOf(m));

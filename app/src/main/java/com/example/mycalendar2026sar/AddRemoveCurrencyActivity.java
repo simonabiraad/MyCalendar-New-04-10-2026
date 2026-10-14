@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -55,7 +56,7 @@ public class AddRemoveCurrencyActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         input.setHint("Value (e.g. 0.50)");
         input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        input.setTextColor(android.graphics.Color.WHITE);
+        input.setTextColor(ContextCompat.getColor(this, R.color.white));
         if (item != null) input.setText(String.valueOf(item.value));
         layout.addView(input);
 

@@ -50,8 +50,14 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
     @Override
     public void onBindViewHolder(@NonNull AccountViewHolder holder, int position) {
         Account account = filteredAccounts.get(position);
+        int themeTextColor = androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.white);
         holder.nameText.setText(account.getName());
+        holder.nameText.setTextColor(themeTextColor);
         holder.balanceText.setText(String.format(java.util.Locale.US, "%,.2f %s", account.getBalance(), account.getCurrency()));
+        holder.balanceText.setTextColor(themeTextColor);
+        if (holder.icon instanceof android.widget.ImageView) {
+            ((android.widget.ImageView) holder.icon).setImageTintList(android.content.res.ColorStateList.valueOf(themeTextColor));
+        }
 
         int accent = ThemeManager.getMainAccentColor(holder.itemView.getContext());
         if (holder.btnDelete != null) {

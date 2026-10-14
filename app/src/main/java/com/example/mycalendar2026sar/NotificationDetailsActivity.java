@@ -396,7 +396,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         layout.setPadding(40, 20, 40, 20);
 
         TextView datesList = new TextView(this);
-        datesList.setTextColor(Color.WHITE);
+        datesList.setTextColor(ContextCompat.getColor(this, R.color.white));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < selectedDates.size(); i++) {
             sb.append(selectedDates.get(i));
@@ -579,7 +579,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                 JSONObject log = history.getJSONObject(i);
                 TextView logView = new TextView(this);
                 logView.setText(log.getString("time") + ": " + log.getString("action"));
-                logView.setTextColor(Color.LTGRAY);
+                logView.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
                 logView.setTextSize(14);
                 logView.setPadding(0, 4, 0, 4);
                 historyContainer.addView(logView);
@@ -602,7 +602,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
             TextView tv = new TextView(parent.getContext());
             tv.setPadding(16, 8, 16, 8);
             tv.setBackgroundResource(R.drawable.task_input_border);
-            tv.setTextColor(Color.WHITE);
+            tv.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.white));
             return new ViewHolder(tv);
         }
 

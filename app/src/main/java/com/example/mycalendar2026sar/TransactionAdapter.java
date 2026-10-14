@@ -88,8 +88,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             }
 
+            int themeTextColor = androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.white);
+            int themeSecondaryColor = androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.text_secondary);
+
             rowHolder.title.setText(displayTitle);
+            rowHolder.title.setTextColor(themeTextColor);
             rowHolder.time.setText(DateFormat.format("hh:mm a", transaction.getTimestamp()));
+            rowHolder.time.setTextColor(themeSecondaryColor);
 
             String formattedAmount = CurrencyFormatter.formatAmount(transaction.getAmount(), transaction.getCurrency());
 
@@ -104,6 +109,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
             rowHolder.balance.setText(CurrencyFormatter.formatAmount(item.getBalanceAfter(), transaction.getCurrency()));
+            rowHolder.balance.setTextColor(themeTextColor);
 
             rowHolder.itemView.setOnClickListener(v -> {
                 if (clickListener != null) {

@@ -477,11 +477,11 @@ public class ExpensesCalendarActivity extends AppCompatActivity {
             dayNumber.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
 
             if (cal.get(Calendar.MONTH) != month) {
-                dayNumber.setTextColor(0xFF666666);
-                convertView.setBackgroundColor(0xFF000000);
+                dayNumber.setTextColor(androidx.core.content.ContextCompat.getColor(ExpensesCalendarActivity.this, R.color.text_disabled));
+                convertView.setBackgroundColor(androidx.core.content.ContextCompat.getColor(ExpensesCalendarActivity.this, R.color.app_bg));
             } else {
-                dayNumber.setTextColor(0xFFFFFFFF);
-                convertView.setBackgroundColor(0xFF1A1A1A);
+                dayNumber.setTextColor(androidx.core.content.ContextCompat.getColor(ExpensesCalendarActivity.this, R.color.white));
+                convertView.setBackgroundColor(androidx.core.content.ContextCompat.getColor(ExpensesCalendarActivity.this, R.color.card_bg));
             }
 
             int accent = ThemeManager.getMainAccentColor(ExpensesCalendarActivity.this);

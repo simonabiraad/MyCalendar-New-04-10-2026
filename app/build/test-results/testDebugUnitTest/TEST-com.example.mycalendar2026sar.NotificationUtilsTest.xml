@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.mycalendar2026sar.NotificationUtilsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-12T07:56:55.438Z" hostname="UITSSF5476C9E9" time="0.028">
+<testsuite name="com.example.mycalendar2026sar.NotificationUtilsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-14T08:07:53.383Z" hostname="UITSSF5476C9E9" time="0.012">
   <properties/>
-  <testcase name="testGetEventCalendar_12HourFormat" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.022"/>
+  <testcase name="testGetEventCalendar_12HourFormat" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.01"/>
   <testcase name="testIsRepeating" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.0"/>
-  <testcase name="testGetEventCalendar_AllDay" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.002"/>
-  <testcase name="testIsReminderDisabled" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.001"/>
-  <testcase name="testGetEventCalendar_24HourFormat" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.003"/>
+  <testcase name="testGetEventCalendar_AllDay" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.001"/>
+  <testcase name="testIsReminderDisabled" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.0"/>
+  <testcase name="testGetEventCalendar_24HourFormat" classname="com.example.mycalendar2026sar.NotificationUtilsTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

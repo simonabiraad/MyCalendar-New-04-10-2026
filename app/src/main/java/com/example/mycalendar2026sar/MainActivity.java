@@ -479,6 +479,9 @@ public class MainActivity extends AppCompatActivity {
         customMenuContainer = findViewById(R.id.customMenuContainer);
         settingsPanelContainer = findViewById(R.id.settingsPanelContainer);
         settingsArrow = findViewById(R.id.settingsArrow);
+        if (settingsArrow != null) {
+            settingsArrow.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.text_primary)));
+        }
 
         menuDimmer.setOnClickListener(v -> hideCustomMenu());
 
@@ -958,7 +961,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateCalendar() {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        int textColor = ContextCompat.getColor(this, R.color.white);
         monthYearText.setText(sdf.format(calendar.getTime()));
+        monthYearText.setTextColor(textColor);
+
+        ImageButton prevMonth = findViewById(R.id.prevMonth);
+        ImageButton nextMonth = findViewById(R.id.nextMonth);
+        if (prevMonth != null) prevMonth.setImageTintList(ColorStateList.valueOf(textColor));
+        if (nextMonth != null) nextMonth.setImageTintList(ColorStateList.valueOf(textColor));
 
         ArrayList<Date> days = new ArrayList<>();
         Calendar tempCal = (Calendar) calendar.clone();
@@ -1033,7 +1043,7 @@ public class MainActivity extends AppCompatActivity {
             TextView noRemarks = new TextView(this);
             noRemarks.setText(getString(R.string.no_notes_day));
             applyFontSettings(noRemarks, 16);
-            noRemarks.setTextColor(Color.WHITE);
+            noRemarks.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
             dayRemarksContainer.addView(noRemarks);
         }
     }
@@ -1292,10 +1302,16 @@ public class MainActivity extends AppCompatActivity {
         String displayText = (index + 1) + ". " + getNoteBody(remarkText);
         textView.setText(displayText);
         applyFontSettings(textView, 16);
+        int themeTextColor = ContextCompat.getColor(this, R.color.white);
         if (remarkText.startsWith("▣ ")) {
             textView.setTextColor(colorPrefs.getInt("color_note_checked", Color.GREEN));
         } else {
-            textView.setTextColor(colorPrefs.getInt("color_note_text", ContextCompat.getColor(this, R.color.white)));
+            int savedNoteTextColor = colorPrefs.getInt("color_note_text", themeTextColor);
+            if (!colorPrefs.contains("color_note_text") || savedNoteTextColor == Color.WHITE || savedNoteTextColor == Color.BLACK) {
+                textView.setTextColor(themeTextColor);
+            } else {
+                textView.setTextColor(savedNoteTextColor);
+            }
         }
         textView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 
@@ -1690,9 +1706,11 @@ public class MainActivity extends AppCompatActivity {
         autoLangLayout.setGravity(Gravity.CENTER_VERTICAL);
         autoLangLayout.setPadding(0, 40, 0, 20);
         
+        int dialogTextColor = ContextCompat.getColor(this, R.color.white);
+
         TextView autoLangText = new TextView(this);
         autoLangText.setText("Auto language");
-        autoLangText.setTextColor(Color.WHITE);
+        autoLangText.setTextColor(dialogTextColor);
         autoLangText.setTextSize(16);
         autoLangText.setTypeface(null, Typeface.BOLD);
         autoLangText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -1706,14 +1724,14 @@ public class MainActivity extends AppCompatActivity {
         // Speaking Language Label
         TextView speakingLabel = new TextView(this);
         speakingLabel.setText("Speaking Language:");
-        speakingLabel.setTextColor(Color.WHITE);
+        speakingLabel.setTextColor(dialogTextColor);
         speakingLabel.setPadding(0, 20, 0, 10);
         root.addView(speakingLabel);
 
         // Speaking Language Selector
         TextView speakingSelector = new TextView(this);
         speakingSelector.setText(getLanguageName(speechSourceLang));
-        speakingSelector.setTextColor(Color.WHITE);
+        speakingSelector.setTextColor(dialogTextColor);
         speakingSelector.setBackgroundResource(R.drawable.summary_border);
         speakingSelector.setPadding(30, 30, 30, 30);
         speakingSelector.setOnClickListener(v -> {
@@ -1734,7 +1752,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView translateText = new TextView(this);
         translateText.setText("Translate");
-        translateText.setTextColor(Color.WHITE);
+        translateText.setTextColor(dialogTextColor);
         translateText.setTextSize(16);
         translateText.setTypeface(null, Typeface.BOLD);
         translateText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -1753,14 +1771,14 @@ public class MainActivity extends AppCompatActivity {
         // Translate to Label
         TextView translateToLabel = new TextView(this);
         translateToLabel.setText("Translate to:");
-        translateToLabel.setTextColor(Color.WHITE);
+        translateToLabel.setTextColor(dialogTextColor);
         translateToLabel.setPadding(0, 20, 0, 10);
         translationContainer.addView(translateToLabel);
 
         // Translate to Selector
         TextView translateToSelector = new TextView(this);
         translateToSelector.setText(getLanguageName(speechTargetLang));
-        translateToSelector.setTextColor(Color.WHITE);
+        translateToSelector.setTextColor(dialogTextColor);
         translateToSelector.setBackgroundResource(R.drawable.summary_border);
         translateToSelector.setPadding(30, 30, 30, 30);
         translateToSelector.setOnClickListener(v -> {
@@ -1860,7 +1878,7 @@ public class MainActivity extends AppCompatActivity {
         input.setHint("Enter note here...");
         input.setText(initialText);
         applyFontSettings(input, 18);
-        input.setTextColor(Color.WHITE);
+        input.setTextColor(ContextCompat.getColor(this, R.color.white));
         input.setHintTextColor(Color.GRAY);
         layout.addView(input);
 
@@ -2095,7 +2113,7 @@ public class MainActivity extends AppCompatActivity {
         if (allEntries.isEmpty()) {
             TextView noHistory = new TextView(this);
             noHistory.setText(getString(emptyTextRes));
-            noHistory.setTextColor(Color.WHITE);
+            noHistory.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
             container.addView(noHistory);
             return;
         }
@@ -2148,12 +2166,18 @@ public class MainActivity extends AppCompatActivity {
                 String displayText = (index + 1) + ". " + getNoteBody(noteText);
                 tv.setText(displayText);
                 applyFontSettings(tv, 14);
+                int themeTextColor = ContextCompat.getColor(this, R.color.white);
                 if (noteText.startsWith("▣ ")) {
                     tv.setTextColor(colorPrefs.getInt("color_note_checked", Color.GREEN));
                 } else if (container == deletedHistoryContainer) {
-                    tv.setTextColor(Color.WHITE); // Keep deleted text white, header is red
+                    tv.setTextColor(themeTextColor);
                 } else {
-                    tv.setTextColor(colorPrefs.getInt("color_note_text", Color.WHITE));
+                    int savedNoteTextColor = colorPrefs.getInt("color_note_text", themeTextColor);
+                    if (!colorPrefs.contains("color_note_text") || savedNoteTextColor == Color.WHITE || savedNoteTextColor == Color.BLACK) {
+                        tv.setTextColor(themeTextColor);
+                    } else {
+                        tv.setTextColor(savedNoteTextColor);
+                    }
                 }
                 tv.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
                 noteLayout.addView(tv);
@@ -2998,7 +3022,14 @@ public class MainActivity extends AppCompatActivity {
 
             int mainThemeColor = colorPrefs.getInt("color_main_theme", ContextCompat.getColor(itemView.getContext(), R.color.light_green));
             int defaultTextColor = ContextCompat.getColor(itemView.getContext(), R.color.white);
-            int currentMonthDatesColor = colorPrefs.getInt("color_note_text", defaultTextColor);
+            int savedNoteTextColor = colorPrefs.getInt("color_note_text", defaultTextColor);
+            int currentMonthDatesColor;
+            if (!colorPrefs.contains("color_note_text") || savedNoteTextColor == Color.WHITE || savedNoteTextColor == 0xFFFFFFFF || savedNoteTextColor == 0xFF000000) {
+                currentMonthDatesColor = defaultTextColor;
+            } else {
+                currentMonthDatesColor = savedNoteTextColor;
+            }
+            int otherMonthDatesColor = ContextCompat.getColor(itemView.getContext(), R.color.text_disabled);
             int bgAppColor = ContextCompat.getColor(itemView.getContext(), R.color.app_bg);
             int bgCardColor = ContextCompat.getColor(itemView.getContext(), R.color.card_bg);
 
@@ -3021,7 +3052,7 @@ public class MainActivity extends AppCompatActivity {
                 dayText.setBackgroundResource(0);
                 dayText.setBackgroundTintList(null);
                 if (cellCal.get(Calendar.MONTH) != currentMonth.get(Calendar.MONTH)) {
-                    dayText.setTextColor(defaultTextColor);
+                    dayText.setTextColor(otherMonthDatesColor);
                     itemView.setBackgroundColor(bgAppColor);
                 } else {
                     dayText.setTextColor(currentMonthDatesColor);

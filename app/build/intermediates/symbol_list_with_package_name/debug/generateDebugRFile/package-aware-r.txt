@@ -553,6 +553,7 @@ id historyGroupContainer
 id hueSeekBar
 id hueText
 id imagePreview
+id imgAccountsLogo
 id imgFromArrow
 id imgMultiCurrencyArrow
 id imgScheduleArrow

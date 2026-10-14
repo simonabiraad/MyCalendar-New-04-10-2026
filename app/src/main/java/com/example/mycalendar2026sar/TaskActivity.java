@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
@@ -425,7 +426,7 @@ public class TaskActivity extends AppCompatActivity {
 
         final EditText input = new EditText(this);
         input.setText(item.text);
-        input.setTextColor(android.graphics.Color.WHITE);
+        input.setTextColor(ContextCompat.getColor(this, R.color.white));
         
         int padding = (int) (16 * getResources().getDisplayMetrics().density);
         android.widget.FrameLayout container = new android.widget.FrameLayout(this);
@@ -652,10 +653,10 @@ public class TaskActivity extends AppCompatActivity {
         private void updateStrikethrough(TextView textView, boolean completed) {
             if (completed) {
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                textView.setTextColor(0xFFAAAAAA); // Muted color for completed tasks
+                textView.setTextColor(ContextCompat.getColor(TaskActivity.this, R.color.text_secondary));
             } else {
                 textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                textView.setTextColor(0xFFFFFFFF); // White for active tasks
+                textView.setTextColor(ContextCompat.getColor(TaskActivity.this, R.color.white));
             }
         }
 

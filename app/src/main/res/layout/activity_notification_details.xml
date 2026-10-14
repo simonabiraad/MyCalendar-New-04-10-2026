@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Description"
-                android:textColor="#888888"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
             <TextView
@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="#1A1A1A"
+                android:background="@color/card_bg"
                 android:orientation="horizontal"
                 android:padding="12dp"
                 android:gravity="center_vertical"
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Attachments"
-                android:textColor="#888888"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="History"
-                android:textColor="#888888"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -226,7 +226,7 @@
         android:id="@+id/bottomActions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1A1A1A"
+        android:background="@color/card_bg"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent">

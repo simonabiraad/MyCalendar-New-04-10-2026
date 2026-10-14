@@ -552,6 +552,7 @@ int id historyGroupContainer 0x0
 int id hueSeekBar 0x0
 int id hueText 0x0
 int id imagePreview 0x0
+int id imgAccountsLogo 0x0
 int id imgFromArrow 0x0
 int id imgMultiCurrencyArrow 0x0
 int id imgScheduleArrow 0x0

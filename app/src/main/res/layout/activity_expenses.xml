@@ -466,7 +466,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Multi-Currency Total"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -509,7 +509,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select currencies to combine:"
-                    android:textColor="#AAAAAA"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
                 <LinearLayout
@@ -532,7 +532,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Convert Total To:"
-                        android:textColor="#AAAAAA"
+                        android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
 
                     <Spinner
@@ -550,7 +550,7 @@
                     android:id="@+id/multiCurrencyBreakdownContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#11FFFFFF"
+                    android:background="@color/card_bg"
                     android:orientation="vertical"
                     android:padding="8dp">
 
@@ -558,7 +558,7 @@
                         android:id="@+id/txtMultiCurrencyDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <TextView
@@ -566,7 +566,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:textColor="#AAAAAA"
+                        android:textColor="@color/text_secondary"
                         android:textSize="11sp" />
 
                     <TextView

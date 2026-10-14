@@ -1,6 +1,7 @@
 package com.example.mycalendar2026sar;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,6 +202,15 @@ public class ReportAllActivity extends AppCompatActivity {
         int incomeColor = ThemeManager.getMainAccentColor(this);
         expenseToggle.setBackgroundTintList(ColorStateList.valueOf(showExpenses ? expenseColor : inactive));
         incomeToggle.setBackgroundTintList(ColorStateList.valueOf(!showExpenses ? incomeColor : inactive));
+
+        monthButton.setTextColor(Color.WHITE);
+        yearButton.setTextColor(Color.WHITE);
+        allButton.setTextColor(Color.WHITE);
+        expenseToggle.setTextColor(Color.WHITE);
+        incomeToggle.setTextColor(Color.WHITE);
+        if (currencyButton != null) {
+            currencyButton.setTextColor(Color.WHITE);
+        }
     }
 
     private void showCurrencyPicker() {
