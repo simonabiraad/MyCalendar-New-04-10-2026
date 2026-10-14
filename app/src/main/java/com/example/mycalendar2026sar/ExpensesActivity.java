@@ -250,9 +250,10 @@ public class ExpensesActivity extends AppCompatActivity {
         monthlyButton = findViewById(R.id.monthlyButton);
         yearlyButton = findViewById(R.id.yearlyButton);
         NavigationView navigationView = findViewById(R.id.expensesNavigationView);
-        
-        // Disable icon tinting to show real colors
-        navigationView.setItemIconTintList(null);
+        if (navigationView != null) {
+            boolean isLightMode = ThemeManager.isLightModeMonochromeIcons(this);
+            navigationView.setItemIconTintList(isLightMode ? android.content.res.ColorStateList.valueOf(0xFF000000) : null);
+        }
 
         // --- Transaction list setup ---
         transactionDbHelper = TransactionDbHelper.getInstance(this);
@@ -626,11 +627,12 @@ public class ExpensesActivity extends AppCompatActivity {
 
     private void showExpensesOverflowMenu(View anchor) {
         View popupView = getLayoutInflater().inflate(R.layout.layout_expenses_overflow_menu, null);
+        ThemeManager.applyIconThemeToViewTree(popupView, this);
         final PopupWindow popupWindow = new PopupWindow(popupView, 
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         
         popupWindow.setElevation(20);
-        popupWindow.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.BLACK));
+        popupWindow.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(ThemeManager.getCardBackgroundColor(this)));
 
         // Sorting toggles
         SwitchCompat switchAsc = popupView.findViewById(R.id.switch_asc);
@@ -1516,7 +1518,14 @@ public class ExpensesActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
         int accent = ThemeManager.getMainAccentColor(this);
-        int themeTextColor = ContextCompat.getColor(this, R.color.white);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        int themeTextColor = ThemeManager.getTextPrimaryColor(this);
+
+        View root = findViewById(R.id.expenses_main);
+        if (root != null) {
+            root.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(root, this);
+        }
         if (topExpensesButton != null) {
             topExpensesButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accent));
             topExpensesButton.setTextColor(Color.WHITE);
@@ -1577,14 +1586,18 @@ public class ExpensesActivity extends AppCompatActivity {
         }
 
         com.google.android.material.navigation.NavigationView navView = findViewById(R.id.expensesNavigationView);
-        if (navView != null && navView.getHeaderCount() > 0) {
-            View headerView = navView.getHeaderView(0);
-            if (headerView instanceof ViewGroup) {
-                ViewGroup vg = (ViewGroup) headerView;
-                for (int i = 0; i < vg.getChildCount(); i++) {
-                    View child = vg.getChildAt(i);
-                    if (child instanceof TextView) {
-                        ((TextView) child).setTextColor(accent);
+        if (navView != null) {
+            boolean isLightMode = ThemeManager.isLightModeMonochromeIcons(this);
+            navView.setItemIconTintList(isLightMode ? android.content.res.ColorStateList.valueOf(0xFF000000) : null);
+            if (navView.getHeaderCount() > 0) {
+                View headerView = navView.getHeaderView(0);
+                if (headerView instanceof ViewGroup) {
+                    ViewGroup vg = (ViewGroup) headerView;
+                    for (int i = 0; i < vg.getChildCount(); i++) {
+                        View child = vg.getChildAt(i);
+                        if (child instanceof TextView) {
+                            ((TextView) child).setTextColor(accent);
+                        }
                     }
                 }
             }

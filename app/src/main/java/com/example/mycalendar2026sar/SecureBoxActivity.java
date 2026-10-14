@@ -760,12 +760,13 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private void refreshColors() {
         int m = ThemeManager.getMainAccentColor(this);
-        int defaultBg = ContextCompat.getColor(this, R.color.app_bg);
-        int savedBg = colorPrefs.getInt("color_app_background", defaultBg);
-        int bg = (!colorPrefs.contains("color_app_background") || savedBg == Color.BLACK) ? defaultBg : savedBg;
+        int bg = ThemeManager.getAppBackgroundColor(this);
 
         View mainView = findViewById(R.id.main);
-        if (mainView != null) mainView.setBackgroundColor(bg);
+        if (mainView != null) {
+            mainView.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(mainView, this);
+        }
 
         View bottomNav = findViewById(R.id.bottomNavContainer);
         if (bottomNav != null) bottomNav.setBackgroundColor(bg);
@@ -782,7 +783,13 @@ public class SecureBoxActivity extends AppCompatActivity {
         }
 
         View addCatBtn = findViewById(R.id.addCategoryHeaderButton);
-        if (addCatBtn instanceof ImageButton) ((ImageButton) addCatBtn).setImageTintList(ColorStateList.valueOf(m));
+        if (addCatBtn instanceof ImageButton) {
+            if (ThemeManager.isLightModeMonochromeIcons(this)) {
+                ((ImageButton) addCatBtn).setImageTintList(ColorStateList.valueOf(0xFF000000));
+            } else {
+                ((ImageButton) addCatBtn).setImageTintList(ColorStateList.valueOf(m));
+            }
+        }
         View voiceBtn = findViewById(R.id.sbVoiceNoteButton);
         if (voiceBtn instanceof ImageButton) ((ImageButton) voiceBtn).setImageTintList(ColorStateList.valueOf(m));
         View camBtn = findViewById(R.id.sbCameraNoteButton);

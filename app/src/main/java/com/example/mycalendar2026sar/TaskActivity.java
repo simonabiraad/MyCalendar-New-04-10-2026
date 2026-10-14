@@ -2,6 +2,7 @@ package com.example.mycalendar2026sar;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -228,6 +229,12 @@ public class TaskActivity extends AppCompatActivity {
 
     private void applyColors() {
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        View taskHeader = findViewById(R.id.taskHeader);
+        if (taskHeader != null && taskHeader.getRootView() != null) {
+            taskHeader.getRootView().setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(taskHeader.getRootView(), this);
+        }
         TextView titleTv = findViewById(R.id.taskTitle);
         if (titleTv != null) {
             titleTv.setTextColor(accent);
@@ -236,13 +243,16 @@ public class TaskActivity extends AppCompatActivity {
         if (titleIcon != null) {
             titleIcon.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
         }
+        boolean isLightIcons = ThemeManager.isLightModeMonochromeIcons(this);
+        ColorStateList iconTint = isLightIcons ? ColorStateList.valueOf(0xFF000000) : ColorStateList.valueOf(accent);
+
         android.widget.ImageButton addBtn = findViewById(R.id.addTaskButton);
         if (addBtn != null) {
-            addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            addBtn.setImageTintList(iconTint);
         }
         android.widget.ImageButton voiceBtn = findViewById(R.id.voiceTaskButton);
         if (voiceBtn != null) {
-            voiceBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            voiceBtn.setImageTintList(iconTint);
         }
         if (taskInput != null) {
             ThemeManager.applyThemeCursor(taskInput);

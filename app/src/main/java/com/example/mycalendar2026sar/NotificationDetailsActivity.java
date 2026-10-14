@@ -831,9 +831,14 @@ public class NotificationDetailsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(android.graphics.Color.BLACK);
         }
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
         View root = findViewById(android.R.id.content);
-        if (root instanceof ViewGroup) {
-            applyAccentToLabels((ViewGroup) root, accent);
+        if (root != null) {
+            root.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(root, this);
+            if (root instanceof ViewGroup) {
+                applyAccentToLabels((ViewGroup) root, accent);
+            }
         }
         View btnAddAttachment = findViewById(R.id.btnAddAttachment);
         if (btnAddAttachment != null) {

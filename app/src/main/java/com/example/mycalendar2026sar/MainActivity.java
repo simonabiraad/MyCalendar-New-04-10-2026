@@ -2511,6 +2511,7 @@ public class MainActivity extends AppCompatActivity {
         // Color Options
         String[] options = {
                 styleOption,
+                "⚡ Color Neon Themes (6 Presets)",
                 "Main Theme (Buttons/Title)",
                 "Note Text Color",
                 "Checked Note Text Color",
@@ -2562,17 +2563,20 @@ public class MainActivity extends AppCompatActivity {
                             d.dismiss();
                         })
                         .setNegativeButton("Cancel", null), MainActivity.this);
+            } else if (which == 1) {
+                ThemeManager.setColorStyleMode(MainActivity.this, "neon");
+                showColorPicker(0);
             } else if (which == options.length - 1) {
                 resetColors();
             } else {
                 int category;
                 switch (which) {
-                    case 1: category = 0; break;  // Main Theme (Buttons/Title)
-                    case 2: category = 1; break;  // Note Text Color
-                    case 3: category = 2; break;  // Checked Note Text Color
-                    case 4: category = 3; break;  // Archive Folder Color
-                    case 5: category = 4; break;  // Deleted Folder Color
-                    case 6: category = 10; break; // App Background Color
+                    case 2: category = 0; break;  // Main Theme (Buttons/Title)
+                    case 3: category = 1; break;  // Note Text Color
+                    case 4: category = 2; break;  // Checked Note Text Color
+                    case 5: category = 3; break;  // Archive Folder Color
+                    case 6: category = 4; break;  // Deleted Folder Color
+                    case 7: category = 10; break; // App Background Color
                     default: return;
                 }
                 showColorPicker(category);
@@ -2699,14 +2703,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshUIColors() {
-        int mainTheme = colorPrefs.getInt("color_main_theme", getColor(R.color.light_green));
-        int defaultBgColor = ContextCompat.getColor(this, R.color.app_bg);
-        int defaultWhiteColor = ContextCompat.getColor(this, R.color.white);
-        int bgColor = colorPrefs.getInt("color_app_background", defaultBgColor);
+        int mainTheme = ThemeManager.getMainAccentColor(this);
+        int defaultWhiteColor = ThemeManager.getTextPrimaryColor(this);
+        int bgColor = ThemeManager.getAppBackgroundColor(this);
 
         // Root Background
         View root = findViewById(R.id.main);
-        if (root != null) root.setBackgroundColor(bgColor);
+        if (root != null) {
+            root.setBackgroundColor(bgColor);
+            ThemeManager.applyIconThemeToViewTree(root, this);
+        }
+        if (customMenuContainer != null) {
+            ThemeManager.applyIconThemeToViewTree(customMenuContainer, this);
+        }
+        if (settingsPanelContainer != null) {
+            ThemeManager.applyIconThemeToViewTree(settingsPanelContainer, this);
+        }
 
         View bottomSticky = findViewById(R.id.bottomStickyContainer);
         if (bottomSticky != null) bottomSticky.setBackgroundColor(bgColor);
@@ -2765,21 +2777,29 @@ public class MainActivity extends AppCompatActivity {
             ThemeManager.applyThemeCursor(input);
         }
 
+        boolean isLightIcons = ThemeManager.isLightModeMonochromeIcons(this);
+        ColorStateList blackTint = ColorStateList.valueOf(0xFF000000);
+
         ImageButton notifyBtn = findViewById(R.id.notificationSettingsButton);
         if (notifyBtn != null) {
-            notifyBtn.setImageTintList(null);
+            notifyBtn.setImageTintList(isLightIcons ? blackTint : null);
         }
-        int neutral40 = Color.parseColor("#5E5E5E"); // material_dynamic_neutral40
         ImageButton aiBtn = findViewById(R.id.aiAssistantButton);
         if (aiBtn != null) {
-            aiBtn.setImageTintList(null);
+            aiBtn.setImageTintList(isLightIcons ? blackTint : null);
         }
         ImageButton menuBtn = findViewById(R.id.mainMenuButton);
-        if (menuBtn != null) menuBtn.setImageTintList(null);
+        if (menuBtn != null) {
+            menuBtn.setImageTintList(isLightIcons ? blackTint : null);
+        }
         ImageButton voiceBtn = findViewById(R.id.voiceNoteButton);
-        if (voiceBtn != null) voiceBtn.setImageTintList(ColorStateList.valueOf(mainTheme));
+        if (voiceBtn != null) {
+            voiceBtn.setImageTintList(isLightIcons ? blackTint : ColorStateList.valueOf(mainTheme));
+        }
         ImageButton addNoteBtn = findViewById(R.id.addNoteIconButton);
-        if (addNoteBtn != null) addNoteBtn.setImageTintList(ColorStateList.valueOf(mainTheme));
+        if (addNoteBtn != null) {
+            addNoteBtn.setImageTintList(isLightIcons ? blackTint : ColorStateList.valueOf(mainTheme));
+        }
 
         updateSortOrderUI();
 

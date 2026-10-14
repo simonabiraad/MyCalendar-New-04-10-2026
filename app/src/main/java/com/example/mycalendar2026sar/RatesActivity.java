@@ -647,8 +647,11 @@ public class RatesActivity extends AppCompatActivity {
     }
 
     private void applyThemeMode(boolean isDark) {
-        int bg = isDark ? Color.parseColor("#000000") : Color.parseColor("#121212");
-        if (ratesRootLayout != null) ratesRootLayout.setBackgroundColor(bg);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        if (ratesRootLayout != null) {
+            ratesRootLayout.setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(ratesRootLayout, this);
+        }
     }
 
     private void switchToConvertView() {

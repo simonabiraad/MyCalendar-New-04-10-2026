@@ -101,6 +101,12 @@ public class EventsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(android.graphics.Color.BLACK);
         }
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        View header = findViewById(R.id.eventsHeader);
+        if (header != null && header.getRootView() != null) {
+            header.getRootView().setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(header.getRootView(), this);
+        }
         TextView titleTv = findViewById(R.id.eventsTitleText);
         if (titleTv != null) {
             titleTv.setTextColor(accent);
@@ -111,7 +117,11 @@ public class EventsActivity extends AppCompatActivity {
         }
         android.widget.ImageButton addBtn = findViewById(R.id.addEventHeaderButton);
         if (addBtn != null) {
-            addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            if (ThemeManager.isLightModeMonochromeIcons(this)) {
+                addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(0xFF000000));
+            } else {
+                addBtn.setImageTintList(android.content.res.ColorStateList.valueOf(accent));
+            }
         }
         BottomNavigationHelper.setupBottomNavigation(this, R.id.navEventButton);
     }

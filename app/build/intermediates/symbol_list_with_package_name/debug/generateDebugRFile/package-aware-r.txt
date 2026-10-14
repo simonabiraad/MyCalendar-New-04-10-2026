@@ -661,6 +661,8 @@ id nav_summary
 id nav_transaction_all
 id nav_transaction_names
 id nav_transfer
+id neonPresetsGrid
+id neonSection
 id netLayout
 id nextMonth
 id noEventsText

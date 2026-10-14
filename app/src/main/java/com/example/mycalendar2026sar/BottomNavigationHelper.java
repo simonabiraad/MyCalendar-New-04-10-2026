@@ -33,6 +33,17 @@ public class BottomNavigationHelper {
         else if (activeTabId == R.id.navSecureBoxButton) secureBtn.setTextColor(activeAccent);
         else if (activeTabId == R.id.navExpensesButton) expensesBtn.setTextColor(activeAccent);
 
+        boolean isLightMode = ThemeManager.isLightModeMonochromeIcons(activity);
+        android.content.res.ColorStateList iconTint = isLightMode ? android.content.res.ColorStateList.valueOf(0xFF000000) : null;
+
+        if (homeBtn instanceof com.google.android.material.button.MaterialButton) {
+            ((com.google.android.material.button.MaterialButton) homeBtn).setIconTint(iconTint);
+            ((com.google.android.material.button.MaterialButton) eventBtn).setIconTint(iconTint);
+            ((com.google.android.material.button.MaterialButton) taskBtn).setIconTint(iconTint);
+            ((com.google.android.material.button.MaterialButton) secureBtn).setIconTint(iconTint);
+            ((com.google.android.material.button.MaterialButton) expensesBtn).setIconTint(iconTint);
+        }
+
         homeBtn.setOnClickListener(v -> {
             if (!(activity instanceof MainActivity)) {
                 Intent intent = new Intent(activity, MainActivity.class);

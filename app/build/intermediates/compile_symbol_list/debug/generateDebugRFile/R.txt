@@ -660,6 +660,8 @@ int id nav_summary 0x0
 int id nav_transaction_all 0x0
 int id nav_transaction_names 0x0
 int id nav_transfer 0x0
+int id neonPresetsGrid 0x0
+int id neonSection 0x0
 int id netLayout 0x0
 int id nextMonth 0x0
 int id noEventsText 0x0

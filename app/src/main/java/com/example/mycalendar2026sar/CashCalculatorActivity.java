@@ -97,6 +97,12 @@ public class CashCalculatorActivity extends AppCompatActivity {
 
     private void applyColors() {
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        View toolbar = findViewById(R.id.cashCalcToolbar);
+        if (toolbar != null && toolbar.getRootView() != null) {
+            toolbar.getRootView().setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(toolbar.getRootView(), this);
+        }
 
         ImageButton backBtn = findViewById(R.id.cashCalcBackButton);
         if (backBtn != null) {

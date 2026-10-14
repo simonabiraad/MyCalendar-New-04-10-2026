@@ -185,6 +185,12 @@ public class ReportAllActivity extends AppCompatActivity {
 
     private void applyColors() {
         int accent = ThemeManager.getMainAccentColor(this);
+        int bg = ThemeManager.getAppBackgroundColor(this);
+        View topBar = findViewById(R.id.reportTopBar);
+        if (topBar != null && topBar.getRootView() != null) {
+            topBar.getRootView().setBackgroundColor(bg);
+            ThemeManager.applyIconThemeToViewTree(topBar.getRootView(), this);
+        }
         View backBtn = findViewById(R.id.reportBackButton);
         if (backBtn instanceof android.widget.ImageButton) {
             ((android.widget.ImageButton) backBtn).setImageTintList(ColorStateList.valueOf(accent));

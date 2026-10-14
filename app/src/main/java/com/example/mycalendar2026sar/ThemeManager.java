@@ -63,6 +63,9 @@ public class ThemeManager {
         }
     }
 
+    public static final String KEY_NORMAL_MAIN_THEME = "color_normal_main_theme";
+    public static final String KEY_NEON_MAIN_THEME = "color_neon_main_theme";
+
     /**
      * Checks if Neon Color mode is currently active.
      */
@@ -73,28 +76,48 @@ public class ThemeManager {
     }
 
     /**
-     * Sets the global color style mode ("normal" or "neon").
+     * Sets the global color style mode ("normal" or "neon")
+     * and automatically restores that mode's last saved accent color.
      */
     public static void setColorStyleMode(Context context, String styleMode) {
         if (context == null) return;
         SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
-        colorPrefs.edit().putString(KEY_COLOR_STYLE, styleMode).apply();
+
+        boolean isNeon = "neon".equalsIgnoreCase(styleMode);
+        colorPrefs.edit().putString(KEY_COLOR_STYLE, isNeon ? "neon" : "normal").apply();
+
+        int defaultNormal = ContextCompat.getColor(context, R.color.light_green);
+        int defaultNeon = 0xFF00E5FF; // Default Neon Blue
+
+        if (isNeon) {
+            int savedNeon = colorPrefs.getInt(KEY_NEON_MAIN_THEME, defaultNeon);
+            colorPrefs.edit().putInt(KEY_MAIN_THEME, savedNeon).apply();
+        } else {
+            int savedNormal = colorPrefs.getInt(KEY_NORMAL_MAIN_THEME, defaultNormal);
+            colorPrefs.edit().putInt(KEY_MAIN_THEME, savedNormal).apply();
+        }
     }
 
     /**
      * Gets the global main accent color set in "Main Theme (Buttons/Title)".
-     * Automatically converts to Neon version if Neon mode is active.
+     * Independent for Normal Mode vs. Neon Mode.
      */
     public static int getMainAccentColor(Context context) {
         if (context == null) return 0xFF4CAF50;
         SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
-        int defaultColor = ContextCompat.getColor(context, R.color.light_green);
-        int baseColor = colorPrefs.getInt(KEY_MAIN_THEME, defaultColor);
+        int defaultNormal = ContextCompat.getColor(context, R.color.light_green);
+        int defaultNeon = 0xFF00E5FF;
 
         if (isNeonMode(context)) {
+            int savedNeon = colorPrefs.getInt(KEY_NEON_MAIN_THEME, 0);
+            if (savedNeon != 0) return savedNeon;
+            int baseColor = colorPrefs.getInt(KEY_MAIN_THEME, defaultNeon);
             return toNeonColor(baseColor);
+        } else {
+            int savedNormal = colorPrefs.getInt(KEY_NORMAL_MAIN_THEME, 0);
+            if (savedNormal != 0) return savedNormal;
+            return colorPrefs.getInt(KEY_MAIN_THEME, defaultNormal);
         }
-        return baseColor;
     }
 
     /**
@@ -104,6 +127,107 @@ public class ThemeManager {
         if (context == null) return;
         SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
         colorPrefs.edit().putInt(KEY_MAIN_THEME, color).apply();
+
+        if (isNeonMode(context)) {
+            colorPrefs.edit().putInt(KEY_NEON_MAIN_THEME, color).apply();
+        } else {
+            colorPrefs.edit().putInt(KEY_NORMAL_MAIN_THEME, color).apply();
+        }
+    }
+
+    /**
+     * Gets the centralized application background color:
+     * - When Neon Mode is ON: Always returns BLACK (#000000).
+     * - When Dark Mode is ON: Returns BLACK (#000000) or saved app background.
+     * - When Light Mode is ON: Returns Light Grey (#CFCFCF).
+     */
+    public static int getAppBackgroundColor(Context context) {
+        if (context == null) return 0xFF000000;
+        if (isNeonMode(context) || isDarkMode(context)) {
+            return 0xFF000000;
+        }
+        SharedPreferences colorPrefs = context.getSharedPreferences(COLOR_PREFS_NAME, Context.MODE_PRIVATE);
+        int defaultBg = ContextCompat.getColor(context, R.color.app_bg);
+        int savedBg = colorPrefs.getInt("color_app_background", defaultBg);
+        return (!colorPrefs.contains("color_app_background") || savedBg == android.graphics.Color.BLACK) ? defaultBg : savedBg;
+    }
+
+    /**
+     * Gets the centralized card background color:
+     * - When Neon Mode is ON: Returns Dark Black Card (#1A1A1A).
+     * - When Dark Mode is ON: Returns Dark Card (#1A1A1A).
+     * - When Light Mode is ON: Returns Light Card (#E0E0E0).
+     */
+    public static int getCardBackgroundColor(Context context) {
+        if (context == null) return 0xFF1A1A1A;
+        if (isNeonMode(context) || isDarkMode(context)) {
+            return 0xFF1A1A1A;
+        }
+        return ContextCompat.getColor(context, R.color.card_bg);
+    }
+
+    /**
+     * Gets the primary text color:
+     * - When Neon Mode or Dark Mode is ON: Returns WHITE (#FFFFFF).
+     * - When Light Mode is ON: Returns BLACK (#000000).
+     */
+    public static int getTextPrimaryColor(Context context) {
+        if (context == null) return 0xFFFFFFFF;
+        if (isNeonMode(context) || isDarkMode(context)) {
+            return 0xFFFFFFFF;
+        }
+        return ContextCompat.getColor(context, R.color.white);
+    }
+
+    /**
+     * Checks if interface icons should be monochrome black:
+     * Returns true ONLY when in Light Mode (Dark Mode is OFF and Neon Mode is OFF).
+     */
+    public static boolean isLightModeMonochromeIcons(Context context) {
+        if (context == null) return false;
+        return !isDarkMode(context) && !isNeonMode(context);
+    }
+
+    /**
+     * Tints an ImageView, ImageButton, or MaterialButton icon to Black in Light Mode,
+     * or restores/clears tint in Dark Mode / Neon Mode.
+     */
+    public static void applyIconThemeTint(View iconView, Context context) {
+        if (iconView == null || context == null) return;
+
+        boolean isLightMonochrome = isLightModeMonochromeIcons(context);
+
+        if (iconView instanceof android.widget.ImageView) {
+            android.widget.ImageView iv = (android.widget.ImageView) iconView;
+            if (isLightMonochrome) {
+                iv.setImageTintList(android.content.res.ColorStateList.valueOf(0xFF000000));
+            } else {
+                iv.setImageTintList(null);
+            }
+        } else if (iconView instanceof com.google.android.material.button.MaterialButton) {
+            com.google.android.material.button.MaterialButton mb = (com.google.android.material.button.MaterialButton) iconView;
+            if (isLightMonochrome) {
+                mb.setIconTint(android.content.res.ColorStateList.valueOf(0xFF000000));
+            } else {
+                mb.setIconTint(null);
+            }
+        }
+    }
+
+    /**
+     * Recursively traverses a View hierarchy and applies the global icon theme rule to all ImageViews / ImageButtons.
+     */
+    public static void applyIconThemeToViewTree(View root, Context context) {
+        if (root == null || context == null) return;
+
+        if (root instanceof android.widget.ImageView) {
+            applyIconThemeTint(root, context);
+        } else if (root instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) root;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                applyIconThemeToViewTree(vg.getChildAt(i), context);
+            }
+        }
     }
 
     /**
@@ -124,6 +248,7 @@ public class ThemeManager {
         if (window != null && window.getDecorView() != null) {
             styleSwitchesInView(window.getDecorView(), context);
             applyThemeCursorToAllEditTexts(window.getDecorView());
+            applyIconThemeToViewTree(window.getDecorView(), context);
         }
     }
 

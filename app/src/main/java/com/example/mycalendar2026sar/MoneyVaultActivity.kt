@@ -142,6 +142,13 @@ class MoneyVaultActivity : AppCompatActivity() {
 
     private fun applyThemeColors() {
         val accent = ThemeManager.getMainAccentColor(this)
+        val bg = ThemeManager.getAppBackgroundColor(this)
+        val contentView = findViewById<View>(android.R.id.content)
+        contentView?.setBackgroundColor(bg)
+        if (contentView != null) {
+            ThemeManager.applyIconThemeToViewTree(contentView, this)
+        }
+
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack?.imageTintList = ColorStateList.valueOf(accent)
     }

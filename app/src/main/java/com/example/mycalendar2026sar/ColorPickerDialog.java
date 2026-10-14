@@ -78,6 +78,7 @@ public class ColorPickerDialog extends Dialog {
 
         setupListeners();
         setupPresets();
+        setupNeonPresetsUI();
 
         updateAllFromColor(currentColor, false);
 
@@ -108,7 +109,9 @@ public class ColorPickerDialog extends Dialog {
                 ThemeManager.setColorStyleMode(getContext(), "normal");
                 updateColorModeUI.run();
                 setupPresets();
-                updateAllFromColor(currentColor, false);
+                setupNeonPresetsUI();
+                int restoredColor = ThemeManager.getMainAccentColor(getContext());
+                updateAllFromColor(restoredColor, false);
             });
         }
 
@@ -117,7 +120,9 @@ public class ColorPickerDialog extends Dialog {
                 ThemeManager.setColorStyleMode(getContext(), "neon");
                 updateColorModeUI.run();
                 setupPresets();
-                updateAllFromColor(ThemeManager.toNeonColor(currentColor), false);
+                setupNeonPresetsUI();
+                int restoredColor = ThemeManager.getMainAccentColor(getContext());
+                updateAllFromColor(restoredColor, false);
             });
         }
 
@@ -129,6 +134,7 @@ public class ColorPickerDialog extends Dialog {
 
         findViewById(R.id.btnCancel).setOnClickListener(v -> dismiss());
         findViewById(R.id.btnSave).setOnClickListener(v -> {
+            ThemeManager.setMainAccentColor(getContext(), currentColor);
             if (listener != null) {
                 listener.onColorSelected(currentColor);
             }
@@ -222,6 +228,100 @@ public class ColorPickerDialog extends Dialog {
                 }
             }
         });
+    }
+
+    public static class NeonPreset {
+        public final String name;
+        public final int color;
+        public NeonPreset(String name, int color) {
+            this.name = name;
+            this.color = color;
+        }
+    }
+
+    public static final NeonPreset[] NEON_PRESETS = new NeonPreset[]{
+            new NeonPreset("Blue & Black Neon", 0xFF00E5FF),
+            new NeonPreset("Purple & Black Neon", 0xFFDF00FF),
+            new NeonPreset("Yellow & Black Neon", 0xFFFFE500),
+            new NeonPreset("Cyan & Black Neon", 0xFF00F5D4),
+            new NeonPreset("Pink & Black Neon", 0xFFFF0055),
+            new NeonPreset("Green & Black Neon", 0xFF39FF14)
+    };
+
+    private void setupNeonPresetsUI() {
+        LinearLayout container = findViewById(R.id.neonPresetsGrid);
+        if (container == null) return;
+        container.removeAllViews();
+
+        float density = getContext().getResources().getDisplayMetrics().density;
+        int paddingPx = (int) (8 * density);
+        int marginPx = (int) (4 * density);
+        int swatchSizePx = (int) (24 * density);
+
+        for (NeonPreset preset : NEON_PRESETS) {
+            boolean isSelected = (currentColor == preset.color);
+
+            LinearLayout row = new LinearLayout(getContext());
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            row.setPadding(paddingPx * 2, paddingPx, paddingPx * 2, paddingPx);
+
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(0, marginPx, 0, marginPx);
+            row.setLayoutParams(lp);
+
+            GradientDrawable shape = new GradientDrawable();
+            shape.setCornerRadius(12 * density);
+            if (isSelected) {
+                shape.setColor(0x33FFFFFF);
+                shape.setStroke((int) (2 * density), preset.color);
+            } else {
+                shape.setColor(0x1A1A1A1A);
+                shape.setStroke((int) (1 * density), 0x33FFFFFF);
+            }
+            row.setBackground(shape);
+
+            // Swatch
+            View swatch = new View(getContext());
+            LinearLayout.LayoutParams swatchLp = new LinearLayout.LayoutParams(swatchSizePx, swatchSizePx);
+            swatchLp.setMarginEnd((int) (12 * density));
+            swatch.setLayoutParams(swatchLp);
+
+            GradientDrawable circle = new GradientDrawable();
+            circle.setShape(GradientDrawable.OVAL);
+            circle.setColor(preset.color);
+            circle.setStroke((int) (1 * density), Color.WHITE);
+            swatch.setBackground(circle);
+
+            // Name
+            TextView nameTv = new TextView(getContext());
+            nameTv.setText(preset.name);
+            nameTv.setTextColor(isSelected ? preset.color : Color.WHITE);
+            nameTv.setTextSize(14);
+            nameTv.setTypeface(null, android.graphics.Typeface.BOLD);
+            LinearLayout.LayoutParams nameLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+            nameTv.setLayoutParams(nameLp);
+
+            // Selection Indicator
+            TextView checkTv = new TextView(getContext());
+            checkTv.setText(isSelected ? "✓" : "");
+            checkTv.setTextColor(preset.color);
+            checkTv.setTextSize(16);
+            checkTv.setTypeface(null, android.graphics.Typeface.BOLD);
+
+            row.addView(swatch);
+            row.addView(nameTv);
+            row.addView(checkTv);
+
+            row.setOnClickListener(v -> {
+                ThemeManager.setColorStyleMode(getContext(), "neon");
+                updateAllFromColor(preset.color, false);
+                setupNeonPresetsUI();
+            });
+
+            container.addView(row);
+        }
     }
 
     private void updateAllFromColor(int color, boolean fromUserEdit) {

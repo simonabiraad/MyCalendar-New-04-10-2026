@@ -56,6 +56,30 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Color Neon Presets -->
+        <LinearLayout
+            android:id="@+id/neonSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="⚡ Color Neon Themes"
+                android:textColor="#39FF14"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/neonPresetsGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
         <!-- Preview and Hex Code Bar -->
         <LinearLayout
             android:layout_width="match_parent"
