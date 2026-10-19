@@ -60,6 +60,8 @@ drawable bg_pill_green
 drawable bg_pill_red
 drawable bg_save_button
 drawable bg_swap_circle
+drawable bg_swipe_delete
+drawable bg_swipe_edit
 drawable black_cursor
 drawable black_handle
 drawable black_handle_left
@@ -346,6 +348,8 @@ id btnStatusArrow
 id btnSummaryCalendar
 id btnSummaryReport
 id btnSwapCurrency
+id btnSwipeDelete
+id btnSwipeEdit
 id btnText
 id btnUpdate
 id btnVoice
@@ -540,6 +544,7 @@ id footerCashOut
 id footerGrandTotalAmount
 id footerSubTotalAmount
 id footerTotalCount
+id foregroundContent
 id grandTotalRow
 id greenSeekBar
 id greenText
@@ -836,6 +841,7 @@ id summaryRecyclerView
 id summaryTableHeaders
 id summaryTabsContainer
 id summaryToolbar
+id swipeActionsContainer
 id switchAllDay
 id switchDarkMode
 id switchDarkModeMenu

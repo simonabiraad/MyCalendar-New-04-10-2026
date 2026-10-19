@@ -1,56 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical">
+    android:layout_height="wrap_content">
 
-    <!-- Column 1: Title and Time -->
+    <!-- Action Buttons Layer (Behind) -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/swipeActionsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/btnSwipeEdit"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_swipe_edit"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="Edit"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnSwipeDelete"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_swipe_delete"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="Delete"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Foreground Content Layer -->
+    <LinearLayout
+        android:id="@+id/foregroundContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/rowTitle"
-            android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <!-- Column 1: Title and Time -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="supermarket"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rowTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="supermarket"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rowTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="02:55 pm"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Column 2: Account -->
+        <TextView
+            android:id="@+id/rowAccount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Cash Book"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <!-- Column 3: Amount -->
         <TextView
-            android:id="@+id/rowTime"
-            android:layout_width="wrap_content"
+            android:id="@+id/rowAmount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="02:55 pm"
-            android:textColor="@color/text_secondary"
-            android:textSize="11sp" />
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="20.00"
+            android:textColor="@color/income_green"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
-    <!-- Column 2: Account -->
-    <TextView
-        android:id="@+id/rowAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="Cash Book"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <!-- Column 3: Amount -->
-    <TextView
-        android:id="@+id/rowAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="end"
-        android:text="20.00"
-        android:textColor="@color/income_green"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-</LinearLayout>
+</FrameLayout>

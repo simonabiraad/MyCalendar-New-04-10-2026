@@ -57,6 +57,60 @@ class MoneyVaultViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
+    fun deleteSaveTransaction(txId: Long, currency: String = "USD"): Boolean {
+        val success = repository.deleteSaveTransaction(txId, currency)
+        if (success) {
+            _toastMessage.value = "Transaction deleted"
+            loadSaveData(currency)
+        } else {
+            _toastMessage.value = "Failed to delete transaction"
+        }
+        return success
+    }
+
+    fun updateSaveTransaction(txId: Long, amount: Double, type: SaveTransaction.Type, currency: String = "USD", note: String? = null): Boolean {
+        if (amount <= 0.0) {
+            _toastMessage.value = "Amount must be greater than zero"
+            return false
+        }
+        val success = repository.updateSaveTransaction(txId, amount, type, currency, note)
+        if (success) {
+            _toastMessage.value = "Transaction updated"
+            loadSaveData(currency)
+        } else {
+            _toastMessage.value = "Failed to update transaction"
+        }
+        return success
+    }
+
+    fun deleteVaultTransaction(txId: Long, vaultId: Long): Boolean {
+        val success = repository.deleteVaultTransaction(txId, vaultId)
+        if (success) {
+            _toastMessage.value = "Record deleted"
+            loadVaults()
+            loadVaultTransactions(vaultId)
+        } else {
+            _toastMessage.value = "Failed to delete record"
+        }
+        return success
+    }
+
+    fun updateVaultTransaction(txId: Long, vaultId: Long, amount: Double, type: VaultTransaction.Type, note: String?): Boolean {
+        if (amount <= 0.0) {
+            _toastMessage.value = "Amount must be greater than zero"
+            return false
+        }
+        val success = repository.updateVaultTransaction(txId, vaultId, amount, type, note)
+        if (success) {
+            _toastMessage.value = "Record updated"
+            loadVaults()
+            loadVaultTransactions(vaultId)
+        } else {
+            _toastMessage.value = "Failed to update record"
+        }
+        return success
+    }
+
     fun loadVaults() {
         _vaults.value = repository.getAllVaults()
     }

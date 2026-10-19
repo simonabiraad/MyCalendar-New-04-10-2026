@@ -56,6 +56,8 @@ class MoneyVaultActivity : AppCompatActivity() {
     private lateinit var savingsAdapter: SavingsVaultAdapter
     private lateinit var plannedAdapter: PlannedPaymentAdapter
 
+    private val swipeRevealHelper = SwipeRevealHelper()
+
     private var activeTab = 0 // 0: Save, 1: Savings Vault, 2: Planned Payments
     private val availableCurrencies = arrayOf("USD", "EUR", "LBP", "SAR", "AED", "GBP", "CAD", "AUD", "CHF", "JPY")
     private var selectedSaveCurrency = "USD"
@@ -172,6 +174,12 @@ class MoneyVaultActivity : AppCompatActivity() {
         saveHistoryAdapter = SaveHistoryAdapter()
         rvSaveHistory.adapter = saveHistoryAdapter
 
+        swipeRevealHelper.attachItemTouchHelper(rvSaveHistory) { vh ->
+            if (vh is SaveHistoryAdapter.ViewHolder) {
+                SwipeTouchViews(vh.foregroundContent, vh.swipeActionsContainer)
+            } else null
+        }
+
         rvSavingsVaults.layoutManager = LinearLayoutManager(this)
         savingsAdapter = SavingsVaultAdapter()
         rvSavingsVaults.adapter = savingsAdapter
@@ -255,6 +263,68 @@ class MoneyVaultActivity : AppCompatActivity() {
                         currency = currency,
                         note = if (note.isEmpty()) null else note
                     )
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
+    }
+
+    private fun showEditSaveTransactionDialog(transaction: SaveTransaction) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_add_save_transaction, null)
+        val txtTitle = view.findViewById<TextView>(R.id.txtSaveDialogTitle)
+        val etAmount = view.findViewById<EditText>(R.id.etSaveAmount)
+        val spinnerCurrency = view.findViewById<Spinner>(R.id.spinnerSaveCurrency)
+        val etNote = view.findViewById<EditText>(R.id.etSaveNote)
+
+        CurrencyFormatter.addAmountTextWatcher(etAmount)
+
+        txtTitle.text = if (transaction.type == SaveTransaction.Type.SAVE) "Edit Save" else "Edit Withdraw"
+        etAmount.setText(CurrencyFormatter.formatRawAmount(transaction.amount))
+        if (!transaction.note.isNullOrBlank()) {
+            etNote.setText(transaction.note)
+        }
+
+        val currencyAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, availableCurrencies)
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCurrency.adapter = currencyAdapter
+
+        val curIndex = availableCurrencies.indexOf(transaction.currency)
+        if (curIndex >= 0) spinnerCurrency.setSelection(curIndex)
+
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setView(view)
+                .setPositiveButton("Save") { _, _ ->
+                    val amountStr = etAmount.text.toString().trim()
+                    val amount = CurrencyFormatter.parseAmount(amountStr)
+                    val currency = spinnerCurrency.selectedItem.toString()
+                    val note = etNote.text.toString().trim()
+
+                    if (amount <= 0.0) {
+                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    viewModel.updateSaveTransaction(
+                        txId = transaction.id,
+                        amount = amount,
+                        type = transaction.type,
+                        currency = currency,
+                        note = if (note.isEmpty()) null else note
+                    )
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
+    }
+
+    private fun showDeleteSaveTransactionDialog(transaction: SaveTransaction) {
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("Delete Transaction")
+                .setMessage("Are you sure you want to delete this transaction?")
+                .setPositiveButton("Delete") { _, _ ->
+                    viewModel.deleteSaveTransaction(transaction.id, selectedSaveCurrency)
                 }
                 .setNegativeButton("Cancel", null),
             this
@@ -388,19 +458,113 @@ class MoneyVaultActivity : AppCompatActivity() {
     // VAULT HISTORY DIALOG
     // ==========================================
 
+    private fun showEditVaultTransactionDialog(
+        vault: SavingsVault,
+        transaction: VaultTransaction,
+        onUpdated: () -> Unit
+    ) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_add_withdraw_vault, null)
+        val txtTitle = view.findViewById<TextView>(R.id.txtDialogTitle)
+        val etAmount = view.findViewById<EditText>(R.id.etTxAmount)
+        val etNote = view.findViewById<EditText>(R.id.etTxNote)
+
+        CurrencyFormatter.addAmountTextWatcher(etAmount)
+
+        val isAdd = transaction.type == VaultTransaction.Type.ADD
+        txtTitle.text = "Edit ${if (isAdd) "Deposit" else "Withdrawal"} (${vault.name})"
+        etAmount.setText(CurrencyFormatter.formatRawAmount(transaction.amount))
+        if (!transaction.note.isNullOrBlank()) {
+            etNote.setText(transaction.note)
+        }
+
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setView(view)
+                .setPositiveButton("Save") { _, _ ->
+                    val amountStr = etAmount.text.toString().trim()
+                    val amount = CurrencyFormatter.parseAmount(amountStr)
+                    val note = etNote.text.toString().trim()
+
+                    if (amount <= 0.0) {
+                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    viewModel.updateVaultTransaction(
+                        txId = transaction.id,
+                        vaultId = vault.id,
+                        amount = amount,
+                        type = transaction.type,
+                        note = if (note.isEmpty()) null else note
+                    )
+                    onUpdated()
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
+    }
+
+    private fun showDeleteVaultTransactionDialog(
+        vault: SavingsVault,
+        transaction: VaultTransaction,
+        onDeleted: () -> Unit
+    ) {
+        ThemeManager.showDialog(
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("Delete Record")
+                .setMessage("Are you sure you want to delete this record?")
+                .setPositiveButton("Delete") { _, _ ->
+                    viewModel.deleteVaultTransaction(transaction.id, vault.id)
+                    onDeleted()
+                }
+                .setNegativeButton("Cancel", null),
+            this
+        )
+    }
+
     private fun showVaultHistoryDialog(vault: SavingsVault) {
-        val historyList = MoneyVaultRepository(this).getVaultTransactions(vault.id)
+        val repo = MoneyVaultRepository(this)
+        var historyList = repo.getVaultTransactions(vault.id).toMutableList()
         val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setTitle("${vault.name} History")
+
+        lateinit var adapter: VaultHistoryAdapter
+        val recyclerView = RecyclerView(this).apply {
+            layoutManager = LinearLayoutManager(this@MoneyVaultActivity)
+            setPadding(16, 16, 16, 16)
+        }
+
+        fun refreshList() {
+            historyList = repo.getVaultTransactions(vault.id).toMutableList()
+            adapter.updateItems(historyList)
+            viewModel.loadVaults()
+        }
+
+        adapter = VaultHistoryAdapter(
+            list = historyList,
+            currency = vault.currency,
+            onEdit = { tx ->
+                showEditVaultTransactionDialog(vault, tx) {
+                    refreshList()
+                }
+            },
+            onDelete = { tx ->
+                showDeleteVaultTransactionDialog(vault, tx) {
+                    refreshList()
+                }
+            }
+        )
+        recyclerView.adapter = adapter
+
+        swipeRevealHelper.attachItemTouchHelper(recyclerView) { vh ->
+            if (vh is VaultHistoryAdapter.ViewHolder) {
+                SwipeTouchViews(vh.foregroundContent, vh.swipeActionsContainer)
+            } else null
+        }
 
         if (historyList.isEmpty()) {
             builder.setMessage("No transactions recorded for this vault yet.")
         } else {
-            val recyclerView = RecyclerView(this).apply {
-                layoutManager = LinearLayoutManager(this@MoneyVaultActivity)
-                adapter = VaultHistoryAdapter(historyList, vault.currency)
-                setPadding(16, 16, 16, 16)
-            }
             builder.setView(recyclerView)
         }
 
@@ -610,11 +774,24 @@ class MoneyVaultActivity : AppCompatActivity() {
             } else {
                 holder.txtSaveNote.visibility = View.GONE
             }
+
+            swipeRevealHelper.attachSwipe(
+                foreground = holder.foregroundContent,
+                actionsContainer = holder.swipeActionsContainer,
+                btnEdit = holder.btnSwipeEdit,
+                btnDelete = holder.btnSwipeDelete,
+                onEdit = { showEditSaveTransactionDialog(item) },
+                onDelete = { showDeleteSaveTransactionDialog(item) }
+            )
         }
 
         override fun getItemCount(): Int = items.size
 
         inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val foregroundContent: View = v.findViewById(R.id.foregroundContent)
+            val swipeActionsContainer: View = v.findViewById(R.id.swipeActionsContainer)
+            val btnSwipeEdit: View = v.findViewById(R.id.btnSwipeEdit)
+            val btnSwipeDelete: View = v.findViewById(R.id.btnSwipeDelete)
             val txtSaveDateTime: TextView = v.findViewById(R.id.txtSaveDateTime)
             val txtSaveTypeAmount: TextView = v.findViewById(R.id.txtSaveTypeAmount)
             val txtSaveBalanceAfter: TextView = v.findViewById(R.id.txtSaveBalanceAfter)
@@ -1009,11 +1186,19 @@ class MoneyVaultActivity : AppCompatActivity() {
     // ==========================================
 
     private inner class VaultHistoryAdapter(
-        private val list: List<VaultTransaction>,
-        private val currency: String
+        private val list: MutableList<VaultTransaction>,
+        private val currency: String,
+        private val onEdit: (VaultTransaction) -> Unit,
+        private val onDelete: (VaultTransaction) -> Unit
     ) : RecyclerView.Adapter<VaultHistoryAdapter.ViewHolder>() {
 
         private val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US)
+
+        fun updateItems(newList: List<VaultTransaction>) {
+            list.clear()
+            list.addAll(newList)
+            notifyDataSetChanged()
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val v = LayoutInflater.from(parent.context).inflate(R.layout.item_vault_transaction, parent, false)
@@ -1043,11 +1228,24 @@ class MoneyVaultActivity : AppCompatActivity() {
                     if (isAdd) R.color.light_green else R.color.chili_red
                 )
             )
+
+            swipeRevealHelper.attachSwipe(
+                foreground = holder.foregroundContent,
+                actionsContainer = holder.swipeActionsContainer,
+                btnEdit = holder.btnSwipeEdit,
+                btnDelete = holder.btnSwipeDelete,
+                onEdit = { onEdit(tx) },
+                onDelete = { onDelete(tx) }
+            )
         }
 
         override fun getItemCount(): Int = list.size
 
         inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val foregroundContent: View = v.findViewById(R.id.foregroundContent)
+            val swipeActionsContainer: View = v.findViewById(R.id.swipeActionsContainer)
+            val btnSwipeEdit: View = v.findViewById(R.id.btnSwipeEdit)
+            val btnSwipeDelete: View = v.findViewById(R.id.btnSwipeDelete)
             val txtTxTypeBadge: TextView = v.findViewById(R.id.txtTxTypeBadge)
             val txtTxNote: TextView = v.findViewById(R.id.txtTxNote)
             val txtTxDate: TextView = v.findViewById(R.id.txtTxDate)

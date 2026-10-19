@@ -58,6 +58,8 @@ int drawable bg_pill_green 0x0
 int drawable bg_pill_red 0x0
 int drawable bg_save_button 0x0
 int drawable bg_swap_circle 0x0
+int drawable bg_swipe_delete 0x0
+int drawable bg_swipe_edit 0x0
 int drawable black_cursor 0x0
 int drawable black_handle 0x0
 int drawable black_handle_left 0x0
@@ -344,6 +346,8 @@ int id btnStatusArrow 0x0
 int id btnSummaryCalendar 0x0
 int id btnSummaryReport 0x0
 int id btnSwapCurrency 0x0
+int id btnSwipeDelete 0x0
+int id btnSwipeEdit 0x0
 int id btnText 0x0
 int id btnUpdate 0x0
 int id btnVoice 0x0
@@ -538,6 +542,7 @@ int id footerCashOut 0x0
 int id footerGrandTotalAmount 0x0
 int id footerSubTotalAmount 0x0
 int id footerTotalCount 0x0
+int id foregroundContent 0x0
 int id grandTotalRow 0x0
 int id greenSeekBar 0x0
 int id greenText 0x0
@@ -834,6 +839,7 @@ int id summaryRecyclerView 0x0
 int id summaryTableHeaders 0x0
 int id summaryTabsContainer 0x0
 int id summaryToolbar 0x0
+int id swipeActionsContainer 0x0
 int id switchAllDay 0x0
 int id switchDarkMode 0x0
 int id switchDarkModeMenu 0x0

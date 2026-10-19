@@ -80,6 +80,7 @@ public class ExpensesActivity extends AppCompatActivity {
     private TransactionDbHelper transactionDbHelper;
     private TransactionAdapter transactionAdapter;
     private RecyclerView transactionsRecyclerView;
+    private final SwipeRevealHelper swipeRevealHelper = new SwipeRevealHelper();
     private View emptyStateText;
     private TextView cashInTotalText;
     private TextView cashOutTotalText;
@@ -276,8 +277,22 @@ public class ExpensesActivity extends AppCompatActivity {
 
         transactionAdapter = new TransactionAdapter(this::confirmDeleteTransaction);
         transactionAdapter.setOnTransactionClickListener(this::showTransactionNotePopup);
+        transactionAdapter.setOnTransactionEditListener(transaction -> {
+            Intent intent = new Intent(this, AddTransactionActivity.class);
+            intent.putExtra("transaction_id", transaction.getId());
+            startActivity(intent);
+        });
+        transactionAdapter.setOnTransactionDeleteListener(this::confirmDeleteTransaction);
         transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         transactionsRecyclerView.setAdapter(transactionAdapter);
+
+        swipeRevealHelper.attachItemTouchHelper(transactionsRecyclerView, vh -> {
+            if (vh instanceof TransactionAdapter.RowViewHolder) {
+                TransactionAdapter.RowViewHolder r = (TransactionAdapter.RowViewHolder) vh;
+                return new SwipeTouchViews(r.foregroundContent, r.swipeActionsContainer);
+            }
+            return null;
+        });
 
         // Handle Active Account context from Intent
         String passedAccount = getIntent().getStringExtra("active_account");

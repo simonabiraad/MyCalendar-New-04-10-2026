@@ -53,6 +53,7 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView labelCurrentTab, footerCashIn, footerCashOut, footerBalance;
     private Button btnAll, btnDaily, btnWeekly, btnMonthly, btnYearly;
+    private final SwipeRevealHelper swipeRevealHelper = new SwipeRevealHelper();
 
     // Filters
     private String searchQuery = "";
@@ -137,6 +138,14 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
         adapter = new AllTxAdapter();
         recyclerView.setAdapter(adapter);
 
+        swipeRevealHelper.attachItemTouchHelper(recyclerView, vh -> {
+            if (vh instanceof AllTxAdapter.RowViewHolder) {
+                AllTxAdapter.RowViewHolder r = (AllTxAdapter.RowViewHolder) vh;
+                return new SwipeTouchViews(r.foregroundContent, r.swipeActionsContainer);
+            }
+            return null;
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.allTxToolbar), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(v.getPaddingLeft(), systemBars.top, v.getPaddingRight(), v.getPaddingBottom());
@@ -144,6 +153,25 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
         });
 
         refresh();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    private void confirmDeleteTransaction(Transaction t) {
+        ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("Delete Transaction")
+                .setMessage("Delete \"" + t.getTitle() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    double delta = t.isCashIn() ? -t.getAmount() : t.getAmount();
+                    BalanceManager.updateAccountBalance(this, t.getAccount(), delta);
+                    dbHelper.deleteTransaction(t.getId());
+                    refresh();
+                })
+                .setNegativeButton("Cancel", null), this);
     }
 
     private void showSavePopupMenu(View v) {
@@ -504,7 +532,7 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
             if (holder instanceof HeaderViewHolder) {
                 ((HeaderViewHolder) holder).text.setText(item.headerDate);
                 ((HeaderViewHolder) holder).text.setTextColor(accent);
-            } else {
+            } else if (holder instanceof RowViewHolder) {
                 RowViewHolder row = (RowViewHolder) holder;
                 Transaction t = item.transaction;
                 row.title.setText(t.getTitle());
@@ -512,6 +540,26 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
                 row.account.setText(t.getAccount() != null ? t.getAccount() : "---");
                 row.amount.setText(String.format(Locale.US, "%,.2f %s", t.getAmount(), t.getCurrency()));
                 row.amount.setTextColor(t.isCashIn() ? accent : ContextCompat.getColor(TransactionsAllAccountsActivity.this, R.color.expense_red));
+
+                if (row.foregroundContent != null && row.swipeActionsContainer != null) {
+                    swipeRevealHelper.attachSwipe(
+                        row.foregroundContent,
+                        row.swipeActionsContainer,
+                        row.btnSwipeEdit,
+                        row.btnSwipeDelete,
+                        () -> {
+                            Intent intent = new Intent(TransactionsAllAccountsActivity.this, AddTransactionActivity.class);
+                            intent.putExtra("transaction_id", t.getId());
+                            startActivity(intent);
+                            return kotlin.Unit.INSTANCE;
+                        },
+                        () -> {
+                            TransactionsAllAccountsActivity.this.confirmDeleteTransaction(t);
+                            return kotlin.Unit.INSTANCE;
+                        },
+                        null
+                    );
+                }
             }
         }
 
@@ -522,10 +570,19 @@ public class TransactionsAllAccountsActivity extends AppCompatActivity {
             HeaderViewHolder(View v) { super(v); text = v.findViewById(R.id.headerDateText); }
         }
 
-        class RowViewHolder extends RecyclerView.ViewHolder {
+        public class RowViewHolder extends RecyclerView.ViewHolder {
+            public View foregroundContent;
+            public View swipeActionsContainer;
+            public View btnSwipeEdit;
+            public View btnSwipeDelete;
             TextView title, time, account, amount;
+
             RowViewHolder(View v) {
                 super(v);
+                foregroundContent = v.findViewById(R.id.foregroundContent);
+                swipeActionsContainer = v.findViewById(R.id.swipeActionsContainer);
+                btnSwipeEdit = v.findViewById(R.id.btnSwipeEdit);
+                btnSwipeDelete = v.findViewById(R.id.btnSwipeDelete);
                 title = v.findViewById(R.id.rowTitle);
                 time = v.findViewById(R.id.rowTime);
                 account = v.findViewById(R.id.rowAccount);

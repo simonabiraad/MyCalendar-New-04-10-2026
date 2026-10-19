@@ -744,4 +744,179 @@ class MoneyVaultRepository(private val context: Context) {
         }
         return list
     }
+
+    fun deleteSaveTransaction(txId: Long, currency: String): Boolean {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val count = db.delete(
+                TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+                "${TransactionDbHelper.COL_SAVE_ID}=?",
+                arrayOf(txId.toString())
+            )
+            if (count > 0) {
+                recalculateSaveBalances(currency)
+                db.setTransactionSuccessful()
+                return true
+            }
+        } finally {
+            db.endTransaction()
+        }
+        return false
+    }
+
+    fun updateSaveTransaction(txId: Long, amount: Double, type: SaveTransaction.Type, currency: String, note: String?): Boolean {
+        if (amount <= 0.0) return false
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val values = ContentValues().apply {
+                put(TransactionDbHelper.COL_SAVE_AMOUNT, amount)
+                put(TransactionDbHelper.COL_SAVE_TYPE, type.name)
+                put(TransactionDbHelper.COL_SAVE_CURRENCY, currency)
+                put(TransactionDbHelper.COL_SAVE_NOTE, note ?: "")
+            }
+            val count = db.update(
+                TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+                values,
+                "${TransactionDbHelper.COL_SAVE_ID}=?",
+                arrayOf(txId.toString())
+            )
+            if (count > 0) {
+                recalculateSaveBalances(currency)
+                db.setTransactionSuccessful()
+                return true
+            }
+        } finally {
+            db.endTransaction()
+        }
+        return false
+    }
+
+    fun recalculateSaveBalances(currency: String) {
+        val db = dbHelper.writableDatabase
+        val cursor = db.query(
+            TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+            arrayOf(TransactionDbHelper.COL_SAVE_ID, TransactionDbHelper.COL_SAVE_AMOUNT, TransactionDbHelper.COL_SAVE_TYPE),
+            "${TransactionDbHelper.COL_SAVE_CURRENCY}=?",
+            arrayOf(currency),
+            null, null,
+            "${TransactionDbHelper.COL_SAVE_ID} ASC"
+        )
+
+        var runningBalance = 0.0
+        cursor?.use { c ->
+            val idIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_ID)
+            val amtIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_AMOUNT)
+            val typeIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_SAVE_TYPE)
+
+            while (c.moveToNext()) {
+                val id = c.getLong(idIdx)
+                val amt = c.getDouble(amtIdx)
+                val typeStr = c.getString(typeIdx)
+                val type = runCatching { SaveTransaction.Type.valueOf(typeStr) }.getOrDefault(SaveTransaction.Type.SAVE)
+
+                if (type == SaveTransaction.Type.SAVE) {
+                    runningBalance += amt
+                } else {
+                    runningBalance -= amt
+                }
+
+                val values = ContentValues().apply {
+                    put(TransactionDbHelper.COL_SAVE_BALANCE_AFTER, runningBalance)
+                }
+                db.update(
+                    TransactionDbHelper.TABLE_SAVE_TRANSACTIONS,
+                    values,
+                    "${TransactionDbHelper.COL_SAVE_ID}=?",
+                    arrayOf(id.toString())
+                )
+            }
+        }
+    }
+
+    fun deleteVaultTransaction(txId: Long, vaultId: Long): Boolean {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val count = db.delete(
+                TransactionDbHelper.TABLE_VAULT_TRANSACTIONS,
+                "${TransactionDbHelper.COL_VTX_ID}=?",
+                arrayOf(txId.toString())
+            )
+            if (count > 0) {
+                recalculateVaultCurrentAmount(vaultId)
+                db.setTransactionSuccessful()
+                return true
+            }
+        } finally {
+            db.endTransaction()
+        }
+        return false
+    }
+
+    fun updateVaultTransaction(txId: Long, vaultId: Long, amount: Double, type: VaultTransaction.Type, note: String?): Boolean {
+        if (amount <= 0.0) return false
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val values = ContentValues().apply {
+                put(TransactionDbHelper.COL_VTX_AMOUNT, amount)
+                put(TransactionDbHelper.COL_VTX_TYPE, type.name)
+                put(TransactionDbHelper.COL_VTX_NOTE, note ?: "")
+            }
+            val count = db.update(
+                TransactionDbHelper.TABLE_VAULT_TRANSACTIONS,
+                values,
+                "${TransactionDbHelper.COL_VTX_ID}=?",
+                arrayOf(txId.toString())
+            )
+            if (count > 0) {
+                recalculateVaultCurrentAmount(vaultId)
+                db.setTransactionSuccessful()
+                return true
+            }
+        } finally {
+            db.endTransaction()
+        }
+        return false
+    }
+
+    fun recalculateVaultCurrentAmount(vaultId: Long) {
+        val db = dbHelper.writableDatabase
+        val cursor = db.query(
+            TransactionDbHelper.TABLE_VAULT_TRANSACTIONS,
+            arrayOf(TransactionDbHelper.COL_VTX_AMOUNT, TransactionDbHelper.COL_VTX_TYPE),
+            "${TransactionDbHelper.COL_VTX_VAULT_ID}=?",
+            arrayOf(vaultId.toString()),
+            null, null, null
+        )
+
+        var total = 0.0
+        cursor?.use { c ->
+            val amtIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_VTX_AMOUNT)
+            val typeIdx = c.getColumnIndexOrThrow(TransactionDbHelper.COL_VTX_TYPE)
+
+            while (c.moveToNext()) {
+                val amt = c.getDouble(amtIdx)
+                val typeStr = c.getString(typeIdx)
+                val type = runCatching { VaultTransaction.Type.valueOf(typeStr) }.getOrDefault(VaultTransaction.Type.ADD)
+                if (type == VaultTransaction.Type.ADD) {
+                    total += amt
+                } else {
+                    total -= amt
+                }
+            }
+        }
+
+        val updateValues = ContentValues().apply {
+            put(TransactionDbHelper.COL_VAULT_CURRENT_AMOUNT, total)
+        }
+        db.update(
+            TransactionDbHelper.TABLE_SAVINGS_VAULTS,
+            updateValues,
+            "${TransactionDbHelper.COL_VAULT_ID}=?",
+            arrayOf(vaultId.toString())
+        )
+    }
 }

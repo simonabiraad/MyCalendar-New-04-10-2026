@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -23,9 +22,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void onClick(Transaction transaction);
     }
 
+    public interface OnTransactionEditListener {
+        void onEdit(Transaction transaction);
+    }
+
+    public interface OnTransactionDeleteListener {
+        void onDelete(Transaction transaction);
+    }
+
     private List<TransactionListItem> items = new ArrayList<>();
     private final OnTransactionLongClickListener longClickListener;
     private OnTransactionClickListener clickListener;
+    private OnTransactionEditListener editListener;
+    private OnTransactionDeleteListener deleteListener;
+    private final SwipeRevealHelper swipeRevealHelper = new SwipeRevealHelper();
 
     public TransactionAdapter(OnTransactionLongClickListener longClickListener) {
         this.longClickListener = longClickListener;
@@ -33,6 +43,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setOnTransactionClickListener(OnTransactionClickListener listener) {
         this.clickListener = listener;
+    }
+
+    public void setOnTransactionEditListener(OnTransactionEditListener listener) {
+        this.editListener = listener;
+    }
+
+    public void setOnTransactionDeleteListener(OnTransactionDeleteListener listener) {
+        this.deleteListener = listener;
     }
 
     public void updateItems(List<TransactionListItem> newItems) {
@@ -111,18 +129,39 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             rowHolder.balance.setText(CurrencyFormatter.formatAmount(item.getBalanceAfter(), transaction.getCurrency()));
             rowHolder.balance.setTextColor(themeTextColor);
 
-            rowHolder.itemView.setOnClickListener(v -> {
-                if (clickListener != null) {
-                    clickListener.onClick(transaction);
-                }
-            });
-
             rowHolder.itemView.setOnLongClickListener(v -> {
                 if (longClickListener != null) {
                     longClickListener.onLongClick(transaction);
                 }
                 return true;
             });
+
+            if (rowHolder.foregroundContent != null && rowHolder.swipeActionsContainer != null) {
+                swipeRevealHelper.attachSwipe(
+                    rowHolder.foregroundContent,
+                    rowHolder.swipeActionsContainer,
+                    rowHolder.btnSwipeEdit,
+                    rowHolder.btnSwipeDelete,
+                    () -> {
+                        if (editListener != null) {
+                            editListener.onEdit(transaction);
+                        }
+                        return kotlin.Unit.INSTANCE;
+                    },
+                    () -> {
+                        if (deleteListener != null) {
+                            deleteListener.onDelete(transaction);
+                        }
+                        return kotlin.Unit.INSTANCE;
+                    },
+                    () -> {
+                        if (clickListener != null) {
+                            clickListener.onClick(transaction);
+                        }
+                        return kotlin.Unit.INSTANCE;
+                    }
+                );
+            }
         }
     }
 
@@ -135,7 +174,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    static class RowViewHolder extends RecyclerView.ViewHolder {
+    public static class RowViewHolder extends RecyclerView.ViewHolder {
+        public View foregroundContent;
+        public View swipeActionsContainer;
+        public View btnSwipeEdit;
+        public View btnSwipeDelete;
         TextView title;
         TextView time;
         TextView cashIn;
@@ -144,6 +187,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         RowViewHolder(@NonNull View itemView) {
             super(itemView);
+            foregroundContent = itemView.findViewById(R.id.foregroundContent);
+            swipeActionsContainer = itemView.findViewById(R.id.swipeActionsContainer);
+            btnSwipeEdit = itemView.findViewById(R.id.btnSwipeEdit);
+            btnSwipeDelete = itemView.findViewById(R.id.btnSwipeDelete);
             title = itemView.findViewById(R.id.transactionTitle);
             time = itemView.findViewById(R.id.transactionTime);
             cashIn = itemView.findViewById(R.id.transactionCashIn);
