@@ -572,6 +572,83 @@ class MoneyVaultRepository(private val context: Context) {
         return success
     }
 
+    fun unmarkScheduleItemAsPaid(scheduleItemId: Long): Boolean {
+        val db = dbHelper.writableDatabase
+        var success = false
+        db.beginTransaction()
+        try {
+            val cursor = db.query(
+                TransactionDbHelper.TABLE_PAYMENT_SCHEDULE_ITEMS,
+                null,
+                "${TransactionDbHelper.COL_PSI_ID}=?",
+                arrayOf(scheduleItemId.toString()),
+                null, null, null
+            )
+
+            var scheduleItem: PaymentScheduleItem? = null
+            cursor?.use { c ->
+                if (c.moveToFirst()) {
+                    val statusStr = c.getString(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_STATUS))
+                    val paidTs = c.getLong(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_PAID_TIMESTAMP))
+                    val txId = c.getLong(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_CASH_OUT_TX_ID))
+                    scheduleItem = PaymentScheduleItem(
+                        id = c.getLong(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_ID)),
+                        plannedPaymentId = c.getLong(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_PLANNED_PAYMENT_ID)),
+                        dueDate = c.getString(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_DUE_DATE)),
+                        amount = c.getDouble(c.getColumnIndexOrThrow(TransactionDbHelper.COL_PSI_AMOUNT)),
+                        status = PaymentScheduleItem.Status.PAID,
+                        paidTimestamp = paidTs,
+                        cashOutTxId = txId
+                    )
+                }
+            }
+
+            val item = scheduleItem ?: return false
+
+            // Revert created Cash Out transaction if exists
+            if (item.cashOutTxId > 0) {
+                val tx = dbHelper.getTransactionById(item.cashOutTxId)
+                if (tx != null) {
+                    BalanceManager.updateAccountBalance(context, tx.account, item.amount)
+                    dbHelper.permanentlyDeleteTransaction(item.cashOutTxId)
+                }
+            }
+
+            // Calculate whether it should revert to OVERDUE or UPCOMING based on due date
+            val todayCal = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val dueParsed = runCatching { dateFormat.parse(item.dueDate) }.getOrNull()
+            val newStatus = if (dueParsed != null && dueParsed.time < todayCal.timeInMillis) {
+                PaymentScheduleItem.Status.OVERDUE.name
+            } else {
+                PaymentScheduleItem.Status.UPCOMING.name
+            }
+
+            // Update schedule item in SQLite DB
+            val updateValues = ContentValues().apply {
+                put(TransactionDbHelper.COL_PSI_STATUS, newStatus)
+                put(TransactionDbHelper.COL_PSI_PAID_TIMESTAMP, 0L)
+                put(TransactionDbHelper.COL_PSI_CASH_OUT_TX_ID, 0L)
+            }
+            db.update(
+                TransactionDbHelper.TABLE_PAYMENT_SCHEDULE_ITEMS,
+                updateValues,
+                "${TransactionDbHelper.COL_PSI_ID}=?",
+                arrayOf(scheduleItemId.toString())
+            )
+
+            db.setTransactionSuccessful()
+            success = true
+        } finally {
+            db.endTransaction()
+        }
+        return success
+    }
+
     /**
      * Generates schedule dates and calculates payment amounts per period.
      * Rounding difference is automatically corrected on the final item so sum == totalAmount EXACTLY.

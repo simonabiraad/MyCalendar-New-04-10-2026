@@ -249,4 +249,15 @@ class MoneyVaultViewModel(application: Application) : AndroidViewModel(applicati
         }
         return success
     }
+
+    fun unmarkScheduleItemAsPaid(scheduleItemId: Long): Boolean {
+        val success = repository.unmarkScheduleItemAsPaid(scheduleItemId)
+        if (success) {
+            _toastMessage.value = "Payment marked as unpaid"
+            loadPlannedPayments()
+        } else {
+            _toastMessage.value = "Failed to update payment status"
+        }
+        return success
+    }
 }

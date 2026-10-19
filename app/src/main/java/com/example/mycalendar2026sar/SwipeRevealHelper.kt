@@ -1,5 +1,7 @@
 package com.example.mycalendar2026sar
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Canvas
@@ -16,18 +18,28 @@ class SwipeTouchViews(
 
 /**
  * Helper to manage smooth right-to-left swipe-to-reveal Edit and Delete action buttons on transaction rows.
+ * Also handles hiding buttons and restoring row appearance when tapping a swiped row.
  */
 class SwipeRevealHelper {
 
     private var currentlyOpenForeground: View? = null
+    private var currentlyOpenActions: View? = null
 
     fun closeCurrentlyOpen() {
-        currentlyOpenForeground?.let { openView ->
+        val openView = currentlyOpenForeground
+        val openActions = currentlyOpenActions
+        if (openView != null) {
             ObjectAnimator.ofFloat(openView, "translationX", 0f).apply {
                 duration = 180
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        openActions?.visibility = View.GONE
+                    }
+                })
                 start()
             }
             currentlyOpenForeground = null
+            currentlyOpenActions = null
         }
     }
 
@@ -77,13 +89,20 @@ class SwipeRevealHelper {
                                 start()
                             }
                             currentlyOpenForeground = foreground
+                            currentlyOpenActions = actions
                         } else if (currentTransX != 0f) {
                             ObjectAnimator.ofFloat(foreground, "translationX", 0f).apply {
                                 duration = 150
+                                addListener(object : AnimatorListenerAdapter() {
+                                    override fun onAnimationEnd(animation: Animator) {
+                                        actions.visibility = View.GONE
+                                    }
+                                })
                                 start()
                             }
                             if (currentlyOpenForeground == foreground) {
                                 currentlyOpenForeground = null
+                                currentlyOpenActions = null
                             }
                         }
                     }
@@ -127,6 +146,14 @@ class SwipeRevealHelper {
         var startY = 0f
         var isSwiping = false
         var initialTranslationX = 0f
+
+        foreground.setOnClickListener {
+            if (foreground.translationX < 0f || currentlyOpenForeground == foreground) {
+                closeCurrentlyOpen()
+            } else {
+                onContentClick?.invoke()
+            }
+        }
 
         foreground.setOnTouchListener { _, event ->
             when (event.actionMasked) {
@@ -180,23 +207,28 @@ class SwipeRevealHelper {
                                 start()
                             }
                             currentlyOpenForeground = foreground
+                            currentlyOpenActions = actionsContainer
                         } else {
                             // Snap closed
                             ObjectAnimator.ofFloat(foreground, "translationX", 0f).apply {
                                 duration = 150
+                                addListener(object : AnimatorListenerAdapter() {
+                                    override fun onAnimationEnd(animation: Animator) {
+                                        actionsContainer.visibility = View.GONE
+                                    }
+                                })
                                 start()
                             }
                             if (currentlyOpenForeground == foreground) {
                                 currentlyOpenForeground = null
+                                currentlyOpenActions = null
                             }
                         }
                         return@setOnTouchListener true
                     } else {
-                        if (foreground.translationX < 0f) {
+                        if (foreground.translationX < 0f || currentlyOpenForeground == foreground) {
                             closeCurrentlyOpen()
                             return@setOnTouchListener true
-                        } else if (event.actionMasked == MotionEvent.ACTION_UP) {
-                            onContentClick?.invoke()
                         }
                     }
                     false

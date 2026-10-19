@@ -57,6 +57,7 @@ class MoneyVaultActivity : AppCompatActivity() {
     private lateinit var plannedAdapter: PlannedPaymentAdapter
 
     private val swipeRevealHelper = SwipeRevealHelper()
+    private var justPaidItemId: Long = -1L
 
     private var activeTab = 0 // 0: Save, 1: Savings Vault, 2: Planned Payments
     private val availableCurrencies = arrayOf("USD", "EUR", "LBP", "SAR", "AED", "GBP", "CAD", "AUD", "CHF", "JPY")
@@ -1116,16 +1117,19 @@ class MoneyVaultActivity : AppCompatActivity() {
             holder.txtDueDate.text = "Due: ${item.dueDate}"
             holder.txtScheduleAmount.text = CurrencyFormatter.formatAmount(item.amount, payment.currency)
 
+            val isRecentJustPaid = (item.id == justPaidItemId) || 
+                (item.paidTimestamp > 0 && System.currentTimeMillis() - item.paidTimestamp < 600000)
+
             when (item.status) {
                 PaymentScheduleItem.Status.PAID -> {
                     holder.txtStatusBadge.text = "Paid ✓"
                     holder.txtStatusBadge.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.light_green))
-                    holder.btnMarkAsPaid.text = "Paid"
-                    holder.btnMarkAsPaid.visibility = View.VISIBLE
-                    holder.btnMarkAsPaid.setOnClickListener {
-                        Toast.makeText(holder.itemView.context, "This payment is already marked as paid.", Toast.LENGTH_SHORT).show()
+                    holder.btnMarkAsPaid.visibility = View.GONE
+                    holder.paidStatusContainer.visibility = View.VISIBLE
+                    holder.txtJustBadge.visibility = if (isRecentJustPaid) View.VISIBLE else View.GONE
+                    holder.paidStatusContainer.setOnClickListener {
+                        unmarkAsPaidDirect(item)
                     }
-                    holder.txtPaidCheck.visibility = View.GONE
                 }
                 PaymentScheduleItem.Status.OVERDUE -> {
                     holder.txtStatusBadge.text = "Overdue"
@@ -1133,9 +1137,9 @@ class MoneyVaultActivity : AppCompatActivity() {
                     holder.btnMarkAsPaid.text = "Mark as Paid"
                     holder.btnMarkAsPaid.visibility = View.VISIBLE
                     holder.btnMarkAsPaid.setOnClickListener {
-                        showMarkAsPaidDialog(payment, item)
+                        markAsPaidDirect(payment, item)
                     }
-                    holder.txtPaidCheck.visibility = View.GONE
+                    holder.paidStatusContainer.visibility = View.GONE
                 }
                 PaymentScheduleItem.Status.UPCOMING -> {
                     holder.txtStatusBadge.text = "Upcoming"
@@ -1143,9 +1147,9 @@ class MoneyVaultActivity : AppCompatActivity() {
                     holder.btnMarkAsPaid.text = "Mark as Paid"
                     holder.btnMarkAsPaid.visibility = View.VISIBLE
                     holder.btnMarkAsPaid.setOnClickListener {
-                        showMarkAsPaidDialog(payment, item)
+                        markAsPaidDirect(payment, item)
                     }
-                    holder.txtPaidCheck.visibility = View.GONE
+                    holder.paidStatusContainer.visibility = View.GONE
                 }
             }
         }
@@ -1157,28 +1161,31 @@ class MoneyVaultActivity : AppCompatActivity() {
             val txtStatusBadge: TextView = v.findViewById(R.id.txtStatusBadge)
             val txtScheduleAmount: TextView = v.findViewById(R.id.txtScheduleAmount)
             val btnMarkAsPaid: Button = v.findViewById(R.id.btnMarkAsPaid)
+            val paidStatusContainer: View = v.findViewById(R.id.paidStatusContainer)
+            val txtJustBadge: TextView = v.findViewById(R.id.txtJustBadge)
             val txtPaidCheck: TextView = v.findViewById(R.id.txtPaidCheck)
         }
     }
 
-    private fun showMarkAsPaidDialog(payment: PlannedPayment, item: PaymentScheduleItem) {
-        val accounts = BalanceManager.loadAccounts(this)
-        val accountNames = if (accounts.isNotEmpty()) accounts.map { it.name }.toTypedArray() else arrayOf("Expenses")
+    private fun markAsPaidDirect(payment: PlannedPayment, item: PaymentScheduleItem) {
+        val activeAccount = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE)
+            .getString("ActiveAccount", "Expenses") ?: "Expenses"
+        justPaidItemId = item.id
+        val success = viewModel.markScheduleItemAsPaid(item.id, activeAccount)
+        if (success) {
+            VaultReminderManager.cancelReminder(this, item.id)
+            Toast.makeText(this, "Payment marked as paid", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        ThemeManager.showDialog(
-            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("Mark as Paid")
-                .setMessage("Deduct ${CurrencyFormatter.formatAmount(item.amount, payment.currency)} and record Cash Out?")
-                .setItems(accountNames) { _, which ->
-                    val selectedAccount = accountNames[which]
-                    val success = viewModel.markScheduleItemAsPaid(item.id, selectedAccount)
-                    if (success) {
-                        VaultReminderManager.cancelReminder(this, item.id)
-                    }
-                }
-                .setNegativeButton("Cancel", null),
-            this
-        )
+    private fun unmarkAsPaidDirect(item: PaymentScheduleItem) {
+        if (justPaidItemId == item.id) {
+            justPaidItemId = -1L
+        }
+        val success = viewModel.unmarkScheduleItemAsPaid(item.id)
+        if (success) {
+            Toast.makeText(this, "Payment marked as unpaid", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // ==========================================

@@ -709,6 +709,7 @@ id optionPdf
 id overviewBackButton
 id overviewRecyclerView
 id overviewTopBar
+id paidStatusContainer
 id periodBar
 id pieChart
 id plannedPaymentsSection
@@ -947,6 +948,7 @@ id txtHeaderTitle
 id txtHistoryAmounts
 id txtHistoryDateTime
 id txtHistoryTitle
+id txtJustBadge
 id txtLanguageTitle
 id txtLanguageValue
 id txtLocationPermissionTitle

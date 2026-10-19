@@ -708,6 +708,7 @@ int id optionPdf 0x0
 int id overviewBackButton 0x0
 int id overviewRecyclerView 0x0
 int id overviewTopBar 0x0
+int id paidStatusContainer 0x0
 int id periodBar 0x0
 int id pieChart 0x0
 int id plannedPaymentsSection 0x0
@@ -946,6 +947,7 @@ int id txtHeaderTitle 0x0
 int id txtHistoryAmounts 0x0
 int id txtHistoryDateTime 0x0
 int id txtHistoryTitle 0x0
+int id txtJustBadge 0x0
 int id txtLanguageTitle 0x0
 int id txtLanguageValue 0x0
 int id txtLocationPermissionTitle 0x0
