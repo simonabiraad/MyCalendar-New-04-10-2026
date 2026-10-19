@@ -112,7 +112,7 @@
     <string name="add_note">Add Note</string>
     <string name="all_expenses">All</string>
     <string name="all_personal_notes">All Personal Notes:</string>
-    <string name="app_name">SAR Calendar</string>
+    <string name="app_name">SAR Planner</string>
     <string name="archive_all_past_notes">Archive all past notes</string>
     <string name="archive_folder">Archive Notes:</string>
     <string name="archive_success">Note moved to archive</string>
@@ -268,7 +268,7 @@
     <string name="task_widget_medium_description">Tasks List (Medium)</string>
     <string name="task_widget_small_description">Tasks Summary</string>
     <string name="thu">Thu</string>
-    <string name="title_calendar_2026">SAR Calendar</string>
+    <string name="title_calendar_2026">SAR Planner</string>
     <string name="today_widget_large_description">Today\'s Notes List (Large)</string>
     <string name="today_widget_medium_description">Today\'s Notes List (Medium)</string>
     <string name="today_widget_small_description">Today\'s Notes Summary</string>

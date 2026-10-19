@@ -83,7 +83,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
             String title = (event != null && event.getTitle() != null && !event.getTitle().trim().isEmpty())
                     ? event.getTitle()
-                    : (noteTextExtra != null && !noteTextExtra.trim().isEmpty() ? noteTextExtra : "SAR Calendar Reminder");
+                    : (noteTextExtra != null && !noteTextExtra.trim().isEmpty() ? noteTextExtra : "SAR Planner Reminder");
 
             StringBuilder details = new StringBuilder();
             if (event != null) {

@@ -1360,7 +1360,7 @@ public class ExpensesActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new java.util.Date());
-        intent.putExtra(Intent.EXTRA_TITLE, "SAR_Calendar_Backup_" + timeStamp + ".json");
+        intent.putExtra(Intent.EXTRA_TITLE, "SAR_Planner_Backup_" + timeStamp + ".json");
         backupExportLauncher.launch(intent);
     }
 

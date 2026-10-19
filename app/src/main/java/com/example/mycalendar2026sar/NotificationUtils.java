@@ -41,7 +41,7 @@ public class NotificationUtils {
                     Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                     intent.setData(Uri.parse("package:" + activity.getPackageName()));
                     activity.startActivity(intent);
-                    Toast.makeText(activity, "Please enable Exact Alarms for SAR Calendar so reminders trigger on time when closed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Please enable Exact Alarms for SAR Planner so reminders trigger on time when closed", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

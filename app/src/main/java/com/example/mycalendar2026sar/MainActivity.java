@@ -511,8 +511,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.menuAbout).setOnClickListener(v -> {
             hideCustomMenu();
             ThemeManager.showDialog(new AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-                    .setTitle("About SAR Calendar")
-                    .setMessage("SAR Calendar 2026\nVersion 1.0\nCreated by SAR")
+                    .setTitle("About SAR Planner")
+                    .setMessage("SAR Planner 2026\nVersion 1.0\nCreated by SAR")
                     .setPositiveButton("OK", null), this);
         });
         findViewById(R.id.menuExit).setOnClickListener(v -> {
@@ -892,7 +892,7 @@ public class MainActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new Date());
-        intent.putExtra(Intent.EXTRA_TITLE, "SAR_Calendar_Backup_" + timeStamp + ".json");
+        intent.putExtra(Intent.EXTRA_TITLE, "SAR_Planner_Backup_" + timeStamp + ".json");
         exportLauncher.launch(intent);
     }
 
@@ -1121,7 +1121,7 @@ public class MainActivity extends AppCompatActivity {
                             .setItems(options, (dialog, which) -> {
                                 if (which == 0) {
                                     String noteBody = getNoteBody(remarkText);
-                                    String shareText = "SAR CALENDAR REMINDER:\n" + noteBody + "\nDate: " + currentDateKey;
+                                    String shareText = "SAR PLANNER REMINDER:\n" + noteBody + "\nDate: " + currentDateKey;
                                     String reminderKeyForShare = currentDateKey + "_" + remarkText;
                                     String savedTime = reminderPreferences.getString(reminderKeyForShare, null);
                                     String gCalUrl = getGoogleCalendarUrl(noteBody, currentDateKey, savedTime);
@@ -1160,7 +1160,7 @@ public class MainActivity extends AppCompatActivity {
 
         String icsContent = "BEGIN:VCALENDAR\n" +
                 "VERSION:2.0\n" +
-                "PRODID:-//SAR Calendar//EN\n" +
+                "PRODID:-//SAR Planner//EN\n" +
                 "BEGIN:VEVENT\n" +
                 "SUMMARY:" + noteBody + "\n";
         
@@ -1205,7 +1205,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception ignored) {}
         
-        icsContent += "DESCRIPTION:SAR Calendar Note\\n\\nAdd to Google Calendar:\\n" + getGoogleCalendarUrl(noteBody, dateKey, savedTime) + "\n" +
+        icsContent += "DESCRIPTION:SAR Planner Note\\n\\nAdd to Google Calendar:\\n" + getGoogleCalendarUrl(noteBody, dateKey, savedTime) + "\n" +
                 "END:VEVENT\n" +
                 "END:VCALENDAR";
 
@@ -1263,7 +1263,7 @@ public class MainActivity extends AppCompatActivity {
                     dates = start + "/" + end;
                 }
             }
-            return baseUrl + "&text=" + encodedTitle + "&dates=" + dates + "&details=Created+via+SAR+Calendar";
+            return baseUrl + "&text=" + encodedTitle + "&dates=" + dates + "&details=Created+via+SAR+Planner";
         } catch (Exception e) {
             return "";
         }
