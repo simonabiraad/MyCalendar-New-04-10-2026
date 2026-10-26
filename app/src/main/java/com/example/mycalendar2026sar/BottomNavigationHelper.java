@@ -2,6 +2,7 @@ package com.example.mycalendar2026sar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.widget.Button;
 
 import androidx.core.content.ContextCompat;
@@ -34,14 +35,24 @@ public class BottomNavigationHelper {
         else if (activeTabId == R.id.navExpensesButton) expensesBtn.setTextColor(activeAccent);
 
         boolean isLightMode = ThemeManager.isLightModeMonochromeIcons(activity);
-        android.content.res.ColorStateList iconTint = isLightMode ? android.content.res.ColorStateList.valueOf(0xFF000000) : null;
+        ColorStateList blackTint = ColorStateList.valueOf(0xFF000000);
 
         if (homeBtn instanceof com.google.android.material.button.MaterialButton) {
-            ((com.google.android.material.button.MaterialButton) homeBtn).setIconTint(iconTint);
-            ((com.google.android.material.button.MaterialButton) eventBtn).setIconTint(iconTint);
-            ((com.google.android.material.button.MaterialButton) taskBtn).setIconTint(iconTint);
-            ((com.google.android.material.button.MaterialButton) secureBtn).setIconTint(iconTint);
-            ((com.google.android.material.button.MaterialButton) expensesBtn).setIconTint(iconTint);
+            com.google.android.material.button.MaterialButton hb = (com.google.android.material.button.MaterialButton) homeBtn;
+            if (isLightMode) {
+                hb.setIconTint(blackTint);
+            } else {
+                if (activeTabId == R.id.navHomeButton) {
+                    hb.setIconTint(ColorStateList.valueOf(activeAccent));
+                } else {
+                    hb.setIconTint(null);
+                }
+            }
+
+            ((com.google.android.material.button.MaterialButton) eventBtn).setIconTint(isLightMode ? blackTint : null);
+            ((com.google.android.material.button.MaterialButton) taskBtn).setIconTint(isLightMode ? blackTint : null);
+            ((com.google.android.material.button.MaterialButton) secureBtn).setIconTint(isLightMode ? blackTint : null);
+            ((com.google.android.material.button.MaterialButton) expensesBtn).setIconTint(isLightMode ? blackTint : null);
         }
 
         homeBtn.setOnClickListener(v -> {

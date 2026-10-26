@@ -2807,6 +2807,7 @@ public class MainActivity extends AppCompatActivity {
         updateRemarkHistory(); // This will use the new colors/fonts during redraw
         loadRemarksForSelectedDate();
         if (adapter != null) adapter.notifyDataSetChanged();
+        BottomNavigationHelper.setupBottomNavigation(this, R.id.navHomeButton);
     }
 
     private void showEventsPopup(String date, List<NotificationEvent> events) {

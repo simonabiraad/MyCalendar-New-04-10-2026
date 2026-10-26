@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/black"
-    android:paddingTop="16dp">
+    android:paddingTop="10dp">
 
     <!-- Horizontal Separator between dates -->
 
@@ -16,7 +16,7 @@
 
         <!-- Date Section -->
         <LinearLayout
-            android:layout_width="70dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -27,11 +27,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/weekday_pill_bg"
                 android:backgroundTint="@color/light_green"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
                 android:text="Tue"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:includeFontPadding="false"
                 android:text="06"
                 android:textColor="@color/white"
-                android:textSize="36sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:text="November, 2026"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <!-- Events Container -->
@@ -59,10 +59,10 @@
             android:id="@+id/eventsContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="4dp">
             <!-- item_event_details will be inflated here -->
         </LinearLayout>
 

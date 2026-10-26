@@ -616,10 +616,6 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\dialog_country_list.xml"
     },
     {
-        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_widget_sar_4x4.xml.flat",
-        "source": "com.example.mycalendar2026sar.app-main-45:/layout/widget_sar_4x4.xml"
-    },
-    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xhdpi_ic_banner.png.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-xhdpi\\ic_banner.png"
     },
@@ -662,6 +658,10 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\menu_menu_expenses_overflow.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\menu\\menu_expenses_overflow.xml"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_sticky_note_item.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/layout/sticky_note_item.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\xml_backup_rules.xml.flat",
@@ -968,12 +968,12 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_account.xml"
     },
     {
-        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_button_outline_green.xml.flat",
-        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\button_outline_green.xml"
-    },
-    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_widget_sar_4x4.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\widget_sar_4x4.xml"
+    },
+    {
+        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_button_outline_green.xml.flat",
+        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\button_outline_green.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_chart_gradient.xml.flat",
