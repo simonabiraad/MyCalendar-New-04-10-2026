@@ -1829,7 +1829,7 @@ public class MainActivity extends AppCompatActivity {
     private void startSpeechRecognitionWithSettings() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        
+
         if (!speechAutoLang) {
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, speechSourceLang);
         } else {
@@ -1840,7 +1840,7 @@ public class MainActivity extends AppCompatActivity {
             // Some newer versions support multi-language detection with these extras
             intent.putExtra("android.speech.extra.LANGUAGE_DETECTION_MODE", 1);
         }
-        
+
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, isVoiceCommandMode ? "Listening for command..." : "Speak now...");
         try {
             voiceRecognitionLauncher.launch(intent);

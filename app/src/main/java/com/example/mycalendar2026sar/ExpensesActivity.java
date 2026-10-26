@@ -701,6 +701,12 @@ public class ExpensesActivity extends AppCompatActivity {
             refreshTransactionsList(); 
             popupWindow.dismiss(); 
         });
+        popupView.findViewById(R.id.menu_cash_in_out).setOnClickListener(v -> { 
+            filterOnlyCashIn = false; 
+            filterOnlyCashOut = false; 
+            refreshTransactionsList(); 
+            popupWindow.dismiss(); 
+        });
         popupView.findViewById(R.id.menu_print).setOnClickListener(v -> { 
             findViewById(R.id.expensesExportButton).performClick(); 
             popupWindow.dismiss(); 

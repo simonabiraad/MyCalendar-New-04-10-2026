@@ -111,6 +111,7 @@ drawable ic_menu_backup_color
 drawable ic_menu_calc_color
 drawable ic_menu_calendar_color
 drawable ic_menu_cash_in_color
+drawable ic_menu_cash_in_out_color
 drawable ic_menu_cash_out_color
 drawable ic_menu_category_color
 drawable ic_menu_color
@@ -615,6 +616,7 @@ id menuToggleQuickBar
 id menu_address
 id menu_asc_container
 id menu_cash_in
+id menu_cash_in_out
 id menu_cash_out
 id menu_category
 id menu_date
@@ -1259,6 +1261,7 @@ string menu_backup_restore
 string menu_calendar
 string menu_cash_calculator
 string menu_cash_in
+string menu_cash_in_out
 string menu_cash_out
 string menu_chart
 string menu_content_description

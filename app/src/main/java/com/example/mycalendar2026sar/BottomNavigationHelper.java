@@ -39,15 +39,7 @@ public class BottomNavigationHelper {
 
         if (homeBtn instanceof com.google.android.material.button.MaterialButton) {
             com.google.android.material.button.MaterialButton hb = (com.google.android.material.button.MaterialButton) homeBtn;
-            if (isLightMode) {
-                hb.setIconTint(blackTint);
-            } else {
-                if (activeTabId == R.id.navHomeButton) {
-                    hb.setIconTint(ColorStateList.valueOf(activeAccent));
-                } else {
-                    hb.setIconTint(null);
-                }
-            }
+            hb.setIconTint(isLightMode ? blackTint : null);
 
             ((com.google.android.material.button.MaterialButton) eventBtn).setIconTint(isLightMode ? blackTint : null);
             ((com.google.android.material.button.MaterialButton) taskBtn).setIconTint(isLightMode ? blackTint : null);

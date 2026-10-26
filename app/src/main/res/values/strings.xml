@@ -45,6 +45,7 @@
     <string name="menu_date_descending">Date Descending</string>
     <string name="menu_cash_in">Cash In</string>
     <string name="menu_cash_out">Cash Out</string>
+    <string name="menu_cash_in_out">Cash In &amp; Out</string>
     <string name="menu_print">Print</string>
     <string name="menu_your_name">Your Name</string>
     <string name="menu_address">Address</string>

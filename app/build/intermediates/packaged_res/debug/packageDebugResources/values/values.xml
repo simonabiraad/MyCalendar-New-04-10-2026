@@ -214,6 +214,7 @@
     <string name="menu_calendar">Calendar</string>
     <string name="menu_cash_calculator">Cash Calculator</string>
     <string name="menu_cash_in">Cash In</string>
+    <string name="menu_cash_in_out">Cash In &amp; Out</string>
     <string name="menu_cash_out">Cash Out</string>
     <string name="menu_chart">Chart</string>
     <string name="menu_content_description">Menu</string>
