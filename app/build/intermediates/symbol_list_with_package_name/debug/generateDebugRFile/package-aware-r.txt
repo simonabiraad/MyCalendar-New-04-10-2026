@@ -243,6 +243,7 @@ id allTxTabsContainer
 id allTxTitle
 id allTxToolbar
 id amountContainer
+id appLogo
 id appVersionText
 id archiveHistoryContainer
 id archiveHistoryTitle
@@ -871,8 +872,8 @@ id taskText
 id taskTitle
 id taskTitleContainer
 id taskTitleIcon
-id textClockDate
 id timePickerBox
+id titleContainer
 id titleTextView
 id toggleFooterButton
 id toolbar

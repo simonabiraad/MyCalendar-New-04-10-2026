@@ -200,6 +200,10 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_home_color.xml"
     },
     {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_activity_main.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/layout/activity_main.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_widget_list_view.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\widget_list_view.xml"
     },
@@ -580,6 +584,10 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_account_summary_row.xml"
     },
     {
+        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_cash_in_out_color.xml.flat",
+        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_cash_in_out_color.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_sort_desc_color.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_sort_desc_color.xml"
     },
@@ -642,10 +650,6 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_password_color.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_password_color.xml"
-    },
-    {
-        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_layout_expenses_overflow_menu.xml.flat",
-        "source": "com.example.mycalendar2026sar.app-main-45:/layout/layout_expenses_overflow_menu.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_cat_mobile_color.xml.flat",
@@ -758,10 +762,6 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\menu_menu_expenses_export.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\menu\\menu_expenses_export.xml"
-    },
-    {
-        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_ic_menu_cash_in_out_color.xml.flat",
-        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/ic_menu_cash_in_out_color.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_menu_backup_color.xml.flat",

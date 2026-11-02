@@ -90,7 +90,7 @@ import com.google.mlkit.common.model.DownloadConditions;
 public class MainActivity extends AppCompatActivity {
 
     private GridView calendarGrid;
-    private TextView monthYearText;
+    private android.widget.TextClock monthYearText;
     private EditText noteInput;
     private TextView remarkLabel;
     private LinearLayout dayRemarksContainer;
@@ -960,9 +960,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateCalendar() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         int textColor = ContextCompat.getColor(this, R.color.white);
-        monthYearText.setText(sdf.format(calendar.getTime()));
         monthYearText.setTextColor(textColor);
 
         ImageButton prevMonth = findViewById(R.id.prevMonth);
@@ -2741,17 +2739,12 @@ public class MainActivity extends AppCompatActivity {
             title.setText(ssb);
             applyFontSettings(title, 24);
         }
-        TextView clock = findViewById(R.id.textClockDate);
-        if (clock != null) {
-            clock.setTextColor(mainTheme);
-            applyFontSettings(clock, 14);
-        }
         TextView remarkLbl = findViewById(R.id.remarkLabel);
         if (remarkLbl != null) {
             remarkLbl.setTextColor(mainTheme);
             applyFontSettings(remarkLbl, 18);
         }
-        TextView monthYear = findViewById(R.id.monthYearText);
+        android.widget.TextClock monthYear = findViewById(R.id.monthYearText);
         if (monthYear != null) {
             applyFontSettings(monthYear, 16);
         }

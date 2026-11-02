@@ -91,6 +91,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <LinearLayout
+                    android:id="@+id/titleContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/appLogo"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="6dp"
+                        android:contentDescription="Logo"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_calendar_2026"
+                        android:textColor="@color/light_green"
+                        android:textSize="@dimen/_17ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/mainMenuButton"
                     android:layout_width="@dimen/_24sdp"
@@ -101,34 +130,9 @@
                     android:padding="4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_menu_color"
-                    app:layout_constraintBottom_toBottomOf="@id/titleTextView"
+                    app:layout_constraintBottom_toBottomOf="@id/titleContainer"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/titleTextView" />
-
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_calendar_2026"
-                    android:textColor="@color/light_green"
-                    android:textSize="@dimen/_17ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextClock
-                    android:id="@+id/textClockDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:format12Hour="EEEE, MMMM dd, yyyy"
-                    android:format24Hour="EEEE, MMMM dd, yyyy"
-                    android:textColor="@color/light_green"
-                    android:textSize="@dimen/_11ssp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+                    app:layout_constraintTop_toTopOf="@id/titleContainer" />
 
                 <ImageButton
                     android:id="@+id/aiAssistantButton"
@@ -140,9 +144,9 @@
                     android:padding="4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_notif_voice_color"
-                    app:layout_constraintBottom_toBottomOf="@id/titleTextView"
+                    app:layout_constraintBottom_toBottomOf="@id/titleContainer"
                     app:layout_constraintEnd_toStartOf="@id/notificationSettingsButton"
-                    app:layout_constraintTop_toTopOf="@id/titleTextView" />
+                    app:layout_constraintTop_toTopOf="@id/titleContainer" />
 
                 <ImageButton
                     android:id="@+id/notificationSettingsButton"
@@ -154,20 +158,22 @@
                     android:padding="4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_menu_reminder_color"
-                    app:layout_constraintBottom_toBottomOf="@id/titleTextView"
+                    app:layout_constraintBottom_toBottomOf="@id/titleContainer"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/titleTextView" />
+                    app:layout_constraintTop_toTopOf="@id/titleContainer" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/calendarHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/_9sdp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/weekdayLayout"
                 app:layout_constraintTop_toBottomOf="@id/headerTextContainer">
 
                 <ImageButton
@@ -178,16 +184,17 @@
                     android:contentDescription="@string/prev_month"
                     android:src="@android:drawable/ic_media_previous" />
 
-                <TextView
+                <TextClock
                     android:id="@+id/monthYearText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:format12Hour="EEEE, MMMM dd, yyyy"
+                    android:format24Hour="EEEE, MMMM dd, yyyy"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    tools:text="January 2026" />
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/nextMonth"

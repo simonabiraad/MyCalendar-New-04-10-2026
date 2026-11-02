@@ -242,6 +242,7 @@ int id allTxTabsContainer 0x0
 int id allTxTitle 0x0
 int id allTxToolbar 0x0
 int id amountContainer 0x0
+int id appLogo 0x0
 int id appVersionText 0x0
 int id archiveHistoryContainer 0x0
 int id archiveHistoryTitle 0x0
@@ -870,8 +871,8 @@ int id taskText 0x0
 int id taskTitle 0x0
 int id taskTitleContainer 0x0
 int id taskTitleIcon 0x0
-int id textClockDate 0x0
 int id timePickerBox 0x0
+int id titleContainer 0x0
 int id titleTextView 0x0
 int id toggleFooterButton 0x0
 int id toolbar 0x0
