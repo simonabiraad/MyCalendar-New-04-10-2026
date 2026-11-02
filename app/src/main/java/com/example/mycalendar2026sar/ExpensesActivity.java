@@ -342,7 +342,7 @@ public class ExpensesActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_remove_ads) {
-                Toast.makeText(this, "Remove Ads feature coming soon", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, RecommendActivity.class));
             } else if (id == R.id.nav_summary) {
                 startActivity(new Intent(this, SummaryActivity.class));
             } else if (id == R.id.nav_account_summary) {
@@ -375,8 +375,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 startActivity(new Intent(ExpensesActivity.this, MoneyVaultActivity.class));
             } else if (id == R.id.nav_rate_us) {
                 startActivity(new Intent(this, RatesActivity.class));
-            } else if (id == R.id.nav_recommend) {
-                startActivity(new Intent(this, RecommendActivity.class));
+
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;

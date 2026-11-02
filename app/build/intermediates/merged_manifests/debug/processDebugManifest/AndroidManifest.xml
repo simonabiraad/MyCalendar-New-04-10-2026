@@ -163,6 +163,11 @@
             android:finishOnTaskLaunch="true"
             android:theme="@style/Theme.MyCalendar2026SAR" />
         <activity
+            android:name="com.example.mycalendar2026sar.AddCardActivity"
+            android:exported="false"
+            android:finishOnTaskLaunch="true"
+            android:theme="@style/Theme.MyCalendar2026SAR" />
+        <activity
             android:name="com.example.mycalendar2026sar.AccountsOverviewActivity"
             android:exported="false"
             android:finishOnTaskLaunch="true"

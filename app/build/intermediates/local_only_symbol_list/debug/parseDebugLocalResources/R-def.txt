@@ -219,6 +219,8 @@ id action_select_currency
 id action_themes
 id action_toggle_quick_bar
 id addAccountButton
+id addCardBackButton
+id addCardTopBar
 id addCategoryHeaderButton
 id addEventButton
 id addEventHeaderButton
@@ -266,6 +268,7 @@ id bsShareTask
 id btnAdd
 id btnAddAttachment
 id btnAddBills
+id btnAddCard
 id btnAddDenom
 id btnAddMoney
 id btnBack
@@ -294,6 +297,7 @@ id btnCalculator
 id btnCancel
 id btnCancelAccount
 id btnCancelEdit
+id btnCancelSubscription
 id btnCashCalcDelete
 id btnCashCalcShare
 id btnCashIn
@@ -334,12 +338,14 @@ id btnPeriodMax
 id btnPeriodToday
 id btnPlus
 id btnPriorityArrow
+id btnPurchaseLifetime
 id btnRecordVoice
 id btnReminderArrow
 id btnRepeatArrow
 id btnSave
 id btnSaveAccount
 id btnSaveAdd
+id btnSaveCard
 id btnSaveContinue
 id btnSaveEdit
 id btnSaveExit
@@ -347,6 +353,10 @@ id btnSaveRate
 id btnSaveWithdraw
 id btnSelectCategory
 id btnStatusArrow
+id btnSubscribeMonthlyAuto
+id btnSubscribeMonthlyManual
+id btnSubscribeYearlyAuto
+id btnSubscribeYearlyManual
 id btnSummaryCalendar
 id btnSummaryReport
 id btnSwapCurrency
@@ -355,6 +365,7 @@ id btnSwipeEdit
 id btnText
 id btnUpdate
 id btnVoice
+id btnWatchAd
 id btnWithdrawMoney
 id buttonContainer
 id calcDisplay
@@ -503,8 +514,11 @@ id editTransferAmount
 id emptyStateText
 id empty_view
 id endTimeBox
+id etCardNumber
+id etCvc
 id etDescription
 id etEndDate
+id etExpiry
 id etPaymentDay
 id etPaymentName
 id etSaveAmount
@@ -577,6 +591,7 @@ id item_date
 id item_text
 id item_title
 id itemsContainer
+id ivSmallLogo
 id labelTotalCashIn
 id layoutLocation
 id layoutTime
@@ -661,7 +676,6 @@ id nav_deleted_transactions
 id nav_money_vault
 id nav_notebook
 id nav_rate_us
-id nav_recommend
 id nav_remove_ads
 id nav_report_all
 id nav_set_password
@@ -904,14 +918,17 @@ id tvBalance
 id tvCategoryValue
 id tvEventColorValue
 id tvExpenses
-id tvFinancialTipsTitle
 id tvIncome
+id tvLifetimeHeader
+id tvMonthlyHeader
 id tvPriorityValue
 id tvReminderValue
 id tvRepeatValue
 id tvSortDateAscState
 id tvSortDateDescState
 id tvStatusValue
+id tvUserEmail
+id tvYearlyHeader
 id txCashIn
 id txCashOut
 id txNamesAddButton
@@ -1031,6 +1048,7 @@ id widget_title
 id yearlyButton
 layout activity_account_summary
 layout activity_accounts_overview
+layout activity_add_card
 layout activity_add_remove_currency
 layout activity_add_transaction
 layout activity_cash_calculator
@@ -1080,6 +1098,7 @@ layout dialog_edit_notification
 layout dialog_item_with_icon
 layout dialog_media_picker
 layout dialog_notebook_note
+layout dialog_purchase_lifetime
 layout dialog_select_country
 layout dialog_transaction_note
 layout item_account

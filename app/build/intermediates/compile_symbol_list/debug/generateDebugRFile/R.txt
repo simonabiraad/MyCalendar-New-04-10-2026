@@ -217,6 +217,8 @@ int id action_select_currency 0x0
 int id action_themes 0x0
 int id action_toggle_quick_bar 0x0
 int id addAccountButton 0x0
+int id addCardBackButton 0x0
+int id addCardTopBar 0x0
 int id addCategoryHeaderButton 0x0
 int id addEventButton 0x0
 int id addEventHeaderButton 0x0
@@ -264,6 +266,7 @@ int id bsShareTask 0x0
 int id btnAdd 0x0
 int id btnAddAttachment 0x0
 int id btnAddBills 0x0
+int id btnAddCard 0x0
 int id btnAddDenom 0x0
 int id btnAddMoney 0x0
 int id btnBack 0x0
@@ -292,6 +295,7 @@ int id btnCalculator 0x0
 int id btnCancel 0x0
 int id btnCancelAccount 0x0
 int id btnCancelEdit 0x0
+int id btnCancelSubscription 0x0
 int id btnCashCalcDelete 0x0
 int id btnCashCalcShare 0x0
 int id btnCashIn 0x0
@@ -332,12 +336,14 @@ int id btnPeriodMax 0x0
 int id btnPeriodToday 0x0
 int id btnPlus 0x0
 int id btnPriorityArrow 0x0
+int id btnPurchaseLifetime 0x0
 int id btnRecordVoice 0x0
 int id btnReminderArrow 0x0
 int id btnRepeatArrow 0x0
 int id btnSave 0x0
 int id btnSaveAccount 0x0
 int id btnSaveAdd 0x0
+int id btnSaveCard 0x0
 int id btnSaveContinue 0x0
 int id btnSaveEdit 0x0
 int id btnSaveExit 0x0
@@ -345,6 +351,10 @@ int id btnSaveRate 0x0
 int id btnSaveWithdraw 0x0
 int id btnSelectCategory 0x0
 int id btnStatusArrow 0x0
+int id btnSubscribeMonthlyAuto 0x0
+int id btnSubscribeMonthlyManual 0x0
+int id btnSubscribeYearlyAuto 0x0
+int id btnSubscribeYearlyManual 0x0
 int id btnSummaryCalendar 0x0
 int id btnSummaryReport 0x0
 int id btnSwapCurrency 0x0
@@ -353,6 +363,7 @@ int id btnSwipeEdit 0x0
 int id btnText 0x0
 int id btnUpdate 0x0
 int id btnVoice 0x0
+int id btnWatchAd 0x0
 int id btnWithdrawMoney 0x0
 int id buttonContainer 0x0
 int id calcDisplay 0x0
@@ -501,8 +512,11 @@ int id editTransferAmount 0x0
 int id emptyStateText 0x0
 int id empty_view 0x0
 int id endTimeBox 0x0
+int id etCardNumber 0x0
+int id etCvc 0x0
 int id etDescription 0x0
 int id etEndDate 0x0
+int id etExpiry 0x0
 int id etPaymentDay 0x0
 int id etPaymentName 0x0
 int id etSaveAmount 0x0
@@ -575,6 +589,7 @@ int id item_date 0x0
 int id item_text 0x0
 int id item_title 0x0
 int id itemsContainer 0x0
+int id ivSmallLogo 0x0
 int id labelTotalCashIn 0x0
 int id layoutLocation 0x0
 int id layoutTime 0x0
@@ -659,7 +674,6 @@ int id nav_deleted_transactions 0x0
 int id nav_money_vault 0x0
 int id nav_notebook 0x0
 int id nav_rate_us 0x0
-int id nav_recommend 0x0
 int id nav_remove_ads 0x0
 int id nav_report_all 0x0
 int id nav_set_password 0x0
@@ -902,14 +916,17 @@ int id tvBalance 0x0
 int id tvCategoryValue 0x0
 int id tvEventColorValue 0x0
 int id tvExpenses 0x0
-int id tvFinancialTipsTitle 0x0
 int id tvIncome 0x0
+int id tvLifetimeHeader 0x0
+int id tvMonthlyHeader 0x0
 int id tvPriorityValue 0x0
 int id tvReminderValue 0x0
 int id tvRepeatValue 0x0
 int id tvSortDateAscState 0x0
 int id tvSortDateDescState 0x0
 int id tvStatusValue 0x0
+int id tvUserEmail 0x0
+int id tvYearlyHeader 0x0
 int id txCashIn 0x0
 int id txCashOut 0x0
 int id txNamesAddButton 0x0
@@ -1029,6 +1046,7 @@ int id widget_title 0x0
 int id yearlyButton 0x0
 int layout activity_account_summary 0x0
 int layout activity_accounts_overview 0x0
+int layout activity_add_card 0x0
 int layout activity_add_remove_currency 0x0
 int layout activity_add_transaction 0x0
 int layout activity_cash_calculator 0x0
@@ -1078,6 +1096,7 @@ int layout dialog_edit_notification 0x0
 int layout dialog_item_with_icon 0x0
 int layout dialog_media_picker 0x0
 int layout dialog_notebook_note 0x0
+int layout dialog_purchase_lifetime 0x0
 int layout dialog_select_country 0x0
 int layout dialog_transaction_note 0x0
 int layout item_account 0x0
