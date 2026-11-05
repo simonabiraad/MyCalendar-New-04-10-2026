@@ -98,7 +98,9 @@ int drawable ic_cat_transport_color 0x0
 int drawable ic_cat_travel_color 0x0
 int drawable ic_cat_utility_color 0x0
 int drawable ic_clock 0x0
+int drawable ic_envelope 0x0
 int drawable ic_excel_logo 0x0
+int drawable ic_google_play_shield 0x0
 int drawable ic_launcher_background 0x0
 int drawable ic_launcher_foreground 0x0
 int drawable ic_location 0x0
@@ -379,6 +381,7 @@ int id cardAccountOut 0x0
 int id cardChartContainer 0x0
 int id cardFromAmount 0x0
 int id cardFromCurrency 0x0
+int id cardNumberContainer 0x0
 int id cardOnlineStatus 0x0
 int id cardToAmount 0x0
 int id cardToCurrency 0x0
@@ -480,6 +483,7 @@ int id dialogDateText 0x0
 int id dialogDayCashIn 0x0
 int id dialogDayCashOut 0x0
 int id dialogMessage 0x0
+int id dialogPaymentRoot 0x0
 int id dialogScrollView 0x0
 int id dialogTitle 0x0
 int id dialogTransactionList 0x0
@@ -589,7 +593,8 @@ int id item_date 0x0
 int id item_text 0x0
 int id item_title 0x0
 int id itemsContainer 0x0
-int id ivSmallLogo 0x0
+int id ivCardLogo 0x0
+int id ivShieldIcon 0x0
 int id labelTotalCashIn 0x0
 int id layoutLocation 0x0
 int id layoutTime 0x0
@@ -913,12 +918,17 @@ int id transfer_main 0x0
 int id trendLegendContainer 0x0
 int id tvAllDayStatus 0x0
 int id tvBalance 0x0
+int id tvCardItemPrice 0x0
+int id tvCardItemTitle 0x0
 int id tvCategoryValue 0x0
 int id tvEventColorValue 0x0
 int id tvExpenses 0x0
+int id tvGooglePlayHeader 0x0
 int id tvIncome 0x0
 int id tvLifetimeHeader 0x0
 int id tvMonthlyHeader 0x0
+int id tvPaymentDescription 0x0
+int id tvPaymentTitle 0x0
 int id tvPriorityValue 0x0
 int id tvReminderValue 0x0
 int id tvRepeatValue 0x0

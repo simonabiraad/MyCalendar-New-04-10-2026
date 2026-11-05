@@ -2,14 +2,12 @@ package com.example.mycalendar2026sar;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +24,18 @@ public class AddCardActivity extends AppCompatActivity {
         EditText etExpiry = findViewById(R.id.etExpiry);
         EditText etCvc = findViewById(R.id.etCvc);
         Button btnSaveCard = findViewById(R.id.btnSaveCard);
+
+        TextView tvCardItemTitle = findViewById(R.id.tvCardItemTitle);
+        TextView tvCardItemPrice = findViewById(R.id.tvCardItemPrice);
+
+        String itemTitle = getIntent().getStringExtra("EXTRA_ITEM_TITLE");
+        String itemPrice = getIntent().getStringExtra("EXTRA_ITEM_PRICE");
+        if (itemTitle != null && tvCardItemTitle != null) {
+            tvCardItemTitle.setText(itemTitle);
+        }
+        if (itemPrice != null && tvCardItemPrice != null) {
+            tvCardItemPrice.setText(itemPrice);
+        }
 
         String userEmail = getUserEmail();
         SharedPreferences savedPrefs = getSharedPreferences("SavedCardsPrefs", MODE_PRIVATE);
@@ -51,6 +61,12 @@ public class AddCardActivity extends AppCompatActivity {
             });
         }
 
+        applyColors();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         applyColors();
     }
 
@@ -86,15 +102,10 @@ public class AddCardActivity extends AppCompatActivity {
             btnSaveCard.setBackgroundTintList(ColorStateList.valueOf(accent));
         }
 
-        ImageView ivSmallLogo = findViewById(R.id.ivSmallLogo);
-        if (ivSmallLogo != null) {
-            if (ThemeManager.isDarkMode(this)) {
-                ivSmallLogo.setColorFilter(0xFFFF0000, PorterDuff.Mode.SRC_IN);
-            } else {
-                ColorMatrix matrix = new ColorMatrix();
-                matrix.setSaturation(0);
-                ivSmallLogo.setColorFilter(new ColorMatrixColorFilter(matrix));
-            }
+        ImageView ivCardLogo = findViewById(R.id.ivCardLogo);
+        if (ivCardLogo != null) {
+            ivCardLogo.setColorFilter(null);
+            ThemeManager.applyIconThemeTint(ivCardLogo, this);
         }
     }
 }

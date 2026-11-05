@@ -32,13 +32,6 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/ivSmallLogo"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="Logo" />
     </LinearLayout>
 
     <ScrollView
@@ -61,19 +54,37 @@
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp" />
 
-            <EditText
-                android:id="@+id/etCardNumber"
+            <LinearLayout
+                android:id="@+id/cardNumberContainer"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edit_text_outline"
-                android:hint="Card number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/text_secondary"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:inputType="number"
-                android:autofillHints="creditCardNumber"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/ivCardLogo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Envelope"
+                    android:src="@drawable/ic_envelope" />
+
+                <EditText
+                    android:id="@+id/etCardNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="Card number"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/text_secondary"
+                    android:inputType="number"
+                    android:autofillHints="creditCardNumber" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +123,7 @@
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-            <!-- Bottom Section: Logo, Lifetime (Expenses), Price, Save Card Button -->
+            <!-- Bottom Section: Item Title, Price, Save Card Button -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,14 +131,8 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:contentDescription="Program Logo"
-                    android:layout_marginEnd="12dp" />
-
                 <TextView
+                    android:id="@+id/tvCardItemTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -137,6 +142,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvCardItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$7.00"

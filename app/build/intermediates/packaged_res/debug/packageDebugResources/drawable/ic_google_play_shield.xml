@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+
+    <!-- Blue Shield Body -->
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M36,6 L14,16 V32 C14,46.5 23.4,59.8 36,66 C48.6,59.8 58,46.5 58,32 V16 L36,6 Z" />
+
+    <!-- White Lock Shackle & Body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,22 C31.6,22 28,25.6 28,30 V34 H26 V48 H46 V34 H44 V30 C44,25.6 40.4,22 36,22 Z M40,34 H32 V30 C32,27.8 33.8,26 36,26 C38.2,26 40,27.8 40,30 V34 Z" />
+
+    <!-- Keyhole -->
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M36,37 C34.9,37 34,37.9 34,39 C34,39.8 34.5,40.4 35,40.8 V43 H37 V40.8 C37.5,40.4 38,39.8 38,39 C38,37.9 37.1,37 36,37 Z" />
+
+    <!-- Green Checkmark Badge Circle -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M52,52 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+
+    <!-- White Checkmark Icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,52 L45.5,49.5 L43.5,51.5 L48,56 L57,47 L55,45 Z" />
+</vector>

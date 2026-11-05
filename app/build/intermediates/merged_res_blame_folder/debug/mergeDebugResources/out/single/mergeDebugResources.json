@@ -284,6 +284,10 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\item_category_chip.xml"
     },
     {
+        "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_envelope.xml.flat",
+        "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_envelope.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\layout_activity_transaction_names.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\layout\\activity_transaction_names.xml"
     },
@@ -736,6 +740,10 @@
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_menu_restore_color.xml"
     },
     {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/drawable_ic_google_play_shield.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/drawable/ic_google_play_shield.xml"
+    },
+    {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_add_circle.xml.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\drawable\\ic_add_circle.xml"
     },
@@ -970,6 +978,10 @@
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
         "source": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-main-45:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.mycalendar2026sar.app-debug-43:/layout_dialog_purchase_lifetime.xml.flat",
+        "source": "com.example.mycalendar2026sar.app-main-45:/layout/dialog_purchase_lifetime.xml"
     },
     {
         "merged": "C:\\Users\\simon\\.gradle\\daemon\\9.5.0\\com.example.mycalendar2026sar.app-debug-43:\\drawable_ic_more_color.xml.flat",

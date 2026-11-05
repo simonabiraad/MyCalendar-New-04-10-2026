@@ -99,7 +99,9 @@ drawable ic_cat_transport_color
 drawable ic_cat_travel_color
 drawable ic_cat_utility_color
 drawable ic_clock
+drawable ic_envelope
 drawable ic_excel_logo
+drawable ic_google_play_shield
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_location
@@ -380,6 +382,7 @@ id cardAccountOut
 id cardChartContainer
 id cardFromAmount
 id cardFromCurrency
+id cardNumberContainer
 id cardOnlineStatus
 id cardToAmount
 id cardToCurrency
@@ -481,6 +484,7 @@ id dialogDateText
 id dialogDayCashIn
 id dialogDayCashOut
 id dialogMessage
+id dialogPaymentRoot
 id dialogScrollView
 id dialogTitle
 id dialogTransactionList
@@ -590,7 +594,8 @@ id item_date
 id item_text
 id item_title
 id itemsContainer
-id ivSmallLogo
+id ivCardLogo
+id ivShieldIcon
 id labelTotalCashIn
 id layoutLocation
 id layoutTime
@@ -914,12 +919,17 @@ id transfer_main
 id trendLegendContainer
 id tvAllDayStatus
 id tvBalance
+id tvCardItemPrice
+id tvCardItemTitle
 id tvCategoryValue
 id tvEventColorValue
 id tvExpenses
+id tvGooglePlayHeader
 id tvIncome
 id tvLifetimeHeader
 id tvMonthlyHeader
+id tvPaymentDescription
+id tvPaymentTitle
 id tvPriorityValue
 id tvReminderValue
 id tvRepeatValue

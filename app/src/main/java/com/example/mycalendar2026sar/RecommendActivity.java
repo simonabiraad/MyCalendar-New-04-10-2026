@@ -52,13 +52,42 @@ public class RecommendActivity extends AppCompatActivity {
         return email;
     }
 
-    private void showPurchaseBottomSheet() {
+    private String getTrialCancelDate(int days) {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.add(java.util.Calendar.DAY_OF_MONTH, days);
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.US);
+        return sdf.format(cal.getTime());
+    }
+
+    private void showPaymentBottomSheet(String itemTitle, String itemPrice, int trialDays) {
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         android.view.View view = getLayoutInflater().inflate(R.layout.dialog_purchase_lifetime, null, false);
 
+        android.view.View root = view.findViewById(R.id.dialogPaymentRoot);
+        if (root != null) {
+            root.setBackgroundColor(ThemeManager.getCardBackgroundColor(this));
+        }
+
+        TextView tvPaymentTitle = view.findViewById(R.id.tvPaymentTitle);
         TextView tvEmail = view.findViewById(R.id.tvUserEmail);
+        TextView tvDescription = view.findViewById(R.id.tvPaymentDescription);
+
+        int textPrimary = ThemeManager.getTextPrimaryColor(this);
+        if (tvPaymentTitle != null) {
+            tvPaymentTitle.setTextColor(textPrimary);
+        }
+
         if (tvEmail != null) {
             tvEmail.setText(getUserEmail());
+        }
+
+        if (tvDescription != null) {
+            if (trialDays > 0) {
+                String cancelDate = getTrialCancelDate(trialDays);
+                tvDescription.setText("Add a payment method to your Google Account to start your free trial. You won't be charged if you cancel before " + cancelDate + ".");
+            } else {
+                tvDescription.setText("Add a payment method to your Google Account to complete your purchase. Your payment information is only visible to Google.");
+            }
         }
 
         Button btnAddCard = view.findViewById(R.id.btnAddCard);
@@ -67,7 +96,10 @@ public class RecommendActivity extends AppCompatActivity {
             btnAddCard.setBackgroundTintList(ColorStateList.valueOf(accent));
             btnAddCard.setOnClickListener(v -> {
                 dialog.dismiss();
-                startActivity(new Intent(RecommendActivity.this, AddCardActivity.class));
+                Intent intent = new Intent(RecommendActivity.this, AddCardActivity.class);
+                intent.putExtra("EXTRA_ITEM_TITLE", itemTitle);
+                intent.putExtra("EXTRA_ITEM_PRICE", itemPrice);
+                startActivity(intent);
             });
         }
 
@@ -85,19 +117,19 @@ public class RecommendActivity extends AppCompatActivity {
         Button btnWatchAd = findViewById(R.id.btnWatchAd);
 
         if (btnPurchaseLifetime != null) {
-            btnPurchaseLifetime.setOnClickListener(v -> showPurchaseBottomSheet());
+            btnPurchaseLifetime.setOnClickListener(v -> showPaymentBottomSheet("Lifetime (Expenses)", "$5.00", 0));
         }
         if (btnSubscribeMonthlyAuto != null) {
-            btnSubscribeMonthlyAuto.setOnClickListener(v -> Toast.makeText(this, "Monthly auto-renewal subscription selected", Toast.LENGTH_SHORT).show());
+            btnSubscribeMonthlyAuto.setOnClickListener(v -> showPaymentBottomSheet("Monthly Auto Renewal", "$0.50", 3));
         }
         if (btnSubscribeMonthlyManual != null) {
-            btnSubscribeMonthlyManual.setOnClickListener(v -> Toast.makeText(this, "Monthly manual subscription selected", Toast.LENGTH_SHORT).show());
+            btnSubscribeMonthlyManual.setOnClickListener(v -> showPaymentBottomSheet("Monthly Manual Renewal", "$0.50", 0));
         }
         if (btnSubscribeYearlyAuto != null) {
-            btnSubscribeYearlyAuto.setOnClickListener(v -> Toast.makeText(this, "Yearly auto-renewal subscription selected", Toast.LENGTH_SHORT).show());
+            btnSubscribeYearlyAuto.setOnClickListener(v -> showPaymentBottomSheet("Yearly Auto Renewal", "$3.00", 5));
         }
         if (btnSubscribeYearlyManual != null) {
-            btnSubscribeYearlyManual.setOnClickListener(v -> Toast.makeText(this, "Yearly manual subscription selected", Toast.LENGTH_SHORT).show());
+            btnSubscribeYearlyManual.setOnClickListener(v -> showPaymentBottomSheet("Yearly Manual Renewal", "$3.00", 0));
         }
         if (btnCancelSubscription != null) {
             btnCancelSubscription.setOnClickListener(v -> Toast.makeText(this, "No active subscription to cancel", Toast.LENGTH_SHORT).show());
