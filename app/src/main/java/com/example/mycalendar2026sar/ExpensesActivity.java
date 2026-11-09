@@ -20,6 +20,16 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import androidx.core.content.FileProvider;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -327,9 +337,15 @@ public class ExpensesActivity extends AppCompatActivity {
             } catch (Exception ignored) {}
 
             popup.setOnMenuItemClickListener(item -> {
-                String title = String.valueOf(item.getTitle());
-                Toast.makeText(this, "Exporting to " + title + "...", Toast.LENGTH_SHORT).show();
-                return true;
+                int id = item.getItemId();
+                if (id == R.id.action_pdf) {
+                    generateAndOpenPdf();
+                    return true;
+                } else if (id == R.id.action_excel) {
+                    generateAndOpenExcel();
+                    return true;
+                }
+                return false;
             });
             popup.show();
         });
@@ -2526,5 +2542,224 @@ public class ExpensesActivity extends AppCompatActivity {
             gestureDetector.onTouchEvent(ev);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private void generateAndOpenPdf() {
+        List<Transaction> allAscending = transactionDbHelper.getAllTransactionsAscending();
+        String activeAccount = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString("ActiveAccount", "Expenses");
+        boolean isSummaryMode = activeAccount.equalsIgnoreCase("Expenses");
+
+        List<Transaction> filtered = new ArrayList<>();
+        java.util.Map<Long, Double> balanceAfterById = new java.util.HashMap<>();
+        java.util.Map<String, Double> runningMap = new java.util.HashMap<>();
+        double totalCashIn = 0;
+        double totalCashOut = 0;
+
+        for (Transaction t : allAscending) {
+            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equalsIgnoreCase(activeAccount))) continue;
+            if (!isSummaryMode && "Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+            if (isSummaryMode && "Income".equalsIgnoreCase(t.getTitle())) continue;
+
+            String curr = t.getCurrency();
+            if (curr == null || curr.trim().isEmpty()) curr = "USD";
+            else curr = curr.trim().toUpperCase(Locale.US);
+
+            Double rVal = runningMap.get(curr);
+            double r = (rVal != null ? rVal : 0.0) + t.getSignedAmount();
+            runningMap.put(curr, r);
+            balanceAfterById.put(t.getId(), r);
+
+            if (t.isCashIn()) {
+                totalCashIn += t.getAmount();
+            } else {
+                totalCashOut += t.getAmount();
+            }
+
+            filtered.add(t);
+        }
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+        Paint paint = new Paint();
+
+        // Title & Date
+        paint.setTextSize(18);
+        paint.setFakeBoldText(true);
+        paint.setColor(Color.BLACK);
+        canvas.drawText("Cash Book", 250, 40, paint);
+
+        paint.setTextSize(12);
+        paint.setFakeBoldText(false);
+        String currentDateStr = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+        canvas.drawText(currentDateStr, 260, 60, paint);
+
+        // Table Header
+        int y = 90;
+        paint.setFakeBoldText(true);
+        paint.setTextSize(10);
+        canvas.drawText("No.", 30, y, paint);
+        canvas.drawText("Date", 65, y, paint);
+        canvas.drawText("Notes", 160, y, paint);
+        canvas.drawText("Cash In", 330, y, paint);
+        canvas.drawText("Cash Out", 410, y, paint);
+        canvas.drawText("Balance", 490, y, paint);
+
+        y += 8;
+        paint.setStrokeWidth(1);
+        canvas.drawLine(30, y, 565, y, paint);
+
+        paint.setFakeBoldText(false);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
+        int no = 1;
+        for (Transaction t : filtered) {
+            y += 22;
+            if (y > 750) {
+                document.finishPage(page);
+                page = document.startPage(new PdfDocument.PageInfo.Builder(595, 842, document.getPages().size() + 1).create());
+                canvas = page.getCanvas();
+                y = 50;
+            }
+
+            String dateStr = sdf.format(new Date(t.getTimestamp()));
+            String notes = t.getTitle() != null ? t.getTitle() : "";
+            if (notes.length() > 22) notes = notes.substring(0, 22) + "..";
+
+            String cashInStr = t.isCashIn() ? String.format(Locale.US, "%,.2f", t.getAmount()) : "";
+            String cashOutStr = !t.isCashIn() ? String.format(Locale.US, "%,.2f", t.getAmount()) : "";
+            Double bal = balanceAfterById.get(t.getId());
+            String balStr = String.format(Locale.US, "%,.2f", bal != null ? bal : 0.0);
+
+            canvas.drawText(String.valueOf(no++), 30, y, paint);
+            canvas.drawText(dateStr, 65, y, paint);
+            canvas.drawText(notes, 160, y, paint);
+            canvas.drawText(cashInStr, 330, y, paint);
+            canvas.drawText(cashOutStr, 410, y, paint);
+            canvas.drawText(balStr, 490, y, paint);
+        }
+
+        // Totals summary section at bottom
+        y += 35;
+        if (y > 740) {
+            document.finishPage(page);
+            page = document.startPage(new PdfDocument.PageInfo.Builder(595, 842, document.getPages().size() + 1).create());
+            canvas = page.getCanvas();
+            y = 50;
+        }
+
+        paint.setFakeBoldText(true);
+        canvas.drawText("Total Cash In:", 200, y, paint);
+        canvas.drawText(String.format(Locale.US, "%,.2f", totalCashIn), 400, y, paint);
+
+        y += 20;
+        canvas.drawText("Total Cash Out:", 200, y, paint);
+        canvas.drawText(String.format(Locale.US, "%,.2f", totalCashOut), 400, y, paint);
+
+        y += 20;
+        canvas.drawText("Balance:", 200, y, paint);
+        canvas.drawText(String.format(Locale.US, "%,.2f", totalCashIn - totalCashOut), 400, y, paint);
+
+        document.finishPage(page);
+
+        File file = new File(getCacheDir(), "Cash_Book.pdf");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            document.writeTo(fos);
+            document.close();
+            fos.close();
+            openFile(file, "application/pdf");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void generateAndOpenExcel() {
+        List<Transaction> allAscending = transactionDbHelper.getAllTransactionsAscending();
+        String activeAccount = getSharedPreferences("ExpensesPrefs", MODE_PRIVATE).getString("ActiveAccount", "Expenses");
+        boolean isSummaryMode = activeAccount.equalsIgnoreCase("Expenses");
+
+        List<Transaction> filtered = new ArrayList<>();
+        java.util.Map<Long, Double> balanceAfterById = new java.util.HashMap<>();
+        java.util.Map<String, Double> runningMap = new java.util.HashMap<>();
+        double totalCashIn = 0;
+        double totalCashOut = 0;
+
+        for (Transaction t : allAscending) {
+            if (!isSummaryMode && (t.getAccount() == null || !t.getAccount().equalsIgnoreCase(activeAccount))) continue;
+            if (!isSummaryMode && "Monthly Income".equalsIgnoreCase(t.getTitle())) continue;
+            if (isSummaryMode && "Income".equalsIgnoreCase(t.getTitle())) continue;
+
+            String curr = t.getCurrency();
+            if (curr == null || curr.trim().isEmpty()) curr = "USD";
+            else curr = curr.trim().toUpperCase(Locale.US);
+
+            Double rVal = runningMap.get(curr);
+            double r = (rVal != null ? rVal : 0.0) + t.getSignedAmount();
+            runningMap.put(curr, r);
+            balanceAfterById.put(t.getId(), r);
+
+            if (t.isCashIn()) {
+                totalCashIn += t.getAmount();
+            } else {
+                totalCashOut += t.getAmount();
+            }
+
+            filtered.add(t);
+        }
+
+        StringBuilder csv = new StringBuilder();
+        csv.append("Cash Book\n");
+        String currentDateStr = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+        csv.append(currentDateStr).append("\n\n");
+        csv.append("No.,Date,Notes,Cash In,Cash Out,Balance\n");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        int no = 1;
+        for (Transaction t : filtered) {
+            String dateStr = sdf.format(new Date(t.getTimestamp()));
+            String notes = t.getTitle() != null ? t.getTitle().replace(",", " ") : "";
+            String cashInStr = t.isCashIn() ? String.format(Locale.US, "%.2f", t.getAmount()) : "";
+            String cashOutStr = !t.isCashIn() ? String.format(Locale.US, "%.2f", t.getAmount()) : "";
+            Double bal = balanceAfterById.get(t.getId());
+            String balStr = String.format(Locale.US, "%.2f", bal != null ? bal : 0.0);
+
+            csv.append(no++).append(",")
+               .append(dateStr).append(",")
+               .append("\"").append(notes).append("\",")
+               .append(cashInStr).append(",")
+               .append(cashOutStr).append(",")
+               .append(balStr).append("\n");
+        }
+
+        csv.append("\n");
+        csv.append("Total Cash In,,").append(String.format(Locale.US, "%.2f", totalCashIn)).append("\n");
+        csv.append("Total Cash Out,,").append(String.format(Locale.US, "%.2f", totalCashOut)).append("\n");
+        csv.append("Balance,,").append(String.format(Locale.US, "%.2f", totalCashIn - totalCashOut)).append("\n");
+
+        File file = new File(getCacheDir(), "Cash_Book.csv");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(csv.toString().getBytes());
+            fos.close();
+            openFile(file, "text/csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to generate Excel", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openFile(File file, String mimeType) {
+        Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            startActivity(Intent.createChooser(intent, "Open with"));
+        } catch (Exception e) {
+            Toast.makeText(this, "No app found to open this file type", Toast.LENGTH_SHORT).show();
+        }
     }
 }

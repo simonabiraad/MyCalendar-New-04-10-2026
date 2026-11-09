@@ -213,7 +213,6 @@ int id action_notification_settings 0x0
 int id action_pdf 0x0
 int id action_print 0x0
 int id action_privacy_policy 0x0
-int id action_report 0x0
 int id action_secure_box 0x0
 int id action_select_currency 0x0
 int id action_themes 0x0

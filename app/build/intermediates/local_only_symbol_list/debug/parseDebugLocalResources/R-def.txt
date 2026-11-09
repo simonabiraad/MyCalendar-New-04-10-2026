@@ -215,7 +215,6 @@ id action_notification_settings
 id action_pdf
 id action_print
 id action_privacy_policy
-id action_report
 id action_secure_box
 id action_select_currency
 id action_themes
