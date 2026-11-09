@@ -90,7 +90,7 @@ import com.google.mlkit.common.model.DownloadConditions;
 public class MainActivity extends AppCompatActivity {
 
     private GridView calendarGrid;
-    private android.widget.TextClock monthYearText;
+    private TextView monthYearText;
     private EditText noteInput;
     private TextView remarkLabel;
     private LinearLayout dayRemarksContainer;
@@ -459,10 +459,22 @@ public class MainActivity extends AppCompatActivity {
 
         prevMonth.setOnClickListener(v -> {
             calendar.add(Calendar.MONTH, -1);
+            int day = selectedDate.get(Calendar.DAY_OF_MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            if (day > maxDay) day = maxDay;
+            selectedDate.set(year, month, day);
             updateCalendar();
         });
         nextMonth.setOnClickListener(v -> {
             calendar.add(Calendar.MONTH, 1);
+            int day = selectedDate.get(Calendar.DAY_OF_MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            if (day > maxDay) day = maxDay;
+            selectedDate.set(year, month, day);
             updateCalendar();
         });
 
@@ -1020,6 +1032,11 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat displaySdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
         remarkLabel.setText(getString(R.string.remark_for, displaySdf.format(selectedDate.getTime())));
+
+        if (monthYearText != null) {
+            SimpleDateFormat titleSdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.getDefault());
+            monthYearText.setText(titleSdf.format(selectedDate.getTime()));
+        }
 
         loadRemarksForSelectedDate();
         if (!noteInput.hasFocus() && !isKeyboardModeActive && noteInput.getText().length() == 0) {
@@ -2744,7 +2761,7 @@ public class MainActivity extends AppCompatActivity {
             remarkLbl.setTextColor(mainTheme);
             applyFontSettings(remarkLbl, 18);
         }
-        android.widget.TextClock monthYear = findViewById(R.id.monthYearText);
+        TextView monthYear = findViewById(R.id.monthYearText);
         if (monthYear != null) {
             applyFontSettings(monthYear, 16);
         }

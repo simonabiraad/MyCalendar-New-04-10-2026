@@ -184,13 +184,11 @@
                     android:contentDescription="@string/prev_month"
                     android:src="@android:drawable/ic_media_previous" />
 
-                <TextClock
+                <TextView
                     android:id="@+id/monthYearText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:format12Hour="EEEE, MMMM dd, yyyy"
-                    android:format24Hour="EEEE, MMMM dd, yyyy"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
