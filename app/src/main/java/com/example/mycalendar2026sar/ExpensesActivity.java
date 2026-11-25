@@ -610,7 +610,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     topExpensesButton.setText("Expenses");
                     refreshTransactionsList();
                 } else {
-                    Intent intent = new Intent(ExpensesActivity.this, SecureBoxActivity.class);
+                    Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();

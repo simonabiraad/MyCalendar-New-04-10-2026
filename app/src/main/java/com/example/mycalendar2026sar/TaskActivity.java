@@ -185,7 +185,7 @@ public class TaskActivity extends AppCompatActivity {
                     exitSelectionMode();
                     return;
                 }
-                Intent intent = new Intent(TaskActivity.this, EventsActivity.class);
+                Intent intent = new Intent(TaskActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();

@@ -252,7 +252,7 @@ public class SecureBoxActivity extends AppCompatActivity {
                 if (isSelectionMode) {
                     exitSelectionMode();
                 } else {
-                    Intent intent = new Intent(SecureBoxActivity.this, TaskActivity.class);
+                    Intent intent = new Intent(SecureBoxActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();
@@ -705,10 +705,10 @@ public class SecureBoxActivity extends AppCompatActivity {
 
     private void showEditFullPage(String k, int idx, String t, String c, ViewGroup ignore) {
         android.app.Dialog d = new android.app.Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen); ScrollView s = new ScrollView(this); s.setFillViewport(true); s.setBackgroundColor(activeCategoryColor);
-        LinearLayout l = new LinearLayout(this); l.setOrientation(LinearLayout.VERTICAL); l.setPadding(32, 32, 32, 32); EditText te = new EditText(this); te.setText(t); applyFontSettings(te, 22); l.addView(te);
+        LinearLayout l = new LinearLayout(this); l.setOrientation(LinearLayout.VERTICAL); l.setPadding(32, 32, 32, 32); EditText te = new EditText(this); te.setText(t); te.setTextColor(0xFF000000); applyFontSettings(te, 22); l.addView(te);
         EditText ce = null;
         if (c.startsWith("[IMG:")) { ImageView iv = new ImageView(this); iv.setImageURI(Uri.fromFile(new File(c.substring(5, c.length() - 1)))); iv.setScaleType(ImageView.ScaleType.FIT_CENTER); l.addView(iv); }
-        else { ce = new EditText(this); ce.setText(c); applyFontSettings(ce, 18); ce.setGravity(48); ce.setBackground(null); l.addView(ce); }
+        else { ce = new EditText(this); ce.setText(c); ce.setTextColor(0xFF000000); applyFontSettings(ce, 18); ce.setGravity(48); ce.setBackground(null); l.addView(ce); }
         LinearLayout bl = new LinearLayout(this); bl.setGravity(android.view.Gravity.END); Button can = new Button(this); can.setText("Cancel"); applyFontSettings(can, 16); can.setOnClickListener(v -> d.dismiss()); bl.addView(can);
         final EditText fce = ce;
         Button sh = new Button(this); sh.setText("Share"); applyFontSettings(sh, 16);
@@ -775,11 +775,11 @@ public class SecureBoxActivity extends AppCompatActivity {
         ImageView titleIcon = findViewById(R.id.secureBoxTitleIcon); if (titleIcon != null) { titleIcon.setImageTintList(ColorStateList.valueOf(m)); }
         if (noteTitleInput != null) {
             applyFontSettings(noteTitleInput, 18);
-            noteTitleInput.setTextColor(ContextCompat.getColor(this, R.color.white));
+            noteTitleInput.setTextColor(0xFF000000);
         }
         if (noteContentInput != null) {
             applyFontSettings(noteContentInput, 18);
-            noteContentInput.setTextColor(ContextCompat.getColor(this, R.color.white));
+            noteContentInput.setTextColor(0xFF000000);
         }
 
         View addCatBtn = findViewById(R.id.addCategoryHeaderButton);
@@ -791,9 +791,9 @@ public class SecureBoxActivity extends AppCompatActivity {
             }
         }
         View voiceBtn = findViewById(R.id.sbVoiceNoteButton);
-        if (voiceBtn instanceof ImageButton) ((ImageButton) voiceBtn).setImageTintList(ColorStateList.valueOf(m));
+        if (voiceBtn instanceof ImageButton) ((ImageButton) voiceBtn).setImageTintList(null);
         View camBtn = findViewById(R.id.sbCameraNoteButton);
-        if (camBtn instanceof ImageButton) ((ImageButton) camBtn).setImageTintList(ColorStateList.valueOf(m));
+        if (camBtn instanceof ImageButton) ((ImageButton) camBtn).setImageTintList(null);
         View saveBtn = findViewById(R.id.saveStickyNoteButton);
         if (saveBtn instanceof ImageButton) ((ImageButton) saveBtn).setImageTintList(ColorStateList.valueOf(m));
 
